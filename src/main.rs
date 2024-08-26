@@ -38,6 +38,12 @@ fn print_header() {
     );
 }
 
+struct IDrop {}
+
+impl Drop for IDrop {
+    fn drop(&mut self) {}
+}
+
 fn main() -> Result<(), eyre::Report> {
     HookBuilder::default()
         .capture_span_trace_by_default(true)
@@ -49,8 +55,20 @@ fn main() -> Result<(), eyre::Report> {
     println!("{}", bar());
     println!("{}", quz());
 
-    i_will_error()
+    let héllo = "accent?";
+
+    let _ = IDrop {};
+
+    println!("{}", héllo);
+
+    let foo = "foo";
+
+    i_will_error()?;
+
+    todo!("TODO");
 }
+
+fn i_am_dead() {}
 
 #[cfg(test)]
 mod tests {
