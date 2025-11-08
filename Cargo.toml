@@ -13,8 +13,11 @@ include = ["src/**", "/LICENSE", "/LICENSE-*"]
 build = "src/build.rs"
 
 [dependencies]
+bytes = "1.10.1"
 color-eyre = "0.6.5"
+libc = "0.2.177"
 mimalloc = { version = "0.1.48", features = ["v3"] }
+zerocopy = { version = "0.8.27", features = ["derive"] }
 
 [lints.clippy]
 # don't stop from compiling / running
