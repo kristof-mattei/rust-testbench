@@ -40,7 +40,7 @@ jobs:
           show-progress: false
 
       - name: Run Renovate
-        uses: renovatebot/github-action@2d941ef4e268e53affdc1f11365c69a73e544f50 # v43.0.14
+        uses: renovatebot/github-action@a7e89c349a53ab0c9d8458eb85f4b415e55848e7 # v44.2.3
         env:
           RENOVATE_REPOSITORIES: "${{ github.repository }}"
           LOG_LEVEL: ${{ github.event.inputs.log_level || 'info' }}
