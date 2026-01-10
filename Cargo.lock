@@ -177,7 +177,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3b3cff922bd51709b605d9ead9aa71031d81447142d828eb4a6eba76fe619f9b"
 
 [[package]]
-name = "rust-seed"
+name = "rust-testbench"
 version = "0.0.0-development"
 dependencies = [
  "color-eyre",

@@ -1,5 +1,5 @@
 [package]
-name = "rust-seed"
+name = "rust-testbench"
 version = "0.0.0-development"
 edition = "2024"
 rust-version = "1.92.0"
@@ -8,7 +8,7 @@ description = "Rust seed application"
 license = "MIT"
 categories = ["starter", "seed"]
 keywords = ["integrity", "seed", "starter", "docker", "release"]
-repository = "https://github.com/kristof-mattei/rust-seed"
+repository = "https://github.com/kristof-mattei/rust-testbench"
 include = ["src/**", "/LICENSE", "/LICENSE-*"]
 build = "src/build.rs"
 
