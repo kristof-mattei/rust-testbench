@@ -39,8 +39,8 @@ where
         self.ptr
     }
 
-    /// Advances the pointer using the given function, preserving the lifetime.
-    pub fn advance<F>(&mut self, f: F)
+    /// Mutate the pointer using the given function, preserving the lifetime.
+    pub fn mutate<F>(&mut self, f: F)
     where
         F: FnOnce(*const U) -> *const U,
     {
@@ -209,17 +209,6 @@ pub const fn NLMSG_PAYLOAD(nlh: *const nlmsghdr, len: usize) -> usize {
     let nlh = unsafe { &*nlh };
 
     u32_to_usize(nlh.nlmsg_len) - NLMSG_SPACE(len)
-}
-
-#[derive(IntoBytes, Immutable)]
-#[repr(C)]
-/// Netlink messages consist of a byte stream with one or multiple `nlmsghdr` headers and associated payload.
-/// Note: This is how we send data to the kernel, but it doesn't mirror a pre-defined struct
-pub struct NetlinkRequest {
-    /// Header
-    pub nh: nlmsghdr,
-    /// Payload
-    pub ifa: ifaddrmsg,
 }
 
 #[repr(C)]

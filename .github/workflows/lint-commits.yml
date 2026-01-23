@@ -24,13 +24,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           show-progress: false
           fetch-depth: 0
 
       - name: Install cocogitto to lint commits
+<<<<<<< HEAD
         uses: taiki-e/install-action@3522286d40783523f9c7880e33f785905b4c20d0 # v2.66.1
+||||||| 7e7a5a0
+        uses: taiki-e/install-action@83961fc0a2afe7f045535b5741d9a6418d7e1168 # v2.66.0
+=======
+        uses: taiki-e/install-action@a632d43378d77581e7441d0833ad517e52ca1fef # v2.67.5
+>>>>>>> upstream/main
         with:
           tool: cocogitto
 

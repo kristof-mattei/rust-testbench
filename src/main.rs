@@ -6,12 +6,12 @@ use tracing::{Level, event};
 mod kernel_buffer;
 use bytes::BufMut;
 mod ffi;
-use std::net::{IpAddr, Ipv4Addr, Ipv6Addr};
+use std::net::{Ipv4Addr, Ipv6Addr};
 use std::time::Duration;
 
 use libc::{
     AF_INET, AF_INET6, IFA_ADDRESS, IFA_F_DADFAILED, IFA_F_DEPRECATED, IFA_F_HOMEADDRESS,
-    IFA_F_TENTATIVE, IFA_FLAGS, IFA_LABEL, IFA_LOCAL, RTM_DELADDR, RTM_NEWADDR,
+    IFA_F_TENTATIVE, IFA_FLAGS, IFA_LABEL, IFA_LOCAL, NLMSG_DONE, RTM_DELADDR, RTM_NEWADDR,
 };
 
 use crate::ffi::{
@@ -200,6 +200,10 @@ where
     Ok(KERNEL_DATA.len())
 }
 
+fn done() -> bool {
+    true
+}
+
 fn main() {
     let result = tokio::runtime::Builder::new_multi_thread()
         .enable_io()
@@ -224,39 +228,45 @@ async fn process_changes() -> Result<(), eyre::Report> {
 
     // we don't need to zero out the buffer between runs as `recv_buf` starts at 0 and returns `bytes_read`
     // sine we only read that portion we don't need to worry about the leftovers
-    // Notice the buffer is u32 because all of our structs written here by the kernel
+    // Notice the 4 byte aligned buffer because all of our structs written here by the kernel
     // are aligned to 4 bytes
-    let mut buffer = AlignedBuffer::<4, 4096>::new();
+    let mut buffer = AlignedBuffer::<nlmsghdr, 4096>::new();
 
-    let bytes_read = {
-        let mut buffer_byte_cursor = &mut *buffer;
+    loop {
+        let bytes_read = {
+            let mut buffer_byte_cursor = &mut *buffer;
 
-        tokio::select! {
-            result = receive_data(&mut buffer_byte_cursor) => {
-                result?
-            },
-        }
-    };
+            tokio::select! {
+                result = receive_data(&mut buffer_byte_cursor) => {
+                    result?
+                },
+            }
+        };
 
-    event!(
-        Level::DEBUG,
-        length = bytes_read,
-        "netlink message received"
-    );
-
-    let buffer = {
-        let raw_buffer = buffer.as_ref().as_ptr().cast::<u8>();
-
-        // SAFETY: we are only initializing the parts of the buffer `recv_buf_from` has written to
-        unsafe { std::slice::from_raw_parts(raw_buffer, bytes_read) }
-    };
-
-    if let Err(error) = parse_netlink_response(buffer).await {
         event!(
-            Level::ERROR,
-            ?error,
-            "Error parsing response as a netlink response"
+            Level::DEBUG,
+            length = bytes_read,
+            "netlink message received"
         );
+
+        let buffer = {
+            let raw_buffer = buffer.as_ref().as_ptr().cast::<u8>();
+
+            // SAFETY: we are only initializing the parts of the buffer `recv_buf_from` has written to
+            unsafe { std::slice::from_raw_parts(raw_buffer, bytes_read) }
+        };
+
+        if let Err(error) = parse_netlink_response(buffer).await {
+            event!(
+                Level::ERROR,
+                ?error,
+                "Error parsing response as a netlink response"
+            );
+        }
+
+        if done() {
+            break;
+        }
     }
 
     Ok(())
@@ -265,7 +275,7 @@ async fn process_changes() -> Result<(), eyre::Report> {
 async fn parse_netlink_response(buffer: &[u8]) -> Result<(), eyre::Report> {
     let mut remaining_bytes = buffer.len();
 
-    let mut nlh_wrapper: SendPtr<'_, [u8], nlmsghdr> = SendPtr::from_start(buffer);
+    let mut nlh_wrapper = SendPtr::from_start(buffer);
 
     while NLMSG_OK(nlh_wrapper.get_ptr(), remaining_bytes) {
         // SAFETY: `NLMSG_OK`
@@ -287,6 +297,8 @@ async fn parse_netlink_response(buffer: &[u8]) -> Result<(), eyre::Report> {
                     index,
                 }
             })
+        } else if Into::<i32>::into(nlh.nlmsg_type) == NLMSG_DONE {
+            None
         } else {
             event!(
                 Level::DEBUG,
@@ -299,10 +311,11 @@ async fn parse_netlink_response(buffer: &[u8]) -> Result<(), eyre::Report> {
 
         if let Some(command) = command {
             tokio::time::sleep(Duration::from_nanos(1)).await;
+
             eprintln!("{:?}", command);
         }
 
-        nlh_wrapper.advance(|p| NLMSG_NEXT(p, &mut remaining_bytes));
+        nlh_wrapper.mutate(|p| NLMSG_NEXT(p, &mut remaining_bytes));
     }
 
     Ok(())
@@ -340,7 +353,7 @@ fn parse_address_message(raw_nlh: *const nlmsghdr) -> Option<(IpNet, u8, u32)> {
         ifa.ifa_index
     );
 
-    let mut addr: Option<IpAddr> = None;
+    let mut addr = None;
 
     let mut raw_rta = IFA_RTA(raw_ifa);
     let mut ifa_payload = IFA_PAYLOAD(raw_nlh);
@@ -364,10 +377,10 @@ fn parse_address_message(raw_nlh: *const nlmsghdr) -> Option<(IpNet, u8, u32)> {
 
             addr = Some(Ipv6Addr::from_bits(u128::from_be_bytes(*ipv6_in_network_order)).into());
         } else if rta.rta_type == IFA_LOCAL && i32::from(ifa.ifa_family) == AF_INET {
-            // IFA_ADDRESS (`AddressAttribute::Address`) is prefix address, rather than local interface address.
+            // `libc::IFA_ADDRESS` is prefix address, rather than local interface address.
             // It makes no difference for normally configured broadcast interfaces,
-            // but for point-to-point IFA_ADDRESS (`AddressAttribute::Address`) is DESTINATION address,
-            // local address is supplied in IFA_LOCAL (`AddressAttribute::Local`) attribute.
+            // but for point-to-point `libc::IFA_ADDRESS` is DESTINATION address,
+            // local address is supplied in `libc::IFA_LOCAL` attribute.
             // https://github.com/torvalds/linux/blob/e9a6fb0bcdd7609be6969112f3fbfcce3b1d4a7c/include/uapi/linux/if_addr.h#L16-L25
             // SAFETY: Combination of `rta.rta_type` and `ifa.ifa_family`
             let ipv4_in_network_order = unsafe { &*RTA_DATA::<[u8; 4]>(raw_rta) };
