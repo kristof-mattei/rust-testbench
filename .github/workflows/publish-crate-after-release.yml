@@ -43,12 +43,12 @@ jobs:
       fromJSON(needs.repo-has-crate.outputs.has_crate) == true
     steps:
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           show-progress: false
 
       - name: Cache cargo
-        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
+        uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7 # v5.0.2
         env:
           CACHE_NAME: cargo
         with:
@@ -83,7 +83,7 @@ jobs:
           cargo --version
 
       - name: Install cargo-edit to do set-version
-        uses: taiki-e/install-action@83961fc0a2afe7f045535b5741d9a6418d7e1168 # v2.66.0
+        uses: taiki-e/install-action@a632d43378d77581e7441d0833ad517e52ca1fef # v2.67.5
         with:
           tool: cargo-edit
 
