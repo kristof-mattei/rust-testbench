@@ -15,6 +15,12 @@ build = "src/build.rs"
 [dependencies]
 color-eyre = "0.6.5"
 mimalloc = { version = "0.1.48", features = ["v3"] }
+tokio = { version = "1.49.0", features = [
+    "macros",
+    "rt-multi-thread",
+    "sync",
+    "time",
+] }
 
 [package.metadata.spellcheck]
 config = "spellcheck.toml"

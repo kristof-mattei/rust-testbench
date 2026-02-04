@@ -1,78 +1,46 @@
-use color_eyre::config::HookBuilder;
-use color_eyre::eyre;
+use std::sync::LazyLock;
+use std::time::Duration;
 
-use crate::build_env::get_build_env;
-mod build_env;
+use tokio::time::Instant;
 
-#[global_allocator]
-static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
+static START: LazyLock<Instant> = LazyLock::new(Instant::now);
 
-fn foo() -> &'static str {
-    "Foo"
+fn dump(args: impl std::fmt::Display) {
+    println!("{} {}", START.elapsed().as_secs(), args);
 }
 
-fn bar() -> &'static str {
-    "Bar"
+static VALUE: u32 = 5;
+
+fn main() {
+    let runtime = tokio::runtime::Builder::new_multi_thread()
+        .enable_time()
+        .build()
+        .unwrap();
+
+    let _r = runtime.block_on(async { tokio::task::spawn(spawn()).await });
 }
 
-fn quz() -> &'static str {
-    "Quz"
-}
+async fn spawn() {
+    let (sender, mut receiver) = tokio::sync::watch::channel(VALUE);
 
-fn i_will_error() -> Result<(), eyre::Report> {
-    Err(eyre::Report::msg("I promised you, I'd error!"))
-}
+    let left = tokio::task::spawn(async move {
+        while let Ok(()) = receiver.changed().await {
+            dump("Changed");
+        }
 
-fn print_header() {
-    const NAME: &str = env!("CARGO_PKG_NAME");
-    const VERSION: &str = env!("CARGO_PKG_VERSION");
+        dump("The end");
+    });
 
-    let build_env = get_build_env();
+    let right = tokio::task::spawn(async move {
+        for _ in 0..10 {
+            dump("Woke up, sending");
+            let _r = sender.send(VALUE);
+            dump("Sent");
 
-    println!(
-        "{} v{} - built for {} ({})",
-        NAME,
-        VERSION,
-        build_env.get_target(),
-        build_env.get_target_cpu().unwrap_or("base cpu variant"),
-    );
-}
+            dump("Sleeping");
+            tokio::time::sleep(Duration::from_secs(1)).await;
+        }
+    });
 
-fn main() -> Result<(), eyre::Report> {
-    HookBuilder::default()
-        .capture_span_trace_by_default(true)
-        .install()?;
-
-    print_header();
-
-    println!("{}", foo());
-    println!("{}", bar());
-    println!("{}", quz());
-
-    i_will_error()
-}
-
-#[cfg(test)]
-mod tests {
-    use super::{bar, foo, quz};
-
-    #[test]
-    fn assert_foo() {
-        assert_eq!(foo(), "Foo");
-    }
-
-    #[test]
-    fn assert_bar() {
-        assert_eq!(bar(), "Bar");
-    }
-
-    #[test]
-    fn assert_quz() {
-        assert_eq!(quz(), "Quz");
-    }
-
-    #[test]
-    fn assert_combined() {
-        assert_eq!(format!("{}-{}-{}", foo(), bar(), quz()), "Foo-Bar-Quz");
-    }
+    let _r = tokio::join!(left, right);
 }
