@@ -1,78 +1,55 @@
-use color_eyre::config::HookBuilder;
-use color_eyre::eyre;
-
-use crate::build_env::get_build_env;
-mod build_env;
-
-#[global_allocator]
-static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
-
-fn foo() -> &'static str {
-    "Foo"
-}
-
-fn bar() -> &'static str {
-    "Bar"
-}
-
-fn quz() -> &'static str {
-    "Quz"
-}
-
-fn i_will_error() -> Result<(), eyre::Report> {
-    Err(eyre::Report::msg("I promised you, I'd error!"))
-}
-
-fn print_header() {
-    const NAME: &str = env!("CARGO_PKG_NAME");
-    const VERSION: &str = env!("CARGO_PKG_VERSION");
-
-    let build_env = get_build_env();
-
-    println!(
-        "{} v{} - built for {} ({})",
-        NAME,
-        VERSION,
-        build_env.get_target(),
-        build_env.get_target_cpu().unwrap_or("base cpu variant"),
-    );
-}
-
-fn main() -> Result<(), eyre::Report> {
-    HookBuilder::default()
-        .capture_span_trace_by_default(true)
-        .install()?;
-
-    print_header();
-
-    println!("{}", foo());
-    println!("{}", bar());
-    println!("{}", quz());
-
-    i_will_error()
-}
-
-#[cfg(test)]
-mod tests {
-    use super::{bar, foo, quz};
-
-    #[test]
-    fn assert_foo() {
-        assert_eq!(foo(), "Foo");
+fn main() {
+    {
+        let variant: Option<u32> = Some(1);
+        dump(variant);
     }
-
-    #[test]
-    fn assert_bar() {
-        assert_eq!(bar(), "Bar");
+    {
+        let variant: Option<u32> = Some(2);
+        dump(variant);
     }
-
-    #[test]
-    fn assert_quz() {
-        assert_eq!(quz(), "Quz");
+    {
+        let variant: Option<u32> = Some(3);
+        dump(variant);
     }
-
-    #[test]
-    fn assert_combined() {
-        assert_eq!(format!("{}-{}-{}", foo(), bar(), quz()), "Foo-Bar-Quz");
+    {
+        let variant: Option<u32> = None;
+        dump(variant);
     }
+    {
+        let variant: Option<u32> = None;
+        dump(variant);
+    }
+    {
+        let variant: Option<u32> = Some(255);
+        dump(variant);
+    }
+}
+
+#[inline]
+fn dump(variant: Option<u32>) {
+    let transmuted: u64 = unsafe { std::mem::transmute(variant) };
+
+    let array = transmuted.to_ne_bytes();
+
+    let (enum_variant, value) = array.split_at(4);
+
+    let enum_variant = u32::from_ne_bytes(into_array::<4, u8>(&enum_variant));
+    let value = u32::from_ne_bytes(into_array::<4, u8>(&value));
+
+    println!("Value              : {variant:?}");
+    println!("Enum variant       : {enum_variant}");
+    println!("Enum variantb      : {enum_variant:0>32b}");
+    println!("Enum value         : {value}");
+    println!("Enum valueb        : {value:0>32b}");
+    println!("Raw bits           : {transmuted:0>64b}");
+
+    println!("---------------------------------------------");
+}
+
+fn into_array<'s, const N: usize, T>(slice: &'s [T]) -> [T; N]
+where
+    [T; N]: TryFrom<&'s [T]>,
+    <[T; N] as TryFrom<&'s [T]>>::Error: std::fmt::Debug,
+{
+    slice.try_into().unwrap()
 }
