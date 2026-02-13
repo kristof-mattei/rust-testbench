@@ -151,6 +151,7 @@
 - Tags don't have a 'v' prefix - ([25d71c0](https://github.com/kristof-mattei/rust-testbench/commit/25d71c065ba2171776898c4fa17b6714f9e54ffd))
 - Versions have v-prefix - ([b518140](https://github.com/kristof-mattei/rust-testbench/commit/b518140f09d21d4e7bad5d066cdfba86aa46c092))
 - Kill 1 v - ([da9073e](https://github.com/kristof-mattei/rust-testbench/commit/da9073eea9cb112b5c7cddf246adc77737e7cc70))
+- Kill another v - ([9667a78](https://github.com/kristof-mattei/rust-testbench/commit/9667a78aa7a761e51a5f385da85d3be91be91664))
 
 ### ⚙️ Miscellaneous Tasks
 
@@ -171,7 +172,8 @@
 - *(release)* Release 0.1.0 - ([0236df0](https://github.com/kristof-mattei/rust-testbench/commit/0236df0726000b068c17e34ea02f806d31b4fef6))
 - *(release)* Release 0.2.0 - ([036f6ec](https://github.com/kristof-mattei/rust-testbench/commit/036f6ecfc8693c8ef884c6a1d3e6b997772dd665))
 - *(release)* Release vv1.6.0 - ([c54f8c1](https://github.com/kristof-mattei/rust-testbench/commit/c54f8c136e9f7a7004c05bf5a4f44586d26d83b5))
-- *(release)* Release vv1.4.0 - ([](https://github.com/kristof-mattei/rust-testbench/commit/))
+- *(release)* Release vv1.4.0 - ([04188f2](https://github.com/kristof-mattei/rust-testbench/commit/04188f245c0db9ea8d68b775c1c53e71090170fc))
+- *(release)* Release v1.4.0 - ([](https://github.com/kristof-mattei/rust-testbench/commit/))
 - *(version)* V1.4.0 - ([d2b999b](https://github.com/kristof-mattei/rust-testbench/commit/d2b999b17175f8686884477736fc1412eb32928f))
 - Fix strip-components, it caused nothing to be placed - ([b88f13c](https://github.com/kristof-mattei/rust-testbench/commit/b88f13c48b7a68493819786d1c7e3ddf70e81526))
 - Move scripts - ([242ce77](https://github.com/kristof-mattei/rust-testbench/commit/242ce77b6b07062f09cecc116df82720af27fb2f))
