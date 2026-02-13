@@ -57,7 +57,7 @@ jobs:
           git config --global user.name ${repository}-release[bot]
           git config --global user.email 864376+${repository}-release[bot]@users.noreply.github.com
 
-          version=$(git-cliff --bumped-version --unreleased --github-token ${{ secrets.GITHUB_TOKEN }})
+          version=v$(git-cliff --bumped-version --unreleased --github-token ${{ secrets.GITHUB_TOKEN }})
           echo "version=$version" >> "${GITHUB_OUTPUT}"
 
           commit_message="chore(release): Release ${version}"
@@ -78,5 +78,5 @@ jobs:
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
         with:
           body_path: diff-CHANGELOG.md
-          tag_name: ${{ steps.release.outputs.version }}
+          tag_name: v${{ steps.release.outputs.version }}
           token: ${{ secrets.TOKEN_TO_TRIGGER_SUBSEQUENT_WORKFLOWS }}
