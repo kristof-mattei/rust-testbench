@@ -57,7 +57,7 @@ jobs:
           git config --global user.name ${repository}-release[bot]
           git config --global user.email 864376+${repository}-release[bot]@users.noreply.github.com
 
-          version=v$(git-cliff --bumped-version --unreleased --github-token ${{ secrets.GITHUB_TOKEN }})
+          version=$(git-cliff --bumped-version --unreleased --github-token ${{ secrets.GITHUB_TOKEN }})
           echo "version=$version" >> "${GITHUB_OUTPUT}"
 
           commit_message="chore(release): Release ${version}"
