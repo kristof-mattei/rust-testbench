@@ -78,5 +78,5 @@ jobs:
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
         with:
           body_path: diff-CHANGELOG.md
-          tag_name: v${{ steps.release.outputs.version }}
+          tag_name: ${{ steps.release.outputs.version }}
           token: ${{ secrets.TOKEN_TO_TRIGGER_SUBSEQUENT_WORKFLOWS }}
