@@ -1,4 +1,13 @@
 <!-- header goes here -->
+## [1.5.0](https://github.com/kristof-mattei/rust-testbench/compare/v1.4.0..v1.5.0) - 2026-02-13
+
+### 🚀 Features
+
+- Full rebuild - ([322fee9](https://github.com/kristof-mattei/rust-testbench/commit/322fee97c84bad6ca7c47b7f8a849b0616af1be7))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(release)* Release v1.5.0 - ([](https://github.com/kristof-mattei/rust-testbench/commit/))
 ## [1.4.0](https://github.com/kristof-mattei/rust-testbench/compare/v1.3.1..v1.4.0) - 2026-02-13
 
 ### 🚀 Features
@@ -173,7 +182,7 @@
 - *(release)* Release 0.2.0 - ([036f6ec](https://github.com/kristof-mattei/rust-testbench/commit/036f6ecfc8693c8ef884c6a1d3e6b997772dd665))
 - *(release)* Release vv1.6.0 - ([c54f8c1](https://github.com/kristof-mattei/rust-testbench/commit/c54f8c136e9f7a7004c05bf5a4f44586d26d83b5))
 - *(release)* Release vv1.4.0 - ([04188f2](https://github.com/kristof-mattei/rust-testbench/commit/04188f245c0db9ea8d68b775c1c53e71090170fc))
-- *(release)* Release v1.4.0 - ([](https://github.com/kristof-mattei/rust-testbench/commit/))
+- *(release)* Release v1.4.0 - ([793257f](https://github.com/kristof-mattei/rust-testbench/commit/793257f1d6d0f5244c6049deb5f678f1be5784e9))
 - *(version)* V1.4.0 - ([d2b999b](https://github.com/kristof-mattei/rust-testbench/commit/d2b999b17175f8686884477736fc1412eb32928f))
 - Fix strip-components, it caused nothing to be placed - ([b88f13c](https://github.com/kristof-mattei/rust-testbench/commit/b88f13c48b7a68493819786d1c7e3ddf70e81526))
 - Move scripts - ([242ce77](https://github.com/kristof-mattei/rust-testbench/commit/242ce77b6b07062f09cecc116df82720af27fb2f))
