@@ -1,4 +1,32 @@
 <!-- header goes here -->
+## [0.2.0](https://github.com/kristof-mattei/rust-testbench/compare/0.1.0..0.2.0) - 2026-02-13
+
+### 🚀 Features
+
+- Use `CARGO_TARGET_DIR` to separate caches - ([d6a7766](https://github.com/kristof-mattei/rust-testbench/commit/d6a776643631728c2ca8e02fd87eaf46328f6d45))
+
+### 🐛 Bug Fixes
+
+- Re-enable container cleanup - ([9085320](https://github.com/kristof-mattei/rust-testbench/commit/90853204385e9c89fdaee3dca107de5dbe03c8bf))
+- Re-enable container cleanup - ([3681a0b](https://github.com/kristof-mattei/rust-testbench/commit/3681a0bca2c2ad0057c77917856e91c1ade74587))
+- Use frozen - ([b83181e](https://github.com/kristof-mattei/rust-testbench/commit/b83181e3a58ca79f8ffd24d1de3361d4325b27e9))
+- Quotes & reorder - ([4d3399d](https://github.com/kristof-mattei/rust-testbench/commit/4d3399dfbaec8bcf300acca43fdd72e9ad27dbd8))
+- Name - ([dc479a1](https://github.com/kristof-mattei/rust-testbench/commit/dc479a1ba61a84416c7e6c31c6ff297b474c9f68))
+- Copy into cache - ([3de174a](https://github.com/kristof-mattei/rust-testbench/commit/3de174a45d3275b82def24db1eecc8d2d36ac52a))
+- The subsequent rust builds need to come from the warmed up cache, and nothing else - ([2236525](https://github.com/kristof-mattei/rust-testbench/commit/2236525cd347dfd60455884374e0781256aab014))
+- More caches - ([df84e19](https://github.com/kristof-mattei/rust-testbench/commit/df84e1901142303569f4360152934c207ea90bfc))
+- Ensure the build fails when the detect changes task fails - ([6a6d4c9](https://github.com/kristof-mattei/rust-testbench/commit/6a6d4c959d983c819c2d75037b57e70da3ac6c7f))
+- Also depend on calculate-version - ([1e633b6](https://github.com/kristof-mattei/rust-testbench/commit/1e633b6795d6f4f5ce99d6de5c146151ddaf9d63))
+- Add `env_vars`, set name - ([712dfd2](https://github.com/kristof-mattei/rust-testbench/commit/712dfd2bbc1b0d0c9ffd613a6a9174e05b590c46))
+- Disable flags when not needed - ([6d2faf0](https://github.com/kristof-mattei/rust-testbench/commit/6d2faf0a5ce7dddc927dcf37d26b1935e6e8e297))
+- Formatting - ([62ee9cf](https://github.com/kristof-mattei/rust-testbench/commit/62ee9cf47b5b4754efa0bf6b6fca92c0e6b5ca9f))
+- Remove semgrep, it's useless - ([ab83edc](https://github.com/kristof-mattei/rust-testbench/commit/ab83edcd3f5b0ed0aaa87a74c863ca4f45bfb2cc))
+- Tags don't have a 'v' prefix - ([25d71c0](https://github.com/kristof-mattei/rust-testbench/commit/25d71c065ba2171776898c4fa17b6714f9e54ffd))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(release)* Release 0.2.0 - ([](https://github.com/kristof-mattei/rust-testbench/commit/))
+- Bump packages - ([18583a2](https://github.com/kristof-mattei/rust-testbench/commit/18583a22d4bb167378b843da80264c8661d165d5))
 ## [0.1.0](https://github.com/kristof-mattei/rust-testbench/compare/0.0.1..0.1.0) - 2026-02-09
 
 ### 🚀 Features
@@ -45,7 +73,7 @@
 ### ⚙️ Miscellaneous Tasks
 
 - *(ci)* Make coverage optional - ([3400180](https://github.com/kristof-mattei/rust-testbench/commit/34001803940dedc56564b839d4abf55ab6d94299))
-- *(release)* Release 0.1.0 - ([](https://github.com/kristof-mattei/rust-testbench/commit/))
+- *(release)* Release 0.1.0 - ([0236df0](https://github.com/kristof-mattei/rust-testbench/commit/0236df0726000b068c17e34ea02f806d31b4fef6))
 - Use full version - ([8c4c444](https://github.com/kristof-mattei/rust-testbench/commit/8c4c444ffac801dd72db7804dd15b53ef09f49fd))
 - Squash incoming commits, don't pollute history - ([a884a35](https://github.com/kristof-mattei/rust-testbench/commit/a884a353507118f35d9184117ababfbf8937cd94))
 - Back to the good old merge - ([c0cbd14](https://github.com/kristof-mattei/rust-testbench/commit/c0cbd14804d02d9b17a22849a3e4398e1f88a294))
