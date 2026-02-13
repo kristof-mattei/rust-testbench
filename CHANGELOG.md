@@ -1,36 +1,12 @@
 <!-- header goes here -->
-## [0.2.0](https://github.com/kristof-mattei/rust-testbench/compare/0.1.0..0.2.0) - 2026-02-13
+## [1.6.0](https://github.com/kristof-mattei/rust-testbench/compare/v1.5.0..v1.6.0) - 2026-02-13
 
 ### 🚀 Features
 
-- Use `CARGO_TARGET_DIR` to separate caches - ([d6a7766](https://github.com/kristof-mattei/rust-testbench/commit/d6a776643631728c2ca8e02fd87eaf46328f6d45))
-
-### 🐛 Bug Fixes
-
-- Re-enable container cleanup - ([9085320](https://github.com/kristof-mattei/rust-testbench/commit/90853204385e9c89fdaee3dca107de5dbe03c8bf))
-- Re-enable container cleanup - ([3681a0b](https://github.com/kristof-mattei/rust-testbench/commit/3681a0bca2c2ad0057c77917856e91c1ade74587))
-- Use frozen - ([b83181e](https://github.com/kristof-mattei/rust-testbench/commit/b83181e3a58ca79f8ffd24d1de3361d4325b27e9))
-- Quotes & reorder - ([4d3399d](https://github.com/kristof-mattei/rust-testbench/commit/4d3399dfbaec8bcf300acca43fdd72e9ad27dbd8))
-- Name - ([dc479a1](https://github.com/kristof-mattei/rust-testbench/commit/dc479a1ba61a84416c7e6c31c6ff297b474c9f68))
-- Copy into cache - ([3de174a](https://github.com/kristof-mattei/rust-testbench/commit/3de174a45d3275b82def24db1eecc8d2d36ac52a))
-- The subsequent rust builds need to come from the warmed up cache, and nothing else - ([2236525](https://github.com/kristof-mattei/rust-testbench/commit/2236525cd347dfd60455884374e0781256aab014))
-- More caches - ([df84e19](https://github.com/kristof-mattei/rust-testbench/commit/df84e1901142303569f4360152934c207ea90bfc))
-- Ensure the build fails when the detect changes task fails - ([6a6d4c9](https://github.com/kristof-mattei/rust-testbench/commit/6a6d4c959d983c819c2d75037b57e70da3ac6c7f))
-- Also depend on calculate-version - ([1e633b6](https://github.com/kristof-mattei/rust-testbench/commit/1e633b6795d6f4f5ce99d6de5c146151ddaf9d63))
-- Add `env_vars`, set name - ([712dfd2](https://github.com/kristof-mattei/rust-testbench/commit/712dfd2bbc1b0d0c9ffd613a6a9174e05b590c46))
-- Disable flags when not needed - ([6d2faf0](https://github.com/kristof-mattei/rust-testbench/commit/6d2faf0a5ce7dddc927dcf37d26b1935e6e8e297))
-- Formatting - ([62ee9cf](https://github.com/kristof-mattei/rust-testbench/commit/62ee9cf47b5b4754efa0bf6b6fca92c0e6b5ca9f))
-- Remove semgrep, it's useless - ([ab83edc](https://github.com/kristof-mattei/rust-testbench/commit/ab83edcd3f5b0ed0aaa87a74c863ca4f45bfb2cc))
-- Tags don't have a 'v' prefix - ([25d71c0](https://github.com/kristof-mattei/rust-testbench/commit/25d71c065ba2171776898c4fa17b6714f9e54ffd))
-
-### ⚙️ Miscellaneous Tasks
-
-- *(release)* Release 0.2.0 - ([](https://github.com/kristof-mattei/rust-testbench/commit/))
-- Bump packages - ([18583a2](https://github.com/kristof-mattei/rust-testbench/commit/18583a22d4bb167378b843da80264c8661d165d5))
-## [0.1.0](https://github.com/kristof-mattei/rust-testbench/compare/0.0.1..0.1.0) - 2026-02-09
-
-### 🚀 Features
-
+- *(ci)* Multi level - ([eb36e7a](https://github.com/kristof-mattei/rust-testbench/commit/eb36e7acf6ab747376cddd1d67e917262d6627dd))
+- Use target cpu for optimal builds - ([0cf1732](https://github.com/kristof-mattei/rust-testbench/commit/0cf17329e505ee5fd266a1777147321d6618a3ec))
+- Mimalloc - ([20ef31e](https://github.com/kristof-mattei/rust-testbench/commit/20ef31e5fb4015f96f1df19c7107c10ed2afcf69))
+- Buildscript to embed targetted platform - ([40464d9](https://github.com/kristof-mattei/rust-testbench/commit/40464d910ef834a24b9e16f1007b742fbc496595))
 - Make clippy more strict - ([17f9b68](https://github.com/kristof-mattei/rust-testbench/commit/17f9b68bafb0b8b550fac341f8a429e8480cdf69))
 - Remove cargo-get, use cargo metadata - ([5c3ba9b](https://github.com/kristof-mattei/rust-testbench/commit/5c3ba9b2d608d3bf1917c0a61f8e3e00c3645b53))
 - Add spell-checking - ([aafed8a](https://github.com/kristof-mattei/rust-testbench/commit/aafed8a7e54b88066c1c5feb66b2b003873ecd1c))
@@ -38,9 +14,30 @@
 - Move to crates - ([51ff0f0](https://github.com/kristof-mattei/rust-testbench/commit/51ff0f0005f659b594dca4a7e007e7b11e00dc9a))
 - Modernize build - ([6ced2b8](https://github.com/kristof-mattei/rust-testbench/commit/6ced2b8c0dc6f04783184ca04e749667e94d854a))
 - Modernize build - ([80a409e](https://github.com/kristof-mattei/rust-testbench/commit/80a409e515740565941b92c6694d7ef4470f6ba9))
+- Use `CARGO_TARGET_DIR` to separate caches - ([d6a7766](https://github.com/kristof-mattei/rust-testbench/commit/d6a776643631728c2ca8e02fd87eaf46328f6d45))
 
 ### 🐛 Bug Fixes
 
+- *(ci)* Only pre-build cargo-edit when we actually build a container - ([9bfd2a5](https://github.com/kristof-mattei/rust-testbench/commit/9bfd2a517d7b9a9081211c94e124de3ddcf19fc3))
+- *(ci)* Surpress "warning: be sure to add `/output/bin` to your PATH to be able to run the installed binaries" - ([77f6810](https://github.com/kristof-mattei/rust-testbench/commit/77f681080fb7d2b399ba3944c63db8d1bbfaa169))
+- *(ci)* Use --list-different to actually list the files different - ([37e5d53](https://github.com/kristof-mattei/rust-testbench/commit/37e5d53fe82cf449cc43fed4a8ff33bd1e7635b4))
+- Ignore .git - ([8293ae3](https://github.com/kristof-mattei/rust-testbench/commit/8293ae364ac6a820b9745564ba83b206b2f969a5))
+- Breaking doesn't make us go from 0->1 by default - ([b6c3182](https://github.com/kristof-mattei/rust-testbench/commit/b6c3182ca96730a0d6adb3cea886d4dabc39b8d4))
+- Cleanup script - ([9b6dc8b](https://github.com/kristof-mattei/rust-testbench/commit/9b6dc8bf460824cb8510719e191a5d5cb03b9f93))
+- Removed erroneous space, added name - ([fbed64f](https://github.com/kristof-mattei/rust-testbench/commit/fbed64f4e620ab45862d7ed38b1b8cc5477662eb))
+- Clean up build-cache as well, and run every day - ([1d6a0a4](https://github.com/kristof-mattei/rust-testbench/commit/1d6a0a4181be25b94c08af55da3d69f4c4846e69))
+- Also delete from build cache if expired (right now 30 days) - ([70b2624](https://github.com/kristof-mattei/rust-testbench/commit/70b2624ed0eae2e920c0a0733faa8b4531c85557))
+- Full version - ([95902e1](https://github.com/kristof-mattei/rust-testbench/commit/95902e1100aca1c5fc03d4c4b73e4fb6d12d7751))
+- Regenerate launch.json - ([401c374](https://github.com/kristof-mattei/rust-testbench/commit/401c374aacc2a2d46c65dad30537dace5f8f5849))
+- String_to_string is deprecated and fails in 1.91.0 - ([ebfba18](https://github.com/kristof-mattei/rust-testbench/commit/ebfba184701e819f7b0700d0e86b55c06f20c55c))
+- Regenerate launch.json - ([bf8b4b3](https://github.com/kristof-mattei/rust-testbench/commit/bf8b4b3d753ab0690b1670efa31370df4e837f94))
+- Update build_env - ([75149fe](https://github.com/kristof-mattei/rust-testbench/commit/75149fea98ba64e5679877bf4669c25ebdfac96a))
+- Limit amount of concurrent builds to reduce pressure - ([8f67f94](https://github.com/kristof-mattei/rust-testbench/commit/8f67f94909e191e8ba75a2d21f8d415d779ef5a5))
+- Retry final docker push - ([c49e870](https://github.com/kristof-mattei/rust-testbench/commit/c49e870692a536f7f261fb47ef14b1921aac16ab))
+- More timeout defense - ([06820af](https://github.com/kristof-mattei/rust-testbench/commit/06820afdccce9bdc8cac5aa8e1c7e6178f647f43))
+- Disable collapsible-if lint, it decreases legibility - ([2274bcd](https://github.com/kristof-mattei/rust-testbench/commit/2274bcd883877479f663fe526ed3732d91ad606e))
+- Move the attestation to a separate job for easier retries - ([11bb234](https://github.com/kristof-mattei/rust-testbench/commit/11bb2345f62fcfdac4946c53581ce05e423bfdb5))
+- Separate push and inspection - ([91903f9](https://github.com/kristof-mattei/rust-testbench/commit/91903f95b8d84a6726caffef9aadbd7ba2773697))
 - No attestation for building initial images - ([f174a10](https://github.com/kristof-mattei/rust-testbench/commit/f174a10ad48b6d4ea02b685854966ffc18d08f3f))
 - Push image with imagetools create - ([9e58649](https://github.com/kristof-mattei/rust-testbench/commit/9e586493dfd7fac05e70787914d50cdc43fd95a2))
 - Untagged containers is broken, they are actually multiplatform sources, but not detected as such - ([8138918](https://github.com/kristof-mattei/rust-testbench/commit/8138918a0acae18f6c62ff126b5ae89c482d72cf))
@@ -69,53 +66,22 @@
 - Don't hang should there be a question - ([61daade](https://github.com/kristof-mattei/rust-testbench/commit/61daade12a64cdfd76ff4455a70e85be94204ef1))
 - Fix touch not relying on /bin/bash - ([ca5f315](https://github.com/kristof-mattei/rust-testbench/commit/ca5f3154fa175d6f179cb60d7c225db0a0014925))
 - Success cannot be cancelled - ([ff32f1f](https://github.com/kristof-mattei/rust-testbench/commit/ff32f1f2a5249a9fd1fa9f4c99d8edef8127f737))
-
-### ⚙️ Miscellaneous Tasks
-
-- *(ci)* Make coverage optional - ([3400180](https://github.com/kristof-mattei/rust-testbench/commit/34001803940dedc56564b839d4abf55ab6d94299))
-- *(release)* Release 0.1.0 - ([0236df0](https://github.com/kristof-mattei/rust-testbench/commit/0236df0726000b068c17e34ea02f806d31b4fef6))
-- Use full version - ([8c4c444](https://github.com/kristof-mattei/rust-testbench/commit/8c4c444ffac801dd72db7804dd15b53ef09f49fd))
-- Squash incoming commits, don't pollute history - ([a884a35](https://github.com/kristof-mattei/rust-testbench/commit/a884a353507118f35d9184117ababfbf8937cd94))
-- Back to the good old merge - ([c0cbd14](https://github.com/kristof-mattei/rust-testbench/commit/c0cbd14804d02d9b17a22849a3e4398e1f88a294))
-- Long version - ([ef85f83](https://github.com/kristof-mattei/rust-testbench/commit/ef85f8391dae73caa9deb5c8e101fe3308db7162))
-- Fix title - ([0b10ac2](https://github.com/kristof-mattei/rust-testbench/commit/0b10ac21b7cae91c02076e5ec460824000647429))
-- Add exception for non-semver github actions, allowing full-semver all, and non-semver for packages like `mold` - ([edb13d4](https://github.com/kristof-mattei/rust-testbench/commit/edb13d461d4eff96d4aa18a1d477a918b873dedd))
-- Write in full semver - ([56b70c0](https://github.com/kristof-mattei/rust-testbench/commit/56b70c089d3ed211e71a3fba8ad00bc4b12f30e5))
-- Codecov/test-results-action is deprecated - ([70c85b7](https://github.com/kristof-mattei/rust-testbench/commit/70c85b746c742287c76ef854155617e9f71dab39))
-- Require `pre-build-cargo-edit` success or skip, but not failure - ([bf0e7a3](https://github.com/kristof-mattei/rust-testbench/commit/bf0e7a3456b37d17418708a8d07a4a991a3156a0))
-- Attestation needs `artifact-metadata: write` - ([978f466](https://github.com/kristof-mattei/rust-testbench/commit/978f466c545b5bede1ebf9ded92dcd7921f1b7c1))
-- Remove debug line - ([6a52ed9](https://github.com/kristof-mattei/rust-testbench/commit/6a52ed9a45931dd5e4f7b8222607cdcdd2a20596))
-## [0.0.1](https://github.com/kristof-mattei/rust-testbench/compare/v1.5.0..0.0.1) - 2025-11-14
-
-### 🚀 Features
-
-- *(ci)* Multi level - ([eb36e7a](https://github.com/kristof-mattei/rust-testbench/commit/eb36e7acf6ab747376cddd1d67e917262d6627dd))
-- Use target cpu for optimal builds - ([0cf1732](https://github.com/kristof-mattei/rust-testbench/commit/0cf17329e505ee5fd266a1777147321d6618a3ec))
-- Mimalloc - ([20ef31e](https://github.com/kristof-mattei/rust-testbench/commit/20ef31e5fb4015f96f1df19c7107c10ed2afcf69))
-- Buildscript to embed targetted platform - ([40464d9](https://github.com/kristof-mattei/rust-testbench/commit/40464d910ef834a24b9e16f1007b742fbc496595))
-
-### 🐛 Bug Fixes
-
-- *(ci)* Only pre-build cargo-edit when we actually build a container - ([9bfd2a5](https://github.com/kristof-mattei/rust-testbench/commit/9bfd2a517d7b9a9081211c94e124de3ddcf19fc3))
-- *(ci)* Surpress "warning: be sure to add `/output/bin` to your PATH to be able to run the installed binaries" - ([77f6810](https://github.com/kristof-mattei/rust-testbench/commit/77f681080fb7d2b399ba3944c63db8d1bbfaa169))
-- *(ci)* Use --list-different to actually list the files different - ([37e5d53](https://github.com/kristof-mattei/rust-testbench/commit/37e5d53fe82cf449cc43fed4a8ff33bd1e7635b4))
-- Ignore .git - ([8293ae3](https://github.com/kristof-mattei/rust-testbench/commit/8293ae364ac6a820b9745564ba83b206b2f969a5))
-- Breaking doesn't make us go from 0->1 by default - ([b6c3182](https://github.com/kristof-mattei/rust-testbench/commit/b6c3182ca96730a0d6adb3cea886d4dabc39b8d4))
-- Cleanup script - ([9b6dc8b](https://github.com/kristof-mattei/rust-testbench/commit/9b6dc8bf460824cb8510719e191a5d5cb03b9f93))
-- Removed erroneous space, added name - ([fbed64f](https://github.com/kristof-mattei/rust-testbench/commit/fbed64f4e620ab45862d7ed38b1b8cc5477662eb))
-- Clean up build-cache as well, and run every day - ([1d6a0a4](https://github.com/kristof-mattei/rust-testbench/commit/1d6a0a4181be25b94c08af55da3d69f4c4846e69))
-- Also delete from build cache if expired (right now 30 days) - ([70b2624](https://github.com/kristof-mattei/rust-testbench/commit/70b2624ed0eae2e920c0a0733faa8b4531c85557))
-- Full version - ([95902e1](https://github.com/kristof-mattei/rust-testbench/commit/95902e1100aca1c5fc03d4c4b73e4fb6d12d7751))
-- Regenerate launch.json - ([401c374](https://github.com/kristof-mattei/rust-testbench/commit/401c374aacc2a2d46c65dad30537dace5f8f5849))
-- String_to_string is deprecated and fails in 1.91.0 - ([ebfba18](https://github.com/kristof-mattei/rust-testbench/commit/ebfba184701e819f7b0700d0e86b55c06f20c55c))
-- Regenerate launch.json - ([bf8b4b3](https://github.com/kristof-mattei/rust-testbench/commit/bf8b4b3d753ab0690b1670efa31370df4e837f94))
-- Update build_env - ([75149fe](https://github.com/kristof-mattei/rust-testbench/commit/75149fea98ba64e5679877bf4669c25ebdfac96a))
-- Limit amount of concurrent builds to reduce pressure - ([8f67f94](https://github.com/kristof-mattei/rust-testbench/commit/8f67f94909e191e8ba75a2d21f8d415d779ef5a5))
-- Retry final docker push - ([c49e870](https://github.com/kristof-mattei/rust-testbench/commit/c49e870692a536f7f261fb47ef14b1921aac16ab))
-- More timeout defense - ([06820af](https://github.com/kristof-mattei/rust-testbench/commit/06820afdccce9bdc8cac5aa8e1c7e6178f647f43))
-- Disable collapsible-if lint, it decreases legibility - ([2274bcd](https://github.com/kristof-mattei/rust-testbench/commit/2274bcd883877479f663fe526ed3732d91ad606e))
-- Move the attestation to a separate job for easier retries - ([11bb234](https://github.com/kristof-mattei/rust-testbench/commit/11bb2345f62fcfdac4946c53581ce05e423bfdb5))
-- Separate push and inspection - ([91903f9](https://github.com/kristof-mattei/rust-testbench/commit/91903f95b8d84a6726caffef9aadbd7ba2773697))
+- Re-enable container cleanup - ([9085320](https://github.com/kristof-mattei/rust-testbench/commit/90853204385e9c89fdaee3dca107de5dbe03c8bf))
+- Re-enable container cleanup - ([3681a0b](https://github.com/kristof-mattei/rust-testbench/commit/3681a0bca2c2ad0057c77917856e91c1ade74587))
+- Use frozen - ([b83181e](https://github.com/kristof-mattei/rust-testbench/commit/b83181e3a58ca79f8ffd24d1de3361d4325b27e9))
+- Quotes & reorder - ([4d3399d](https://github.com/kristof-mattei/rust-testbench/commit/4d3399dfbaec8bcf300acca43fdd72e9ad27dbd8))
+- Name - ([dc479a1](https://github.com/kristof-mattei/rust-testbench/commit/dc479a1ba61a84416c7e6c31c6ff297b474c9f68))
+- Copy into cache - ([3de174a](https://github.com/kristof-mattei/rust-testbench/commit/3de174a45d3275b82def24db1eecc8d2d36ac52a))
+- The subsequent rust builds need to come from the warmed up cache, and nothing else - ([2236525](https://github.com/kristof-mattei/rust-testbench/commit/2236525cd347dfd60455884374e0781256aab014))
+- More caches - ([df84e19](https://github.com/kristof-mattei/rust-testbench/commit/df84e1901142303569f4360152934c207ea90bfc))
+- Ensure the build fails when the detect changes task fails - ([6a6d4c9](https://github.com/kristof-mattei/rust-testbench/commit/6a6d4c959d983c819c2d75037b57e70da3ac6c7f))
+- Also depend on calculate-version - ([1e633b6](https://github.com/kristof-mattei/rust-testbench/commit/1e633b6795d6f4f5ce99d6de5c146151ddaf9d63))
+- Add `env_vars`, set name - ([712dfd2](https://github.com/kristof-mattei/rust-testbench/commit/712dfd2bbc1b0d0c9ffd613a6a9174e05b590c46))
+- Disable flags when not needed - ([6d2faf0](https://github.com/kristof-mattei/rust-testbench/commit/6d2faf0a5ce7dddc927dcf37d26b1935e6e8e297))
+- Formatting - ([62ee9cf](https://github.com/kristof-mattei/rust-testbench/commit/62ee9cf47b5b4754efa0bf6b6fca92c0e6b5ca9f))
+- Remove semgrep, it's useless - ([ab83edc](https://github.com/kristof-mattei/rust-testbench/commit/ab83edcd3f5b0ed0aaa87a74c863ca4f45bfb2cc))
+- Tags don't have a 'v' prefix - ([25d71c0](https://github.com/kristof-mattei/rust-testbench/commit/25d71c065ba2171776898c4fa17b6714f9e54ffd))
+- Versions have v-prefix - ([b518140](https://github.com/kristof-mattei/rust-testbench/commit/b518140f09d21d4e7bad5d066cdfba86aa46c092))
 
 ### ⚙️ Miscellaneous Tasks
 
@@ -129,8 +95,12 @@
 - *(ci)* Rename format to machete - ([d8e6d9f](https://github.com/kristof-mattei/rust-testbench/commit/d8e6d9f0ef133cee5f38e5c6641e79a26d99cfaf))
 - *(ci)* Enforce nightly fmt - ([3ec2ad1](https://github.com/kristof-mattei/rust-testbench/commit/3ec2ad14ee4b4dd97b161ce62d37871f42f78dd7))
 - *(ci)* Kill enforcement of nightly fmt - ([ba7dfda](https://github.com/kristof-mattei/rust-testbench/commit/ba7dfdaedabe7840657c288075ee4796fd31faf4))
+- *(ci)* Make coverage optional - ([3400180](https://github.com/kristof-mattei/rust-testbench/commit/34001803940dedc56564b839d4abf55ab6d94299))
 - *(fmt)* Fmt - ([f7b0a11](https://github.com/kristof-mattei/rust-testbench/commit/f7b0a1189c2e2b834199e2fc876b95aa63c8a246))
 - *(release)* Release 0.0.1 - ([a075d2d](https://github.com/kristof-mattei/rust-testbench/commit/a075d2d69cd0202de3d42c8a888ca14b49e0051f))
+- *(release)* Release 0.1.0 - ([0236df0](https://github.com/kristof-mattei/rust-testbench/commit/0236df0726000b068c17e34ea02f806d31b4fef6))
+- *(release)* Release 0.2.0 - ([036f6ec](https://github.com/kristof-mattei/rust-testbench/commit/036f6ecfc8693c8ef884c6a1d3e6b997772dd665))
+- *(release)* Release vv1.6.0 - ([](https://github.com/kristof-mattei/rust-testbench/commit/))
 - Use slim-trixie instead of trixie - ([ecd2b0e](https://github.com/kristof-mattei/rust-testbench/commit/ecd2b0e978c392b1ed12726877de4e78f19980e7))
 - Cleanup - ([fb181c3](https://github.com/kristof-mattei/rust-testbench/commit/fb181c3e899c70d21a4d0081ebf2ddf44192012e))
 - Don't show progress - ([e08f1a3](https://github.com/kristof-mattei/rust-testbench/commit/e08f1a3f42403d0c564f2672cffea0c22709897a))
@@ -143,6 +113,18 @@
 - Update lints - ([df8ba12](https://github.com/kristof-mattei/rust-testbench/commit/df8ba122d9772796479bfaf7b1ef1440219f20e8))
 - Ensure both jobs have a setup docker and setup buildx - ([b780ecc](https://github.com/kristof-mattei/rust-testbench/commit/b780eccdf762e5996ab2ee2a96a733345b4b9f2a))
 - Allow parallel - ([ebf9517](https://github.com/kristof-mattei/rust-testbench/commit/ebf95176c678741fa9387c70a82d2b7441f6054d))
+- Use full version - ([8c4c444](https://github.com/kristof-mattei/rust-testbench/commit/8c4c444ffac801dd72db7804dd15b53ef09f49fd))
+- Squash incoming commits, don't pollute history - ([a884a35](https://github.com/kristof-mattei/rust-testbench/commit/a884a353507118f35d9184117ababfbf8937cd94))
+- Back to the good old merge - ([c0cbd14](https://github.com/kristof-mattei/rust-testbench/commit/c0cbd14804d02d9b17a22849a3e4398e1f88a294))
+- Long version - ([ef85f83](https://github.com/kristof-mattei/rust-testbench/commit/ef85f8391dae73caa9deb5c8e101fe3308db7162))
+- Fix title - ([0b10ac2](https://github.com/kristof-mattei/rust-testbench/commit/0b10ac21b7cae91c02076e5ec460824000647429))
+- Add exception for non-semver github actions, allowing full-semver all, and non-semver for packages like `mold` - ([edb13d4](https://github.com/kristof-mattei/rust-testbench/commit/edb13d461d4eff96d4aa18a1d477a918b873dedd))
+- Write in full semver - ([56b70c0](https://github.com/kristof-mattei/rust-testbench/commit/56b70c089d3ed211e71a3fba8ad00bc4b12f30e5))
+- Codecov/test-results-action is deprecated - ([70c85b7](https://github.com/kristof-mattei/rust-testbench/commit/70c85b746c742287c76ef854155617e9f71dab39))
+- Require `pre-build-cargo-edit` success or skip, but not failure - ([bf0e7a3](https://github.com/kristof-mattei/rust-testbench/commit/bf0e7a3456b37d17418708a8d07a4a991a3156a0))
+- Attestation needs `artifact-metadata: write` - ([978f466](https://github.com/kristof-mattei/rust-testbench/commit/978f466c545b5bede1ebf9ded92dcd7921f1b7c1))
+- Remove debug line - ([6a52ed9](https://github.com/kristof-mattei/rust-testbench/commit/6a52ed9a45931dd5e4f7b8222607cdcdd2a20596))
+- Bump packages - ([18583a2](https://github.com/kristof-mattei/rust-testbench/commit/18583a22d4bb167378b843da80264c8661d165d5))
 ## [1.5.0](https://github.com/kristof-mattei/rust-testbench/compare/v1.4.0..v1.5.0) - 2025-09-21
 
 ### 🚀 Features
