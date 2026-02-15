@@ -98,7 +98,7 @@ jobs:
             git checkout -b "${branch}"
           fi
 
-          commit_message="chore(release): Release ${version}"
+          commit_message="chore(release): Release ${release_version}"
 
           git-cliff --output CHANGELOG.md --bump ${{ inputs.force-bump }} --with-commit "${commit_message}" --github-token ${{ secrets.GITHUB_TOKEN }}
 
