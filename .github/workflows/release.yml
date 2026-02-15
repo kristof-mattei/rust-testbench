@@ -102,7 +102,7 @@ jobs:
 
           git push --set-upstream origin "${branch}" --force
 
-          git-cliff --output diff-CHANGELOG.md --current --github-token ${{ secrets.GITHUB_TOKEN }}
+          git-cliff --output diff-CHANGELOG.md --unreleased --github-token ${{ secrets.GITHUB_TOKEN }}
 
       - name: Open or update pull request
         shell: bash
