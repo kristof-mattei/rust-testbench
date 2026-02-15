@@ -107,7 +107,7 @@ jobs:
       - name: Open or update pull request
         shell: bash
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.TOKEN_TO_TRIGGER_SUBSEQUENT_WORKFLOWS }}
         run: |
           branch="${{ steps.release.outputs.branch }}"
           version="${{ steps.release.outputs.version }}"
