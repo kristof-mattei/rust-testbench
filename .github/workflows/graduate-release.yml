@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write # to create tags
+  pull-requests: write # to close stale release PRs
 
 env:
   CARGO_TERM_COLOR: always
@@ -83,3 +84,17 @@ jobs:
             --notes-file release-notes.md \
             --title "${tag}" \
             ${prerelease_flag}
+
+      - name: Close stale release PRs
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Close all other open PRs from release/* branches
+          gh pr list \
+            --state open \
+            --json number,headRefName \
+            --jq '.[] | select(.headRefName | startswith("release/v")) | .number' \
+          | while read pr_number; do
+            gh pr close "$pr_number" --delete-branch
+          done
