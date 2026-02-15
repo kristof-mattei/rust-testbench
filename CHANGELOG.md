@@ -1,9 +1,18 @@
 <!-- header goes here -->
+## [2.1.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.0.0..v2.1.0) - 2026-02-15
+
+### 🚀 Features
+
+- Include rc suffix in commit message - ([c3a5afb](https://github.com/kristof-mattei/rust-testbench/commit/c3a5afbe2aec52b42e1da56d9eec105dbea78228))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(release)* Release v2.1.0-rc.1 - ([](https://github.com/kristof-mattei/rust-testbench/commit/))
 ## [2.0.0](https://github.com/kristof-mattei/rust-testbench/compare/v1.7.0-rc.1..v2.0.0) - 2026-02-15
 
 ### ⚙️ Miscellaneous Tasks
 
-- *(release)* Release v2.0.0 - ([](https://github.com/kristof-mattei/rust-testbench/commit/))
+- *(release)* Release v2.0.0 - ([436f813](https://github.com/kristof-mattei/rust-testbench/commit/436f813cf7e15eb28aa37f4708f8e37013ba351b))
 ## [1.7.0-rc.1](https://github.com/kristof-mattei/rust-testbench/compare/v1.6.0-rc.1..v1.7.0-rc.1) - 2026-02-15
 
 ### 🚀 Features
