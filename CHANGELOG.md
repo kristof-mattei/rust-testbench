@@ -1,4 +1,19 @@
 <!-- header goes here -->
+## [1.6.0](https://github.com/kristof-mattei/rust-testbench/compare/v1.5.0..v1.6.0) - 2026-02-15
+
+### 🚀 Features
+
+- Support for rc flow - ([b1623ee](https://github.com/kristof-mattei/rust-testbench/commit/b1623ee079a1ff3dde87892cd29bdb217c4c3f88))
+
+### 🐛 Bug Fixes
+
+- Changelog not released yet - ([8131780](https://github.com/kristof-mattei/rust-testbench/commit/8131780ef5d278b5ac9d590099be41bf0b2eddb9))
+- Token - ([77e74aa](https://github.com/kristof-mattei/rust-testbench/commit/77e74aa68e335760969a10c6ed0da355df183597))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(release)* Release v1.6.0 - ([](https://github.com/kristof-mattei/rust-testbench/commit/))
+- Temp disable building on arm - ([2761c0a](https://github.com/kristof-mattei/rust-testbench/commit/2761c0ae7aaa8ac12b40d844295cefcc44a583fd))
 ## [1.5.0](https://github.com/kristof-mattei/rust-testbench/compare/v1.4.0..v1.5.0) - 2026-02-13
 
 ### 🚀 Features
@@ -7,7 +22,7 @@
 
 ### ⚙️ Miscellaneous Tasks
 
-- *(release)* Release v1.5.0 - ([](https://github.com/kristof-mattei/rust-testbench/commit/))
+- *(release)* Release v1.5.0 - ([b11b13e](https://github.com/kristof-mattei/rust-testbench/commit/b11b13eb299241a7193ec50836c24372a5da1962))
 ## [1.4.0](https://github.com/kristof-mattei/rust-testbench/compare/v1.3.1..v1.4.0) - 2026-02-13
 
 ### 🚀 Features
