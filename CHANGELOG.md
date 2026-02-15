@@ -1,5 +1,20 @@
 <!-- header goes here -->
-## [1.6.0](https://github.com/kristof-mattei/rust-testbench/compare/v1.5.0..v1.6.0) - 2026-02-15
+## [1.7.0](https://github.com/kristof-mattei/rust-testbench/compare/v1.6.0-rc.1..v1.7.0) - 2026-02-15
+
+### 🚀 Features
+
+- Use correct token - ([6f68284](https://github.com/kristof-mattei/rust-testbench/commit/6f68284051449def49e934276c4aaf21e9d66482))
+- Close stale PRs - ([de02d39](https://github.com/kristof-mattei/rust-testbench/commit/de02d3920e66ef180d2d5bebf89ae735b2eab6d5))
+
+### 🐛 Bug Fixes
+
+- Rc suffixes - ([08c4bab](https://github.com/kristof-mattei/rust-testbench/commit/08c4bab9486fde8145b0baefc0675de83eaa2afd))
+- As-if version - ([24509a0](https://github.com/kristof-mattei/rust-testbench/commit/24509a07bfe322a39cd9c63588b40fa280ea1dbc))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(release)* Release v1.7.0 - ([](https://github.com/kristof-mattei/rust-testbench/commit/))
+## [1.6.0-rc.1](https://github.com/kristof-mattei/rust-testbench/compare/v1.5.0..v1.6.0-rc.1) - 2026-02-15
 
 ### 🚀 Features
 
@@ -12,7 +27,7 @@
 
 ### ⚙️ Miscellaneous Tasks
 
-- *(release)* Release v1.6.0 - ([](https://github.com/kristof-mattei/rust-testbench/commit/))
+- *(release)* Release v1.6.0 - ([03bfd4f](https://github.com/kristof-mattei/rust-testbench/commit/03bfd4f50664f57e494892672a9127f76beccd14))
 - Temp disable building on arm - ([2761c0a](https://github.com/kristof-mattei/rust-testbench/commit/2761c0ae7aaa8ac12b40d844295cefcc44a583fd))
 ## [1.5.0](https://github.com/kristof-mattei/rust-testbench/compare/v1.4.0..v1.5.0) - 2026-02-13
 
