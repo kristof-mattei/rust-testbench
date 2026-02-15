@@ -58,12 +58,8 @@ jobs:
         shell: bash
         id: release
         run: |
-          repository=${{ github.repository }}
-          # split at the last / and keep that (kristof-mattei/repo-name -> repo-name)
-          repository=${repository##*/}
-
-          git config --global user.name ${repository}-release[bot]
-          git config --global user.email 864376+${repository}-release[bot]@users.noreply.github.com
+          git config --global user.name github-actions[bot]
+          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
 
           version=$(git-cliff --bumped-version --unreleased --bump ${{ inputs.force-bump }} --github-token ${{ secrets.GITHUB_TOKEN }})
 

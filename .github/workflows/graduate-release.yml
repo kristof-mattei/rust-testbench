@@ -47,11 +47,8 @@ jobs:
       - name: Create tag
         shell: bash
         run: |
-          repository=${{ github.repository }}
-          repository=${repository##*/}
-
-          git config --global user.name ${repository}-release[bot]
-          git config --global user.email 864376+${repository}-release[bot]@users.noreply.github.com
+          git config --global user.name github-actions[bot]
+          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
 
           tag="${{ steps.release.outputs.tag }}"
 
