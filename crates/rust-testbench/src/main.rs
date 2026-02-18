@@ -77,4 +77,10 @@ mod tests {
     fn assert_combined() {
         assert_eq!(format!("{}-{}-{}", foo(), bar(), quz()), "Foo-Bar-Quz");
     }
+
+    #[test]
+    fn assert_equals() {
+        #![expect(clippy::assertions_on_constants, reason = "Test")]
+        assert!(true);
+    }
 }
