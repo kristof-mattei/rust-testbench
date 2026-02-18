@@ -1,5 +1,10 @@
 <!-- header goes here -->
-## [2.2.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.1.0..v2.2.0) - 2026-02-18
+## [2.2.0-beta.2](https://github.com/kristof-mattei/rust-testbench/compare/v2.2.0-beta.1..v2.2.0-beta.2) - 2026-02-18
+
+### ⚙️ Miscellaneous Tasks
+
+- *(release)* Release v2.2.0  ([``](https://github.com/kristof-mattei/rust-testbench/commit/))
+## [2.2.0-beta.1](https://github.com/kristof-mattei/rust-testbench/compare/v2.1.0..v2.2.0-beta.1) - 2026-02-18
 
 ### 🚀 Features
 
@@ -32,7 +37,7 @@
 
 ### ⚙️ Miscellaneous Tasks
 
-- *(release)* Release v2.2.0-beta.1  ([``](https://github.com/kristof-mattei/rust-testbench/commit/))
+- *(release)* Release v2.2.0-beta.1  by @github-actions[bot] ([`09a424a`](https://github.com/kristof-mattei/rust-testbench/commit/09a424a73d2845706762bb7b8c1a3490d00bd768))
 - Cleanup changelog format  by @kristof-mattei ([`3c471fb`](https://github.com/kristof-mattei/rust-testbench/commit/3c471fb39c326dca9111d182eabbf650170be531))
 ## [2.1.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.0.0..v2.1.0) - 2026-02-15
 
