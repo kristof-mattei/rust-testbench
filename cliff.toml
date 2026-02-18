@@ -24,7 +24,7 @@ body = """
         {{ commit.message | split(pat="\n") | first | trim | upper_first }} -\
         {% if commit.remote.username %} by @{{ commit.remote.username }}\
         {%- endif %} {% if commit.remote.pr_number %} in #{{ commit.remote.pr_number }}{%- endif %}\
-        ([{{ self::remote_url() }}/commit/{{ commit.id }})])
+        ([{{ commit.id | truncate(length=7, end="") }}]\
 {% endmacro -%}
 
 {% if version %}\
