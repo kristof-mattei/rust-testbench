@@ -77,4 +77,9 @@ mod tests {
     fn assert_combined() {
         assert_eq!(format!("{}-{}-{}", foo(), bar(), quz()), "Foo-Bar-Quz");
     }
+
+    #[test]
+    fn assert_equals() {
+        assert!(true);
+    }
 }
