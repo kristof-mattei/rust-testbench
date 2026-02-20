@@ -1,5 +1,14 @@
 <!-- header goes here -->
-## [2.2.1](https://github.com/kristof-mattei/rust-testbench/compare/v2.2.0..v2.2.1) - 2026-02-20
+## [2.2.1-alpha.2](https://github.com/kristof-mattei/rust-testbench/compare/v2.2.1-alpha.1..v2.2.1-alpha.2) - 2026-02-20
+
+### 🐛 Bug Fixes
+
+- Skip spellcheck on release/ branches  by @kristof-mattei ([`db7ed97`](https://github.com/kristof-mattei/rust-testbench/commit/db7ed97d1f0633b39a1e29dade9272e5ffb3789f))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(release)* Release v2.2.1  ([``](https://github.com/kristof-mattei/rust-testbench/commit/))
+## [2.2.1-alpha.1](https://github.com/kristof-mattei/rust-testbench/compare/v2.2.0..v2.2.1-alpha.1) - 2026-02-20
 
 ### 🚀 Features
 
@@ -16,7 +25,7 @@
 
 ### ⚙️ Miscellaneous Tasks
 
-- *(release)* Release v2.2.1-alpha.1  ([``](https://github.com/kristof-mattei/rust-testbench/commit/))
+- *(release)* Release v2.2.1-alpha.1  by @github-actions[bot] ([`103a192`](https://github.com/kristof-mattei/rust-testbench/commit/103a192cd52734809b91445e47b41a409db9966a))
 - Remove colon  by @kristof-mattei ([`635bd83`](https://github.com/kristof-mattei/rust-testbench/commit/635bd8386a4c2e47f7cace63f54341234c80218f))
 - Decrease verbosity  by @kristof-mattei ([`64c0473`](https://github.com/kristof-mattei/rust-testbench/commit/64c04739ca3f7bb5711c2adc38a690f6413f48e7))
 ## [2.2.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.2.0-beta.1..v2.2.0) - 2026-02-18
