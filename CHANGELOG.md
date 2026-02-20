@@ -1,9 +1,29 @@
 <!-- header goes here -->
-## [2.2.0-beta.2](https://github.com/kristof-mattei/rust-testbench/compare/v2.2.0-beta.1..v2.2.0-beta.2) - 2026-02-18
+## [2.2.1](https://github.com/kristof-mattei/rust-testbench/compare/v2.2.0..v2.2.1) - 2026-02-20
+
+### 🚀 Features
+
+- Prerelease types  by @kristof-mattei ([`c27ba7c`](https://github.com/kristof-mattei/rust-testbench/commit/c27ba7c358bec30b3332520cd8aca88b73dafebf))
+
+### 🐛 Bug Fixes
+
+- Truncate changelog when too long  by @kristof-mattei ([`d06dc1c`](https://github.com/kristof-mattei/rust-testbench/commit/d06dc1c8f9e10be96f3bf88aca729b2886c5ca31))
+- Also truncate the release notes in the release  by @kristof-mattei ([`5c05c13`](https://github.com/kristof-mattei/rust-testbench/commit/5c05c13dfee4524b931f1879804cdff9e80c6a33))
+- Long form options  by @kristof-mattei ([`55c52d6`](https://github.com/kristof-mattei/rust-testbench/commit/55c52d64284913d31a02cbc831c82b0b94465176))
+- Truncation on total size, not characters per line  by @kristof-mattei ([`62df253`](https://github.com/kristof-mattei/rust-testbench/commit/62df253e9217379e282005a81983159343359b1e))
+- Add , for readability  by @kristof-mattei ([`910b62f`](https://github.com/kristof-mattei/rust-testbench/commit/910b62fbdf9c3ba6895f9d2945d3be90f33fb9c3))
+- Ensure pre-release and release tags on containers are emitted with the 'v' prefix  by @kristof-mattei ([`f006460`](https://github.com/kristof-mattei/rust-testbench/commit/f006460277c4862f37da36282a27967e934e75eb))
 
 ### ⚙️ Miscellaneous Tasks
 
-- *(release)* Release v2.2.0  ([``](https://github.com/kristof-mattei/rust-testbench/commit/))
+- *(release)* Release v2.2.1-alpha.1  ([``](https://github.com/kristof-mattei/rust-testbench/commit/))
+- Remove colon  by @kristof-mattei ([`635bd83`](https://github.com/kristof-mattei/rust-testbench/commit/635bd8386a4c2e47f7cace63f54341234c80218f))
+- Decrease verbosity  by @kristof-mattei ([`64c0473`](https://github.com/kristof-mattei/rust-testbench/commit/64c04739ca3f7bb5711c2adc38a690f6413f48e7))
+## [2.2.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.2.0-beta.1..v2.2.0) - 2026-02-18
+
+### ⚙️ Miscellaneous Tasks
+
+- *(release)* Release v2.2.0  by @github-actions[bot] ([`a8d47ec`](https://github.com/kristof-mattei/rust-testbench/commit/a8d47ec590c15ace6f789005c76c0b903492e76f))
 ## [2.2.0-beta.1](https://github.com/kristof-mattei/rust-testbench/compare/v2.1.0..v2.2.0-beta.1) - 2026-02-18
 
 ### 🚀 Features
