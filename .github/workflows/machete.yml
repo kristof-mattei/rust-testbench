@@ -55,7 +55,7 @@ jobs:
           cargo --version
 
       - name: Install cargo-machete to ensure we don't have unneeded packages
-        uses: taiki-e/install-action@d9c7e4de96b8ff27364cd0b5890e9280b99adbb3 # v2.68.11
+        uses: taiki-e/install-action@2dc1234c293fde032a8e34c74501c7d6403e92ae # v2.68.14
         with:
           tool: cargo-machete
 
