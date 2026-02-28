@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4
+        uses: github/codeql-action/init@v3.32.4
         with:
           analysis-kinds: code-quality
           languages: ${{ matrix.language }}
@@ -51,13 +51,13 @@ jobs:
             threat-models: [  ]
       - name: Setup proxy for registries
         id: proxy
-        uses: github/codeql-action/start-proxy@v4
+        uses: github/codeql-action/start-proxy@v3.32.4
         with:
           registries_credentials: ${{ secrets.GITHUB_REGISTRIES_PROXY }}
           language: ${{ matrix.language }}
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v4
+        uses: github/codeql-action/analyze@v3.32.4
         env:
           CODEQL_PROXY_HOST: ${{ steps.proxy.outputs.proxy_host }}
           CODEQL_PROXY_PORT: ${{ steps.proxy.outputs.proxy_port }}
