@@ -1,5 +1,22 @@
 <!-- header goes here -->
-## [2.2.1-alpha.2](https://github.com/kristof-mattei/rust-testbench/compare/v2.2.1-alpha.1..v2.2.1-alpha.2) - 2026-02-20
+## [unreleased]
+
+### ⚙️ Miscellaneous Tasks
+
+- *(release)* Release v2.2.2-rc.1  ([``](https://github.com/kristof-mattei/rust-testbench/commit/))
+## [2.2.2-rc.1](https://github.com/kristof-mattei/rust-testbench/compare/v2.2.1..v2.2.2-rc.1) - 2026-03-03
+
+### 🐛 Bug Fixes
+
+- *(ci)* For the changelog, emit the version that we built  by @kristof-mattei ([`0a76fe5`](https://github.com/kristof-mattei/rust-testbench/commit/0a76fe56479edefa3a358cf677a6dd3a7973229f))
+- Ensure pre-release and release tags on containers are emitted with the 'v' prefix  by @kristof-mattei ([`6edac00`](https://github.com/kristof-mattei/rust-testbench/commit/6edac007d710b502d0db3c6e95a644eaf6a2044a))
+- Skip spellcheck on release/ branches  by @kristof-mattei ([`736f013`](https://github.com/kristof-mattei/rust-testbench/commit/736f01396b30052e9f01927fd93f321f49ffeb8a))
+
+### ⚙️ Miscellaneous Tasks
+
+- `attest-build-provenance` is deprecated  by @kristof-mattei ([`26fa46a`](https://github.com/kristof-mattei/rust-testbench/commit/26fa46a6ed449dddd256e1817aa81300cd374346))
+- Typo  by @kristof-mattei ([`59e98b7`](https://github.com/kristof-mattei/rust-testbench/commit/59e98b7382ca6c0a220af8fdbe468ef70b21128c))
+## [2.2.1](https://github.com/kristof-mattei/rust-testbench/compare/v2.2.1-alpha.1..v2.2.1) - 2026-02-20
 
 ### 🐛 Bug Fixes
 
@@ -7,7 +24,7 @@
 
 ### ⚙️ Miscellaneous Tasks
 
-- *(release)* Release v2.2.1  ([``](https://github.com/kristof-mattei/rust-testbench/commit/))
+- *(release)* Release v2.2.1  by @github-actions[bot] ([`cd70da1`](https://github.com/kristof-mattei/rust-testbench/commit/cd70da1b02d1c4195733d663174b957351c9b0da))
 ## [2.2.1-alpha.1](https://github.com/kristof-mattei/rust-testbench/compare/v2.2.0..v2.2.1-alpha.1) - 2026-02-20
 
 ### 🚀 Features
