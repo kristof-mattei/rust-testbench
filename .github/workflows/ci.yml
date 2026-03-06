@@ -42,7 +42,17 @@ jobs:
         id: matrix
         with:
           script: |
-            const architectures = process.env.IMAGE_VARIANTS.trim().split("\n").map((a) => a.trim());
+            const variants = process.env.IMAGE_VARIANTS.trim().split("\n").map((a) => a.trim());
+
+            const architectures = variants.map((platform) => {
+              // Assign the runner based on whether the platform string includes "arm"
+              const runner = platform.includes("arm") ? "ubuntu-24.04-arm" : "ubuntu-latest";
+
+              return {
+                "platform": platform,
+                "runs-on": runner
+              };
+            });
 
             const json = JSON.stringify(architectures);
 
@@ -252,15 +262,11 @@ jobs:
           local_registry=${local_registry,,}
           echo "full_image_name_local_registry=${local_registry}/${image_name}" >> "${GITHUB_OUTPUT}"
 
-  # this name is also used in `publish-crate-after-release.yml`
   docker-build:
     name: Build Docker container on ${{ matrix.runs-on }} for ${{ matrix.platform }}
     strategy:
       matrix:
-        runs-on:
-          - "ubuntu-latest"
-          - "ubuntu-24.04-arm"
-        platform: ${{ fromJSON(needs.architectures.outputs.architectures) }}
+        include: ${{ fromJson(needs.architectures.outputs.architectures) }}
     runs-on: ${{ matrix.runs-on }}
     permissions:
       contents: read
@@ -289,7 +295,7 @@ jobs:
       - name: Apply version bump patch
         shell: bash
         run: |
-          git apply /tmp/version-bump.patch
+          git apply --allow-empty /tmp/version-bump.patch
 
           echo "Applied patch:"
           git diff
@@ -376,8 +382,6 @@ jobs:
 
       - name: Upload artifact
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
-        if: |
-          matrix.runs-on == 'ubuntu-latest'
         with:
           if-no-files-found: error
           name: container-${{ needs.docker-prepare-variables.outputs.application_name }}-${{ steps.variables.outputs.platform_no_slashes }}
