@@ -1,5 +1,19 @@
 <!-- header goes here -->
-## [2.2.2-alpha.2](https://github.com/kristof-mattei/rust-testbench/compare/v2.2.2-alpha.1..v2.2.2-alpha.2) - 2026-03-03
+## [2.3.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.2.2..v2.3.0) - 2026-03-11
+
+### 🚀 Features
+
+- Remove crane by @kristof-mattei ([`4187f1d`](https://github.com/kristof-mattei/rust-testbench/commit/4187f1d356ce063d0e1f55615b757edfc4c7d104))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(ci)* Allow empty by @kristof-mattei ([`e6ce7fb`](https://github.com/kristof-mattei/rust-testbench/commit/e6ce7fbb2a3ceb423c1c822dca92049f70f43ea2))
+- *(ci)* Comment cleanup by @kristof-mattei ([`4fa99d9`](https://github.com/kristof-mattei/rust-testbench/commit/4fa99d9cace57656b0c725fa995cbf85cedd07b4))
+- *(release)* Release v2.3.0
+- Clean up ignore by @kristof-mattei ([`404a01e`](https://github.com/kristof-mattei/rust-testbench/commit/404a01e12c18e72240ce1f85a49ee6aa8fc9e403))
+- Rust 1.94.0 Docker by @kristof-mattei ([`9427eb1`](https://github.com/kristof-mattei/rust-testbench/commit/9427eb18b46bf01da1357e3d83312f0846aa42ae))
+- Pin sha for Rust image by @kristof-mattei ([`e2986db`](https://github.com/kristof-mattei/rust-testbench/commit/e2986db43914999be69f279056fd5be0908f7216))
+## [2.2.2](https://github.com/kristof-mattei/rust-testbench/compare/v2.2.2-alpha.1..v2.2.2) - 2026-03-03
 
 ### 🐛 Bug Fixes
 
@@ -12,7 +26,7 @@
 
 ### ⚙️ Miscellaneous Tasks
 
-- *(release)* Release v2.2.2
+- *(release)* Release v2.2.2 by @github-actions[bot] ([`00befb4`](https://github.com/kristof-mattei/rust-testbench/commit/00befb48cc21e1338209fd3a1fc4ee65fda2d478))
 ## [2.2.2-alpha.1](https://github.com/kristof-mattei/rust-testbench/compare/v2.2.1..v2.2.2-alpha.1) - 2026-03-03
 
 ### 🐛 Bug Fixes
