@@ -13,6 +13,7 @@ jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
     runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    if: ${{ !startsWith(github.head_ref, 'release/') }}
     permissions:
       # required for all workflows
       security-events: write
