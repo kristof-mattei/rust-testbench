@@ -19,6 +19,12 @@ fn quz() -> &'static str {
     "Quz"
 }
 
+struct IDrop {}
+
+impl Drop for IDrop {
+    fn drop(&mut self) {}
+}
+
 fn i_will_error() -> Result<(), eyre::Report> {
     Err(eyre::Report::msg("I promised you, I'd error!"))
 }
@@ -49,8 +55,20 @@ fn main() -> Result<(), eyre::Report> {
     println!("{}", bar());
     println!("{}", quz());
 
-    i_will_error()
+    let héllo = "accent?";
+
+    let _ = IDrop {};
+
+    println!("{}", héllo);
+
+    let foo = "foo";
+
+    i_will_error()?;
+
+    todo!("TODO");
 }
+
+fn i_am_dead() {}
 
 #[cfg(test)]
 mod tests {
