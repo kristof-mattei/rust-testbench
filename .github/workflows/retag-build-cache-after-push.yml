@@ -2,12 +2,7 @@
 name: Retag build cache after merge
 
 on:
-  # Primary: fires when a PR is merged, PR number is directly available
-  pull_request:
-    types:
-      - closed
-
-  # Fallback: catches direct pushes to main (no PR), uses HEAD^2 + GitHub API
+  # Fires on both PR merges (merge commit has HEAD^2) and direct pushes to main
   push:
     branches:
       - main
@@ -74,11 +69,7 @@ jobs:
       - architectures
       - repo-has-container
     if: |
-      fromJSON(needs.repo-has-container.outputs.has_container) == true &&
-      (
-        (github.event_name == 'pull_request' && github.event.pull_request.merged == true) ||
-        github.event_name == 'push'
-      )
+      fromJSON(needs.repo-has-container.outputs.has_container) == true
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -124,19 +115,13 @@ jobs:
 
           target_ref="${registry}/${image_name}-cache:buildcache-main-${runner_arch}-${platform_no_slashes}"
 
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            # pull_request closed & merged event exposes PR number directly
-            pr_number="${{ github.event.pull_request.number }}"
-          else
-            # push event (direct push to main) means HEAD^2 is the PR branch tip
-            pr_number=""
+          # push event (PR merge has HEAD^2 as the PR branch tip; direct push won't)
+          pr_number=""
 
-            parent2=$(git rev-parse "HEAD^2" --quiet 2>/dev/null) || true
+          parent2=$(git rev-parse "HEAD^2" --quiet 2>/dev/null) || true
 
-            if [ -n "${parent2}" ]; then
-              pr_number=$(gh api /repos/${{ github.repository }}/commits/${parent2}/pulls --jq '.[0].number')
-            fi
-
+          if [ -n "${parent2}" ]; then
+            pr_number=$(gh api /repos/${{ github.repository }}/commits/${parent2}/pulls --jq '.[0].number')
           fi
 
           if [ -z "${pr_number}" ]; then

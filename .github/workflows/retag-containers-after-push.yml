@@ -2,14 +2,7 @@
 name: Retag containers after new push / PR
 
 on:
-  # Primary: fires when a PR is merged; base/head SHAs are directly available
-  # in the event payload, no git gymnastics needed
-  pull_request:
-    types:
-      - closed
-
-  # Fallback: catches direct pushes to main (no PR); uses git rev-parse HEAD^2
-  # to recover the incoming PR head commit
+  # Fires on both PR merges (merge commit has HEAD^2) and direct pushes to main
   push:
     branches:
       - main
@@ -52,11 +45,7 @@ jobs:
     needs:
       - repo-has-container
     if: |
-      fromJSON(needs.repo-has-container.outputs.has_container) == true &&
-      (
-        (github.event_name == 'pull_request' && github.event.pull_request.merged == true) ||
-        github.event_name == 'push'
-      )
+      fromJSON(needs.repo-has-container.outputs.has_container) == true
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -67,25 +56,18 @@ jobs:
       - name: Resolve base and PR head SHAs
         shell: bash
         run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]
+          # push event, HEAD^2 is the tip of the incoming PR branch
+          echo "BASE_SHA=${{ github.event.before }}" >> "${GITHUB_ENV}"
+
+          exit_code=0
+          parent2=$(git rev-parse "HEAD^2" --quiet 2>/dev/null) || exit_code=$?
+
+          if [ ${exit_code} -eq 0 ]
           then
-            # SHAs are directly available in the event payload
-            echo "BASE_SHA=${{ github.event.pull_request.base.sha }}" >> "${GITHUB_ENV}"
-            echo "INCOMING_PR_HEAD_COMMIT=${{ github.event.pull_request.head.sha }}" >> "${GITHUB_ENV}"
+            echo "The head of the incoming PR is ${parent2}"
+            echo "INCOMING_PR_HEAD_COMMIT=${parent2}" >> "${GITHUB_ENV}"
           else
-            # push event, HEAD^2 is the tip of the incoming PR branch
-            echo "BASE_SHA=${{ github.event.before }}" >> "${GITHUB_ENV}"
-
-            exit_code=0
-            parent2=$(git rev-parse "HEAD^2" --quiet 2>/dev/null) || exit_code=$?
-
-            if [ ${exit_code} -eq 0 ]
-            then
-              echo "The head of the incoming PR is ${parent2}"
-              echo "INCOMING_PR_HEAD_COMMIT=${parent2}" >> "${GITHUB_ENV}"
-            else
-              echo "The incoming push isn't a merge, ergo it's not a PR"
-            fi
+            echo "The incoming push isn't a merge, ergo it's not a PR"
           fi
 
       - name: Set up Docker
