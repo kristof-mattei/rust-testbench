@@ -1,9 +1,14 @@
 <!-- header goes here -->
+## [2.4.3](https://github.com/kristof-mattei/rust-testbench/compare/v2.4.2..v2.4.3) - 2026-03-29
+
+### ⚙️ Miscellaneous Tasks
+
+- *(release)* Release v2.4.3
 ## [2.4.2](https://github.com/kristof-mattei/rust-testbench/compare/v2.4.1..v2.4.2) - 2026-03-29
 
 ### ⚙️ Miscellaneous Tasks
 
-- *(release)* Release v2.4.2
+- *(release)* Release v2.4.2 by @github-actions[bot] ([`494322a`](https://github.com/kristof-mattei/rust-testbench/commit/494322a1c29763a43ade348fcb08afc91a34b30e))
 - Log when force bumping by @kristof-mattei ([`a7b038e`](https://github.com/kristof-mattei/rust-testbench/commit/a7b038e41657a02d8204376980f159e950f0195a))
 ## [2.4.1](https://github.com/kristof-mattei/rust-testbench/compare/v2.4.0..v2.4.1) - 2026-03-29
 
