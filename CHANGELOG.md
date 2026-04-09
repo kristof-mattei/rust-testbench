@@ -1,4 +1,10 @@
 <!-- header goes here -->
+## [2.8.2-alpha.1](https://github.com/kristof-mattei/rust-testbench/compare/v2.8.1..v2.8.2-alpha.1) - 2026-04-09
+
+### ⚙️ Miscellaneous Tasks
+
+- *(ci)* Restore ability to do prerelease versions by [@kristof-mattei](https://github.com/kristof-mattei) ([`7c5b0ea`](https://github.com/kristof-mattei/rust-testbench/commit/7c5b0ea895c5e92aa3c69fec62e3a7156f2ca183))
+- Re-enable pre-release by [@kristof-mattei](https://github.com/kristof-mattei) ([`432f82c`](https://github.com/kristof-mattei/rust-testbench/commit/432f82cc08489305fed990b6c208a5f344715aa9))
 ## [2.8.1](https://github.com/kristof-mattei/rust-testbench/compare/v2.8.0..v2.8.1) - 2026-04-05
 
 ### 🐛 Bug Fixes
@@ -12,7 +18,7 @@
 - *(ci)* Use skopeo wherever possible by [@kristof-mattei](https://github.com/kristof-mattei) ([`50a6786`](https://github.com/kristof-mattei/rust-testbench/commit/50a678665fd200021293e938c0b493891077a5ef))
 - *(ci)* Scout for visualizing cves etc by [@kristof-mattei](https://github.com/kristof-mattei) ([`2fe6e06`](https://github.com/kristof-mattei/rust-testbench/commit/2fe6e06ada42423eeacec95be6a29ccbd3806068))
 - *(ci)* Username is not secret by [@kristof-mattei](https://github.com/kristof-mattei) ([`7d168f4`](https://github.com/kristof-mattei/rust-testbench/commit/7d168f446d7bbdabaf2bd58c2818af2a65b07c41))
-- *(release)* Release v2.8.1
+- *(release)* Release v2.8.1 by [@github-actions[bot]](https://github.com/github-actions[bot]) ([`5e18021`](https://github.com/kristof-mattei/rust-testbench/commit/5e18021f4cee4139287e28cb9a8f97d8b41c74be))
 - Fix fmt by [@kristof-mattei](https://github.com/kristof-mattei) ([`1c63af5`](https://github.com/kristof-mattei/rust-testbench/commit/1c63af585079ee98e0b241fc6683c31982159106))
 ## [2.8.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.7.1..v2.8.0) - 2026-04-05
 
