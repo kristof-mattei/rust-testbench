@@ -258,7 +258,7 @@ jobs:
           disable_telem: true
           env_vars: OS,RUST
           fail_ci_if_error: true
-          # flags: tests
+          flags: coverage
           files: reports/lcov
           name: code-coverage
           plugins: noop
@@ -272,7 +272,7 @@ jobs:
           disable_telem: true
           env_vars: OS,RUST
           fail_ci_if_error: true
-          # flags: tests
+          flags: tests
           files: reports/results.xml
           name: test-results
           plugins: noop
