@@ -1,4 +1,24 @@
 <!-- header goes here -->
+## [2.9.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.8.1..v2.9.0) - 2026-04-17
+
+### 🚀 Features
+
+- Make the version number diff work by [@kristof-mattei](https://github.com/kristof-mattei) ([`84e1038`](https://github.com/kristof-mattei/rust-testbench/commit/84e10388fd8795f7cfea4f2947990746e03df2b9))
+
+### 🐛 Bug Fixes
+
+- Disable plugins by [@kristof-mattei](https://github.com/kristof-mattei) ([`1576c04`](https://github.com/kristof-mattei/rust-testbench/commit/1576c0497385c22dd5315e6ae2d1d3a0f1658ba0))
+- Components by [@kristof-mattei](https://github.com/kristof-mattei) ([`8ef5ed9`](https://github.com/kristof-mattei/rust-testbench/commit/8ef5ed91a3a4ecdeb60116116f1ceb3d85171854))
+- Remove negate by [@kristof-mattei](https://github.com/kristof-mattei) ([`5ac8870`](https://github.com/kristof-mattei/rust-testbench/commit/5ac8870880f27657c3ca14b03cbfa996da029d3b))
+- Format by [@kristof-mattei](https://github.com/kristof-mattei) ([`f9e718f`](https://github.com/kristof-mattei/rust-testbench/commit/f9e718f6e00d1b4dd557ed81cb21d45c22d77d34))
+- Disable plugins by [@kristof-mattei](https://github.com/kristof-mattei) ([`3725751`](https://github.com/kristof-mattei/rust-testbench/commit/37257510cce405e0426a57c6e76ec53d73454c91))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(ci)* Restore ability to do prerelease versions by [@kristof-mattei](https://github.com/kristof-mattei) ([`7c5b0ea`](https://github.com/kristof-mattei/rust-testbench/commit/7c5b0ea895c5e92aa3c69fec62e3a7156f2ca183))
+- *(ci)* Allow re-release pre-release without having to add features by [@kristof-mattei](https://github.com/kristof-mattei) ([`657a7db`](https://github.com/kristof-mattei/rust-testbench/commit/657a7db145169f1dd3cd17b587324fae32ec4d04))
+- Re-enable pre-release by [@kristof-mattei](https://github.com/kristof-mattei) ([`432f82c`](https://github.com/kristof-mattei/rust-testbench/commit/432f82cc08489305fed990b6c208a5f344715aa9))
+- Disable bundle analysis by [@kristof-mattei](https://github.com/kristof-mattei) ([`3400f26`](https://github.com/kristof-mattei/rust-testbench/commit/3400f262aee7895df6c5133692b8a9500d94eef8))
 ## [2.8.1](https://github.com/kristof-mattei/rust-testbench/compare/v2.8.0..v2.8.1) - 2026-04-05
 
 ### 🐛 Bug Fixes
@@ -12,7 +32,7 @@
 - *(ci)* Use skopeo wherever possible by [@kristof-mattei](https://github.com/kristof-mattei) ([`50a6786`](https://github.com/kristof-mattei/rust-testbench/commit/50a678665fd200021293e938c0b493891077a5ef))
 - *(ci)* Scout for visualizing cves etc by [@kristof-mattei](https://github.com/kristof-mattei) ([`2fe6e06`](https://github.com/kristof-mattei/rust-testbench/commit/2fe6e06ada42423eeacec95be6a29ccbd3806068))
 - *(ci)* Username is not secret by [@kristof-mattei](https://github.com/kristof-mattei) ([`7d168f4`](https://github.com/kristof-mattei/rust-testbench/commit/7d168f446d7bbdabaf2bd58c2818af2a65b07c41))
-- *(release)* Release v2.8.1
+- *(release)* Release v2.8.1 by [@github-actions[bot]](https://github.com/github-actions[bot]) ([`5e18021`](https://github.com/kristof-mattei/rust-testbench/commit/5e18021f4cee4139287e28cb9a8f97d8b41c74be))
 - Fix fmt by [@kristof-mattei](https://github.com/kristof-mattei) ([`1c63af5`](https://github.com/kristof-mattei/rust-testbench/commit/1c63af585079ee98e0b241fc6683c31982159106))
 ## [2.8.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.7.1..v2.8.0) - 2026-04-05
 
