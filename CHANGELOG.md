@@ -1,4 +1,21 @@
 <!-- header goes here -->
+## [2.10.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.9.0..v2.10.0) - 2026-04-25
+
+### 🚀 Features
+
+- Auto-merge release PR by [@kristof-mattei](https://github.com/kristof-mattei) ([`3cce9b5`](https://github.com/kristof-mattei/rust-testbench/commit/3cce9b5fd7604112672c7efe34f800af694bbb8b))
+
+### 🐛 Bug Fixes
+
+- *(deps)* Update rust crate mimalloc to 0.1.49 by [@renovate[bot]](https://github.com/renovate[bot]) ([`956f007`](https://github.com/kristof-mattei/rust-testbench/commit/956f00755536bf6d09456b3c9943a46404a9f79b))
+- *(deps)* `mimalloc` by default now is v3, removing flag by [@kristof-mattei](https://github.com/kristof-mattei) ([`16c0924`](https://github.com/kristof-mattei/rust-testbench/commit/16c09241295f17ed6cbc8ae1faf2bb9c1fedf9c6))
+- *(deps)* `mimalloc` by default now is v3, removing flag by [@kristof-mattei](https://github.com/kristof-mattei) ([`c0fdb8a`](https://github.com/kristof-mattei/rust-testbench/commit/c0fdb8aa5fae0dd08bcfb2441388bd458dd23a0c))
+- *(deps)* Update rust crate mimalloc to 0.1.50 by [@renovate[bot]](https://github.com/renovate[bot]) ([`f52cba9`](https://github.com/kristof-mattei/rust-testbench/commit/f52cba9fbde3a0cd55af0fbc4b4c0e72abee502a))
+- *(deps)* Update rust crate mimalloc to 0.1.50 by [@renovate[bot]](https://github.com/renovate[bot]) ([`f488e9c`](https://github.com/kristof-mattei/rust-testbench/commit/f488e9c023782304221631029603e77be7779648))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(release)* Link in release proposal now points to sha as tag doesn't exist yet by [@kristof-mattei](https://github.com/kristof-mattei) ([`f2bcfc8`](https://github.com/kristof-mattei/rust-testbench/commit/f2bcfc8ed61488c9863b26533432becd6e7267df))
 ## [2.9.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.8.1..v2.9.0) - 2026-04-17
 
 ### 🚀 Features
