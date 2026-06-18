@@ -11,6 +11,7 @@ env:
   CARGO_FEATURES: --all-features
   CARGO_TERM_COLOR: always
   RUSTFLAGS: --deny=warnings
+  CLIPPY_SARIF_FILE: rust-clippy-results.sarif
   RUSTC_WRAPPER: "sccache"
   SCCACHE_GHA_ENABLED: "true"
 
@@ -313,10 +314,32 @@ jobs:
 
       - *set_up_sccache
 
-      - name: Run Clippy for GitHub Actions report
-        uses: actions-rs-plus/clippy-check@23b52efac3da0e2b197a9ad2e7be0f515502aaaf # v2.5.0
+      - name: Install clippy-sarif & sarif-fmt
+        uses: taiki-e/install-action@7a562dfa955aa2e4d5b0fd6ebd57ff9715c07b0b # v2.73.0
         with:
-          args: ${{ env.CARGO_FEATURES }} --all-targets --frozen --workspace
+          tool: clippy-sarif, sarif-fmt
+
+      - name: Run rust-clippy
+        id: clippy
+        run: |
+          cargo clippy ${{ env.CARGO_FEATURES }} --frozen --workspace --message-format=json | clippy-sarif | tee ${{ env.CLIPPY_SARIF_FILE }} | sarif-fmt
+
+          CLIPPY_EXIT_CODE=${PIPESTATUS[0]}
+
+          SARIF=$(jq '(.runs[].tool.driver | select(.name == "clippy")).name = "Clippy"' ${{ env.CLIPPY_SARIF_FILE }}) && echo "${SARIF}" > ${{ env.CLIPPY_SARIF_FILE }}
+
+          exit "${CLIPPY_EXIT_CODE}"
+        continue-on-error: true
+
+      - name: Upload analysis results to GitHub
+        uses: github/codeql-action/upload-sarif@5d4e8d1aca955e8d8589aabd499c5cae939e33c7 # v4.31.9
+        with:
+          sarif_file: ${{ env.CLIPPY_SARIF_FILE }}
+          wait-for-processing: true
+
+      - name: Fail if clippy failed
+        if: steps.clippy.outcome != 'success'
+        run: exit 1
 
   all-done:
     name: Rust All done
