@@ -222,12 +222,15 @@ jobs:
         continue-on-error: true
 
       - name: Upload test results
-        uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3 # v2.24.0
+        uses: dorny/test-reporter@a43b3a5f7366b97d083190328d2c652e1a8b6aa2 # v3.0.0
         with:
-          check_name: Test results for Rust
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          files: |
-            reports/results.xml
+          name: Test results for Rust
+          path: reports/results.xml
+          reporter: java-junit
+          fail-on-error: "false"
+          fail-on-empty: "true"
+          collapsed: "never"
+          # use-actions-summary: "false"
 
       - name: Run grcov
         shell: bash

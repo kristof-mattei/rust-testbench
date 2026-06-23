@@ -86,4 +86,10 @@ mod tests {
         #![expect(clippy::assertions_on_constants, reason = "Test")]
         assert!(true);
     }
+
+    #[test]
+    fn assert_fails() {
+        #![expect(clippy::assertions_on_constants, reason = "Test")]
+        assert!(false);
+    }
 }
