@@ -1,0 +1,20 @@
+[Unit]
+Description=Rust testbench
+Documentation=https://github.com/kristof-mattei/rust-testbench
+; Start after the network has been configured
+After=network-online.target
+Wants=network-online.target
+; It makes sense to have Samba running when rust-testbench starts, but it is not required
+;BindsTo=smb.service
+
+[Service]
+Type=exec
+ExecStart=/usr/bin/rust-testbench --shortlog --chroot=/run/rust-testbench $WSDD_PARAMS
+DynamicUser=yes
+User=rust-testbench
+Group=rust-testbench
+RuntimeDirectory=rust-testbench
+AmbientCapabilities=CAP_SYS_CHROOT
+
+[Install]
+WantedBy=multi-user.target
