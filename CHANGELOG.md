@@ -1,4 +1,9 @@
 <!-- header goes here -->
+## [2.12.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.11.0..v2.12.0) - 2026-07-13
+
+### 🚀 Features
+
+- Build debian by [@kristof-mattei](https://github.com/kristof-mattei) ([`3d2f725`](https://github.com/kristof-mattei/rust-testbench/commit/3d2f725392ba9bfefd460f541b439cadd26d1c20))
 ## [2.11.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.10.0..v2.11.0) - 2026-07-13
 
 ### 🚀 Features
