@@ -1,4 +1,46 @@
 <!-- header goes here -->
+## [2.11.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.10.0..v2.11.0) - 2026-07-13
+
+### 🚀 Features
+
+- Checkbox to allow for auto-merging a release PR by [@kristof-mattei](https://github.com/kristof-mattei) ([`8b67c89`](https://github.com/kristof-mattei/rust-testbench/commit/8b67c89b30a8d6b3d4822110734fa4497caabe28))
+- Build debian by [@kristof-mattei](https://github.com/kristof-mattei) ([`698298f`](https://github.com/kristof-mattei/rust-testbench/commit/698298f7aaeddd9747f6bcb89dfc039d527d1a30))
+
+### 🐛 Bug Fixes
+
+- *(ci)* Parallel upload by [@kristof-mattei](https://github.com/kristof-mattei) ([`c690c06`](https://github.com/kristof-mattei/rust-testbench/commit/c690c0622b43647b20f2f31e5a2b8fcab6418b3c))
+- *(ci)* Disable caching ./target by [@kristof-mattei](https://github.com/kristof-mattei) ([`b9452ad`](https://github.com/kristof-mattei/rust-testbench/commit/b9452adde2041cfb056b250b9dc1fe33ff81347b))
+- *(ci)* `warm-up-cache` does not need mold by [@kristof-mattei](https://github.com/kristof-mattei) ([`b1f29a5`](https://github.com/kristof-mattei/rust-testbench/commit/b1f29a5cf0d51fb9b9d5c86f3a437548832b04e9))
+- *(ci)* Don't cache cargo registry by [@kristof-mattei](https://github.com/kristof-mattei) ([`4122327`](https://github.com/kristof-mattei/rust-testbench/commit/41223274ed701eafd121660d73c9d77bb073167d))
+- *(ci)* Disable registry caching in crate release by [@kristof-mattei](https://github.com/kristof-mattei) ([`227ac02`](https://github.com/kristof-mattei/rust-testbench/commit/227ac0201fe4cf8ad8a6f8d5df08c1c369b11df5))
+- *(ci)* Add missing read permissions by [@kristof-mattei](https://github.com/kristof-mattei) ([`0272238`](https://github.com/kristof-mattei/rust-testbench/commit/027223880c30bf615630839cf7913ba63549b4fd))
+- *(ci)* Retry installing spellcheck, it's sometimes flaky, also disable compile when the HTTP request fails by [@kristof-mattei](https://github.com/kristof-mattei) ([`1dd49a7`](https://github.com/kristof-mattei/rust-testbench/commit/1dd49a7b7cda4f75ec810e29fdea0c7e7357abd5))
+- *(deps)* Update rust crate mimalloc to 0.1.51 by [@renovate[bot]](https://github.com/renovate[bot]) ([`7068cbd`](https://github.com/kristof-mattei/rust-testbench/commit/7068cbdbc0180a295c0e55d2be4f11a7fbe366f3))
+- *(deps)* Update rust crate mimalloc to 0.1.51 (#528) by [@renovate[bot]](https://github.com/renovate[bot]) in #528 ([`384b676`](https://github.com/kristof-mattei/rust-testbench/commit/384b676bdc2a37b20e81771d0fb2bc4db673ca72))
+- *(deps)* Update rust crate mimalloc to 0.1.51 by [@renovate[bot]](https://github.com/renovate[bot]) ([`297ccb0`](https://github.com/kristof-mattei/rust-testbench/commit/297ccb05fd6ab86c94994ef240d04deb57450250))
+- *(deps)* Update rust crate mimalloc to 0.1.51 (#2814) by [@renovate[bot]](https://github.com/renovate[bot]) ([`bdb432d`](https://github.com/kristof-mattei/rust-testbench/commit/bdb432da30a587fbec7fa48d6e3c4b94081c9a98))
+- *(deps)* Update rust crate mimalloc to 0.1.52 by [@renovate[bot]](https://github.com/renovate[bot]) ([`8c50928`](https://github.com/kristof-mattei/rust-testbench/commit/8c5092826010c21ec59c331ef0381c038ac7a48f))
+- *(deps)* Update rust crate mimalloc to 0.1.52 (#537) by [@renovate[bot]](https://github.com/renovate[bot]) in #537 ([`9c32c66`](https://github.com/kristof-mattei/rust-testbench/commit/9c32c66f590560af53b3f499ff2733c088eea580))
+- *(deps)* Update rust crate mimalloc to 0.1.52 by [@renovate[bot]](https://github.com/renovate[bot]) ([`1890f97`](https://github.com/kristof-mattei/rust-testbench/commit/1890f97240cf108d41c370179666282ebe343759))
+- *(deps)* Update rust crate mimalloc to 0.1.52 (#2820) by [@renovate[bot]](https://github.com/renovate[bot]) ([`f964185`](https://github.com/kristof-mattei/rust-testbench/commit/f964185dff4cee94f1a89e05ca7be9ae0d4f862a))
+- *(deps)* Pin dependencies by [@renovate[bot]](https://github.com/renovate[bot]) ([`3f599bb`](https://github.com/kristof-mattei/rust-testbench/commit/3f599bb2326b21f726d6b2c01d140d281374bd8f))
+- *(deps)* Pin dependencies (#628) by [@renovate[bot]](https://github.com/renovate[bot]) in #628 ([`5399d2d`](https://github.com/kristof-mattei/rust-testbench/commit/5399d2d1729db3f9b2bbe6c13a8581da75c3ae71))
+- *(deps)* Pin dependencies by [@renovate[bot]](https://github.com/renovate[bot]) ([`6e3faf5`](https://github.com/kristof-mattei/rust-testbench/commit/6e3faf5afa52deaeb3d8539dc6e2f79268559d11))
+- *(deps)* Pin dependencies (#2912) by [@renovate[bot]](https://github.com/renovate[bot]) ([`46f9507`](https://github.com/kristof-mattei/rust-testbench/commit/46f9507f444363f354156e26de94617fe0539ade))
+- `cargo-fmt` does not need cache, and shouldn't try to restore it, worse, it could save a broken cache should `warm-up-cache` fail by [@kristof-mattei](https://github.com/kristof-mattei) ([`f30035a`](https://github.com/kristof-mattei/rust-testbench/commit/f30035a937be4e0f0ff705beb239c300b7d7c3a4))
+- Remove the `-build` in the cache name by [@kristof-mattei](https://github.com/kristof-mattei) ([`ec0649f`](https://github.com/kristof-mattei/rust-testbench/commit/ec0649fb55579105c509cadd533d83e0143eb150))
+- Only restore by [@kristof-mattei](https://github.com/kristof-mattei) ([`cb8f178`](https://github.com/kristof-mattei/rust-testbench/commit/cb8f1786ae3b72f919f13b8a73410ba63c0b2b86))
+
+### ⚙️ Miscellaneous Tasks
+
+- Node v26 and pnpm 11.2.2 by [@kristof-mattei](https://github.com/kristof-mattei) ([`16139f7`](https://github.com/kristof-mattei/rust-testbench/commit/16139f7f5ad75af955e9cb7cce9a5968d478ee04))
+- Enable `as_conversions` lint by [@kristof-mattei](https://github.com/kristof-mattei) ([`3bfb7bb`](https://github.com/kristof-mattei/rust-testbench/commit/3bfb7bb6d1a60f11ecfa7c46b7b6f3d5f4e795a0))
+- Mandate `pretty_assertions::assert_matches` over `std` version by [@kristof-mattei](https://github.com/kristof-mattei) ([`d5e030c`](https://github.com/kristof-mattei/rust-testbench/commit/d5e030cf9a767a50b2c10ad5eac80bf2257c49ab))
+- Tasks.json should not be executable by [@kristof-mattei](https://github.com/kristof-mattei) ([`5527290`](https://github.com/kristof-mattei/rust-testbench/commit/552729080cf37c4ef92e90228e73971c42540bd9))
+- Missing codeql.yml permission by [@kristof-mattei](https://github.com/kristof-mattei) ([`760bd59`](https://github.com/kristof-mattei/rust-testbench/commit/760bd592b94e4b01b2220f40a96ff8430a312015))
+- Missing attestation permission by [@kristof-mattei](https://github.com/kristof-mattei) ([`babe2a3`](https://github.com/kristof-mattei/rust-testbench/commit/babe2a3c30a87c76a47a9429c24330ab8fb09859))
+- Ban more macros by [@kristof-mattei](https://github.com/kristof-mattei) ([`602457a`](https://github.com/kristof-mattei/rust-testbench/commit/602457a4d5bcd65f5214d48e5601836041bebc0f))
+- Test renovate by [@kristof-mattei](https://github.com/kristof-mattei) ([`fa579d6`](https://github.com/kristof-mattei/rust-testbench/commit/fa579d6905ad9b7e59d258f7c299ca73a6f3b1a1))
 ## [2.10.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.9.0..v2.10.0) - 2026-04-25
 
 ### 🚀 Features
