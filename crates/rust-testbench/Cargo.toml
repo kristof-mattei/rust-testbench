@@ -22,5 +22,26 @@ mimalloc = "=0.1.52"
 [dev-dependencies]
 pretty_assertions = "=1.4.1"
 
+[package.metadata.deb]
+maintainer = "Kristof Mattei <864376+kristof-mattei@users.noreply.github.com>"
+section = "net"
+priority = "optional"
+license-file = ["../../LICENSE", "0"]
+extended-description = """\
+EXTENDED DESCRIPTION."""
+assets = [
+    { source = "target/release/rust-testbench", dest = "usr/bin/", mode = "755" },
+    { source = "../../README.md", dest = "usr/share/doc/rust-testbench/README.md", mode = "644" },
+    { source = "packaging/rust-testbench.default", dest = "etc/default/rust-testbench", mode = "644" },
+]
+conf-files = ["/etc/default/rust-testbench"]
+maintainer-scripts = "packaging/"
+changelog = "packaging/changelog"
+
+# enable installing systemd-units
+# table is empty because then cargo-deb only matches on services
+# matching the package's name, so rust-testbench-discovery.* is not deployed
+[package.metadata.deb.systemd-units]
+
 [lints]
 workspace = true
