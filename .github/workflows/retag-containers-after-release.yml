@@ -191,8 +191,8 @@ jobs:
           has_deb="${{ vars.HAS_DEB }}"
           echo "has_deb=${has_deb:-false}" >> "${GITHUB_OUTPUT}"
 
-  attach-deb:
-    name: Attach Debian package to release
+  retag-deb:
+    name: Retag the Debian package
     runs-on: ubuntu-latest
     needs:
       - repo-has-deb
@@ -277,14 +277,10 @@ jobs:
         run: |
           oras tag "${FULL_DEB_NAME}:${OLD_TAG}" "${{ github.event.release.tag_name }}" "latest"
 
+      # the debs were already attached to the release while it was a
+      # draft (graduate-release); releases are immutable once published,
+      # so assets can't be uploaded here anymore
       - name: Attest Debian package
         uses: actions/attest@a1948c3f048ba23858d222213b7c278aabede763 # v4.1.1
         with:
           subject-path: /tmp/deb/*.deb
-
-      - name: Upload the deb to the release
-        shell: bash
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh release upload "${{ github.event.release.tag_name }}" /tmp/deb/*.deb --repo ${{ github.repository }}
