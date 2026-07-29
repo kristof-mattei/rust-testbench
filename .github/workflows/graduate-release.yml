@@ -127,9 +127,9 @@ jobs:
             mv release-notes-truncated.md release-notes.md
           fi
 
-          prerelease_flag=""
+          prerelease_args=()
           if [ "${PRERELEASE}" == "true" ]; then
-            prerelease_flag="--prerelease"
+            prerelease_args+=(--prerelease)
           fi
 
           # releases are immutable once published; assets have to be
@@ -139,7 +139,7 @@ jobs:
             --notes-file release-notes.md \
             --title "${TAG}" \
             --verify-tag \
-            ${prerelease_flag}
+            "${prerelease_args[@]}"
 
       - name: Set up ORAS
         if: |
