@@ -1,4 +1,21 @@
 <!-- header goes here -->
+## [2.12.1](https://github.com/kristof-mattei/rust-testbench/compare/v2.12.0..v2.12.1) - 2026-07-29
+
+### 🐛 Bug Fixes
+
+- *(ci)* Disable asking for funds when installing pnpm by [@kristof-mattei](https://github.com/kristof-mattei) ([`b661b33`](https://github.com/kristof-mattei/rust-testbench/commit/b661b336aeed70395e1a0a25484b48d88f6d3cb4))
+- *(ci)* Merge the PR based on the branch name, not the url by [@kristof-mattei](https://github.com/kristof-mattei) ([`b0af60a`](https://github.com/kristof-mattei/rust-testbench/commit/b0af60a01b2f10665e3d2ffaf658fc5e9f4c1cff))
+- Prettier config typescript version by [@kristof-mattei](https://github.com/kristof-mattei) ([`9a04bc8`](https://github.com/kristof-mattei/rust-testbench/commit/9a04bc814c428efb9b1af82b6395e8a08fb69caa))
+- For markdown, decrease tabwidth by [@kristof-mattei](https://github.com/kristof-mattei) ([`775286c`](https://github.com/kristof-mattei/rust-testbench/commit/775286c57e10452aa3580f168399f48f50066e40))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(ci)* Long-form options by [@kristof-mattei](https://github.com/kristof-mattei) ([`8cc89ce`](https://github.com/kristof-mattei/rust-testbench/commit/8cc89ce310fd951216ebb9bf5dad46a9eb5b4cab))
+- *(ci)* Create release commits with the api so they're signed by [@kristof-mattei](https://github.com/kristof-mattei) ([`d3c09ec`](https://github.com/kristof-mattei/rust-testbench/commit/d3c09ecddf8e095802dff0d84020907c0775e50e))
+- *(ci)* Create release commits with the api so they're signed by [@kristof-mattei](https://github.com/kristof-mattei) ([`16831c5`](https://github.com/kristof-mattei/rust-testbench/commit/16831c54e795ae50c9d07b68470921a4c59ec598))
+- *(ci)* Create release commits with the api so they're signed by [@kristof-mattei](https://github.com/kristof-mattei) ([`7375eba`](https://github.com/kristof-mattei/rust-testbench/commit/7375ebab50dc6f52895bc783abf7b95c26bee9b5))
+- Cspell by [@kristof-mattei](https://github.com/kristof-mattei) ([`9f5797a`](https://github.com/kristof-mattei/rust-testbench/commit/9f5797a16adf5f2880b5bbdea2827ad7cf465688))
+- Remove copilot instructions as copilot is now behind a paywall by [@kristof-mattei](https://github.com/kristof-mattei) ([`8a34ae2`](https://github.com/kristof-mattei/rust-testbench/commit/8a34ae290dfdb5ddf5d2b73eeca90a14146f3e9b))
 ## [2.12.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.11.0..v2.12.0) - 2026-07-13
 
 ### 🚀 Features
