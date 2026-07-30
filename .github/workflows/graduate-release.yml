@@ -268,9 +268,16 @@ jobs:
           # workflows
           GH_TOKEN: ${{ secrets.TOKEN_TO_TRIGGER_SUBSEQUENT_WORKFLOWS }}
           TAG: ${{ steps.release.outputs.tag }}
+          PRERELEASE: ${{ steps.release.outputs.prerelease }}
         run: |
+          latest_args=()
+          if [ "${PRERELEASE}" == "false" ]; then
+            # drafts and prereleases cannot be set as latest
+            latest_args+=(--latest)
+          fi
+
           # this is the point of no return: assets are frozen from here on
-          gh release edit "${TAG}" --draft=false
+          gh release edit "${TAG}" --draft=false "${latest_args[@]}"
 
       - name: Close stale release PRs
         if: steps.check_release.outputs.finalized == 'false'
