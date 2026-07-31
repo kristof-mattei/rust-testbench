@@ -28,7 +28,6 @@ nextest
 nvmrc
 oras
 pathbuf
-pids
 postprocessors
 prereleased
 profraw
