@@ -246,6 +246,7 @@ jobs:
   repo-has-deb:
     name: Repo has deb?
     runs-on: ubuntu-latest
+    permissions: {}
     outputs:
       has_deb: ${{ steps.determine.outputs.has_deb }}
 
