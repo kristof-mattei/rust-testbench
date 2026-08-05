@@ -9,6 +9,7 @@ on:
       - main
 
 permissions:
+  attestations: read # to verify the deb attestations
   contents: write # to create tags
   packages: read # to pull the debs from the registry
   pull-requests: write # to close stale release PRs

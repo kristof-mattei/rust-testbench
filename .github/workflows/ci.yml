@@ -637,12 +637,13 @@ jobs:
           - runs-on: ubuntu-24.04-arm
             arch: arm64
     runs-on: ${{ matrix.runs-on }}
-    env:
-      RUSTC_WRAPPER: "sccache"
     permissions:
+      artifact-metadata: write
       attestations: write
       contents: read
       id-token: write
+    env:
+      RUSTC_WRAPPER: "sccache"
     needs:
       - repo-has-deb
       - calculate-version
@@ -748,7 +749,6 @@ jobs:
     name: Publish Debian packages
     runs-on: ubuntu-latest
     permissions:
-      contents: read
       packages: write
     needs:
       - repo-has-deb
