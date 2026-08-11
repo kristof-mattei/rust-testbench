@@ -32,9 +32,10 @@ runs:
       run: |
         body_file="${RUNNER_TEMP}/ballot-body.md"
 
-        # Point the compare link at the release commit, the release tag doesn't exist until the PR merges
+        # Point the compare link at the release-branch head SHA, because the release tag doesn't exist until after the PR is merged
         jq --arg sha "${COMPARE_TO}" '.[0].extra = {compare_to: $sha}' "${CONTEXT_FILE}" > "${RUNNER_TEMP}/diff-context.json"
 
+        # --from-context renders the context as-is, so the ballot lists every commit even though CHANGELOG.md has the excluded ones removed
         git-cliff --from-context "${RUNNER_TEMP}/diff-context.json" --output "${body_file}"
 
         # Render every entry as a checkbox, excluded entries as unchecked
