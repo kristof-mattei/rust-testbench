@@ -1,7 +1,9 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: Verify changelog selection
 
-# Required status check closing the toggle-then-merge race: unchecking a ballot entry turns this red on the stale release commit, and it only goes green again once the apply workflow has rebuilt the branch.
+# Required status check closing two gaps between the ballot and the release commit:
+# - unchecking a ballot entry turns this red on the stale release commit, and it only goes green again once the apply workflow has rebuilt the branch
+# - "Update branch" (merge or rebase) advances the branch without re-cutting the ballot, so pulled-in commits that never got a checkbox turn this red until the Release workflow is re-run
 
 on:
   pull_request:
@@ -31,8 +33,49 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 2
+          fetch-depth: 0
           show-progress: false
+
+      - name: Assert the release commit sits directly on a main commit
+        shell: bash
+        run: |
+          # The Release workflow builds single-parent commits, only "Update branch" puts a merge commit here
+          if git rev-parse --verify --quiet HEAD^2 > /dev/null; then
+            echo "::error::The release branch head is a merge commit. Don't use Update branch, re-run the Release workflow, it rebuilds the ballot against current main."
+            exit 1
+          fi
+
+      - name: Install git-cliff to rebuild the ballot context
+        uses: taiki-e/install-action@7f4eb899022d8fe70b20c4f3de697aa85c309026 # v2.85.11
+        with:
+          tool: git-cliff
+
+      - name: Assert every commit in range appears on the ballot
+        shell: bash
+        env:
+          BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          # release/v0.4.8 -> v0.4.8
+          tag="${BRANCH#release/}"
+
+          # The context must list every commit, so build it without a .cliffignore in the worktree. Later steps read .cliffignore from git, not the worktree.
+          rm --force .cliffignore
+          git-cliff --context --unreleased --offline --tag "${tag}" > "${RUNNER_TEMP}/ballot-context.json"
+
+          jq --raw-output '.[0].commits[].id' "${RUNNER_TEMP}/ballot-context.json" | sort --unique > "${RUNNER_TEMP}/expected.txt"
+
+          # A commit is accounted for when the release commit ships it in CHANGELOG.md or excludes it via .cliffignore
+          {
+            grep --perl-regexp --only-matching '/commit/\K[0-9a-f]{40}' CHANGELOG.md || true
+            git show "HEAD:.cliffignore" 2> /dev/null || true
+          } | sort --unique > "${RUNNER_TEMP}/accounted.txt"
+
+          missing=$(grep --fixed-strings --line-regexp --invert-match --file "${RUNNER_TEMP}/accounted.txt" "${RUNNER_TEMP}/expected.txt" | tr '\n' ' ' || true)
+
+          if [ -n "${missing}" ]; then
+            echo "::error::Commits in the release range never appeared on the ballot: ${missing}. Re-run the Release workflow to rebuild the ballot against current main."
+            exit 1
+          fi
 
       - name: Compute selection from the PR body
         id: ballot

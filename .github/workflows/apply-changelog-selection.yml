@@ -67,6 +67,19 @@ jobs:
             echo "changed=true" >> "${GITHUB_OUTPUT}"
           fi
 
+      - name: Disarm auto-merge while curating
+        if: steps.selection.outputs.changed == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          # A green check run finishing mid-curation must not ship the release out from under the operator
+          if [ "$(gh pr view "${PR_NUMBER}" --json autoMergeRequest --jq '.autoMergeRequest != null')" = "true" ]; then
+            gh pr merge --disable-auto "${PR_NUMBER}"
+            echo "::notice::This selection change disarmed auto-merge, re-arm it once the ballot is final"
+          fi
+
       - name: Regenerate changelog
         if: steps.selection.outputs.changed == 'true'
         shell: bash
