@@ -35,9 +35,10 @@ runs:
 
         printf '%s' "${BODY}" > "${RUNNER_TEMP}/body.md"
 
-        # Ballot lines look like `- [x] ... (https://.../commit/<sha>)`
-        grep --perl-regexp --only-matching '^- \[[x ]\] .*?/commit/\K[0-9a-f]{40}' "${RUNNER_TEMP}/body.md" | sort --unique > "${RUNNER_TEMP}/ballot.txt" || true
-        grep --perl-regexp --only-matching '^- \[ \] .*?/commit/\K[0-9a-f]{40}' "${RUNNER_TEMP}/body.md" | sort --unique > "${RUNNER_TEMP}/unchecked.txt" || true
+        # Ballot lines end with the entry's own link, `- [x] ... ([`abc1234`](https://.../commit/<sha>))`
+        # Anchoring on that trailing link skips /commit/ URLs a commit subject may contain, a hand-edited [X] counts as checked
+        grep --perl-regexp --only-matching '^- \[[xX ]\] .*/commit/\K[0-9a-f]{40}(?=\)\)\r?$)' "${RUNNER_TEMP}/body.md" | sort --unique > "${RUNNER_TEMP}/ballot.txt" || true
+        grep --perl-regexp --only-matching '^- \[ \] .*/commit/\K[0-9a-f]{40}(?=\)\)\r?$)' "${RUNNER_TEMP}/body.md" | sort --unique > "${RUNNER_TEMP}/unchecked.txt" || true
 
         # Exclusions that predate this release live on the base commit
         git show "${base_sha}:.cliffignore" > "${RUNNER_TEMP}/baseline.txt" 2> /dev/null || true

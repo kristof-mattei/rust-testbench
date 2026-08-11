@@ -44,20 +44,31 @@ runs:
         if [ -n "${EXCLUDED_FILE}" ] && [ -s "${EXCLUDED_FILE}" ]; then
           while IFS= read -r sha; do
             [ -n "${sha}" ] || continue
-            sed --in-place "\|/commit/${sha}|s/^- \[x\]/- [ ]/" "${body_file}"
+            # Anchoring on the entry's trailing link skips /commit/ URLs a commit subject may contain
+            sed --in-place "\|/commit/${sha}))\$|s/^- \[x\]/- [ ]/" "${body_file}"
           done < "${EXCLUDED_FILE}"
         fi
+
+        {
+          cat <<'INSTRUCTIONS'
+        > [!NOTE]
+        > This body is a ballot, every checked entry ships in `CHANGELOG.md` and the release notes.
+        > Unchecking an entry removes it from both, a workflow rebuilds the release commit after every toggle.
+        > Unchecked commits still ship in the release and still count toward the version number.
+        > A toggle disarms auto-merge, re-arm it once the ballot is final.
+
+        INSTRUCTIONS
+          cat "${body_file}"
+        } > "${body_file}.with-instructions"
+        mv "${body_file}.with-instructions" "${body_file}"
 
         # Truncate if it exceeds GitHub's PR body character limit
         max_length=65536
         truncation_message=$'\n\n---\n\n> **Note:** Changelog was truncated because it exceeded GitHub'"'"'s 65,536 character limit.'
-        file_length=$(wc --chars < "${body_file}")
+        body=$(< "${body_file}")
 
-        if [ "${file_length}" -gt "${max_length}" ]; then
-          truncated_length=$(( max_length - ${#truncation_message} ))
-          head --bytes="${truncated_length}" "${body_file}" > "${body_file}.truncated"
-          printf '%s' "${truncation_message}" >> "${body_file}.truncated"
-          mv "${body_file}.truncated" "${body_file}"
+        if [ "${#body}" -gt "${max_length}" ]; then
+          printf '%s%s' "${body:0:max_length - ${#truncation_message}}" "${truncation_message}" > "${body_file}"
         fi
 
         echo "body-file=${body_file}" >> "${GITHUB_OUTPUT}"

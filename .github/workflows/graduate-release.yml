@@ -156,13 +156,10 @@ jobs:
           # Truncate release-notes.md if it exceeds GitHub Release character body limit
           max_length=125000
           truncation_message=$'\n\n---\n\n> **Note:** Release notes were truncated because they exceeded GitHub'"'"'s 125,000 character limit.'
-          file_length=$(wc --chars < release-notes.md)
+          notes=$(< release-notes.md)
 
-          if [ "$file_length" -gt "$max_length" ]; then
-            truncated_length=$(( max_length - ${#truncation_message} ))
-            head --bytes="$truncated_length" release-notes.md > release-notes-truncated.md
-            printf '%s' "$truncation_message" >> release-notes-truncated.md
-            mv release-notes-truncated.md release-notes.md
+          if [ "${#notes}" -gt "${max_length}" ]; then
+            printf '%s%s' "${notes:0:max_length - ${#truncation_message}}" "${truncation_message}" > release-notes.md
           fi
 
           prerelease_args=()

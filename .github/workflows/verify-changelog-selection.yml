@@ -66,7 +66,7 @@ jobs:
 
           # A commit is accounted for when the release commit ships it in CHANGELOG.md or excludes it via .cliffignore
           {
-            grep --perl-regexp --only-matching '/commit/\K[0-9a-f]{40}' CHANGELOG.md || true
+            grep --perl-regexp --only-matching '/commit/\K[0-9a-f]{40}(?=\)\)$)' CHANGELOG.md || true
             git show "HEAD:.cliffignore" 2> /dev/null || true
           } | sort --unique > "${RUNNER_TEMP}/accounted.txt"
 
