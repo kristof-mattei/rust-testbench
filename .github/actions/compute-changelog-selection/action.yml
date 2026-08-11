@@ -6,6 +6,10 @@ inputs:
   body:
     description: Release PR body containing the ballot
     required: true
+  head:
+    description: Commit whose selection is being computed
+    required: false
+    default: HEAD
 
 outputs:
   selection-file:
@@ -23,9 +27,10 @@ runs:
       shell: bash
       env:
         BODY: ${{ inputs.body }}
+        HEAD_SHA: ${{ inputs.head }}
       run: |
-        # The release branch is always exactly one commit on top of main
-        base_sha=$(git rev-parse HEAD~1)
+        # The release commit sits exactly one commit above main, and a PR merge commit's first parent is that same main commit
+        base_sha=$(git rev-parse "${HEAD_SHA}~1")
         echo "base-sha=${base_sha}" >> "${GITHUB_OUTPUT}"
 
         printf '%s' "${BODY}" > "${RUNNER_TEMP}/body.md"
