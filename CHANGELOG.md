@@ -1,4 +1,13 @@
 <!-- header goes here -->
+## [3.0.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.12.1..v3.0.0) - 2026-08-11
+
+### 💼 Other
+
+- Generate SBOM & provenance attestations, embedding the actual crate list via cargo-auditable by [@kristof-mattei](https://github.com/kristof-mattei) ([`7069ac7`](https://github.com/kristof-mattei/rust-testbench/commit/7069ac7c50b8a9c3eab63e1b31ebf77164141d7c))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(ci)* Build optional --prerelease flag as an array by [@kristof-mattei](https://github.com/kristof-mattei) ([`156f3c2`](https://github.com/kristof-mattei/rust-testbench/commit/156f3c29153ce723c0ed4e40600e3f8d88d144ae))
 ## [2.12.1](https://github.com/kristof-mattei/rust-testbench/compare/v2.12.0..v2.12.1) - 2026-07-29
 
 ### 🐛 Bug Fixes
