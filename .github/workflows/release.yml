@@ -202,6 +202,7 @@ jobs:
             --jq '.data.createCommitOnBranch.commit.oid')
 
           echo "::notice::Release commit: ${release_sha}"
+          echo "release_sha=$release_sha" >> "${GITHUB_OUTPUT}"
 
           # The commit only exists server-side, fetch it so we can push its SHA
           git fetch origin "refs/heads/${staging_branch}"
@@ -211,34 +212,23 @@ jobs:
 
           git push origin --delete "${staging_branch}"
 
-          # Build the PR-body changelog from a context whose compare-link target
-          # is the release-branch head SHA, because the ${release_version} tag
-          # doesn't exist until after this PR is merged.
-          git-cliff --context --unreleased --tag "${release_version}" \
-            | jq --arg sha "${release_sha}" '.[0].extra = {compare_to: $sha}' \
-            > diff-context.json
+          git-cliff --context --unreleased --tag "${release_version}" > ballot-context.json
 
-          git-cliff --from-context diff-context.json --output diff-CHANGELOG.md
+      - name: Render the ballot
+        id: ballot
+        uses: ./.github/actions/render-ballot-body
+        with:
+          context-file: ballot-context.json
+          compare-to: ${{ steps.release.outputs.release_sha }}
 
       - name: Open or update pull request
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.TOKEN_TO_TRIGGER_SUBSEQUENT_WORKFLOWS }}
+          BODY_FILE: ${{ steps.ballot.outputs.body-file }}
         run: |
           branch="${{ steps.release.outputs.branch }}"
           release_version="${{ steps.release.outputs.release_version }}"
-
-          # Truncate diff-CHANGELOG.md if it exceeds GitHub's PR character body limit
-          max_length=65536
-          truncation_message=$'\n\n---\n\n> **Note:** Changelog was truncated because it exceeded GitHub'"'"'s 65,536 character limit.'
-          file_length=$(wc --chars < diff-CHANGELOG.md)
-
-          if [ "$file_length" -gt "$max_length" ]; then
-            truncated_length=$(( max_length - ${#truncation_message} ))
-            head --bytes="$truncated_length" diff-CHANGELOG.md > diff-CHANGELOG-truncated.md
-            printf '%s' "$truncation_message" >> diff-CHANGELOG-truncated.md
-            mv diff-CHANGELOG-truncated.md diff-CHANGELOG.md
-          fi
 
           # Check if a PR already exists for this branch
           existing_pr=$(gh pr list --head "${branch}" --state open --json number --jq '.[0].number // empty')
@@ -247,13 +237,13 @@ jobs:
             # gh pr edit needs read:org, even for --body (cli/cli#13575).
             # The REST PATCH works with just the repo scope.
             gh api --method PATCH --silent "repos/${GITHUB_REPOSITORY}/pulls/${existing_pr}" \
-              --field body=@diff-CHANGELOG.md
+              --field "body=@${BODY_FILE}"
           else
             gh pr create \
               --base main \
               --head "${branch}" \
               --title "chore(release): Release ${release_version}" \
-              --body-file diff-CHANGELOG.md
+              --body-file "${BODY_FILE}"
           fi
 
           if [ "${{ inputs.auto_merge }}" = "true" ]; then

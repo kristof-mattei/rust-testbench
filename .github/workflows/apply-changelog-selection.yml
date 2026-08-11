@@ -24,6 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       github.event.pull_request.state == 'open' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
       startsWith(github.event.pull_request.head.ref, 'release/v') &&
       github.event.changes.body != null
     steps:
@@ -100,44 +101,26 @@ jobs:
           # The branch itself is pushed with the checkout PAT so workflows trigger.
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Render the ballot
+        id: ballot-body
+        if: steps.selection.outputs.changed == 'true'
+        uses: ./.github/actions/render-ballot-body
+        with:
+          context-file: ballot-context.json
+          compare-to: ${{ steps.commit.outputs.commit-sha }}
+          excluded-file: .cliffignore
+
       - name: Refresh pull request body
         if: steps.selection.outputs.changed == 'true'
         shell: bash
         env:
           # The default token's edits don't fire pull_request events, so this update can't retrigger this workflow
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_SHA: ${{ steps.commit.outputs.commit-sha }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          BODY_FILE: ${{ steps.ballot-body.outputs.body-file }}
         run: |
-          # Point the compare link at the rebuilt release commit
-          jq --arg sha "${RELEASE_SHA}" '.[0].extra = {compare_to: $sha}' ballot-context.json > diff-context.json
-
-          git-cliff --from-context diff-context.json --output diff-CHANGELOG.md
-
-          # Render every entry as a checkbox, excluded entries as unchecked
-          sed --in-place 's/^- /- [x] /' diff-CHANGELOG.md
-
-          if [ -s .cliffignore ]; then
-            while IFS= read -r sha; do
-              [ -n "${sha}" ] || continue
-              sed --in-place "\|/commit/${sha}|s/^- \[x\]/- [ ]/" diff-CHANGELOG.md
-            done < .cliffignore
-          fi
-
-          # Truncate diff-CHANGELOG.md if it exceeds GitHub's PR character body limit
-          max_length=65536
-          truncation_message=$'\n\n---\n\n> **Note:** Changelog was truncated because it exceeded GitHub'"'"'s 65,536 character limit.'
-          file_length=$(wc --chars < diff-CHANGELOG.md)
-
-          if [ "$file_length" -gt "$max_length" ]; then
-            truncated_length=$(( max_length - ${#truncation_message} ))
-            head --bytes="$truncated_length" diff-CHANGELOG.md > diff-CHANGELOG-truncated.md
-            printf '%s' "$truncation_message" >> diff-CHANGELOG-truncated.md
-            mv diff-CHANGELOG-truncated.md diff-CHANGELOG.md
-          fi
-
           # REST PATCH instead of gh pr edit, which needs read:org (cli/cli#13575)
-          gh api --method PATCH --silent "repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}" --field body=@diff-CHANGELOG.md
+          gh api --method PATCH --silent "repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}" --field "body=@${BODY_FILE}"
 
       - name: Clean up stranded staging branch
         if: failure() || cancelled()
