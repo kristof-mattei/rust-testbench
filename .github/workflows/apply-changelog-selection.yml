@@ -14,14 +14,16 @@ permissions:
   contents: write # to rebuild the release commit via createCommitOnBranch
   pull-requests: write # to refresh the release PR body
 
-concurrency:
-  group: "${{ github.workflow }}-${{ github.event.pull_request.number }}"
-  cancel-in-progress: true
-
 jobs:
   apply:
     name: Apply changelog selection
     runs-on: ubuntu-latest
+    # Shared with the Release workflow, both force-push release branches and rewrite release PR bodies.
+    # Job-level, body edits on non-release PRs skip the job without entering the group.
+    concurrency:
+      group: release-branch-writes
+      # Cancelling could kill a run mid-force-push. GitHub keeps only the newest queued run per group, so stacked toggles settle on the newest body.
+      cancel-in-progress: false
     if: |
       github.event.pull_request.state == 'open' &&
       github.event.pull_request.head.repo.full_name == github.repository &&
