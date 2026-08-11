@@ -4,7 +4,7 @@ appuser
 bkeepers
 buildcache
 cinstrument
-cocogitto
+cliffignore
 ctarget
 cttc
 cves
@@ -32,6 +32,7 @@ postprocessors
 prereleased
 profraw
 pyflakes
+rawfile
 retag
 retagging
 rustflags
@@ -39,6 +40,7 @@ samply
 sccache
 shortlog
 skopeo
+slurpfile
 startswith
 striptags
 taiki
@@ -52,4 +54,5 @@ uninlined
 unseparated
 usernamehw
 vadimcn
+worktree
 WSDD
