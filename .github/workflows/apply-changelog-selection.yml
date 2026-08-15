@@ -17,7 +17,7 @@ permissions:
 jobs:
   apply:
     name: Apply changelog selection
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     # Shared with the Release workflow, both force-push release branches and rewrite release PR bodies.
     # Job-level, body edits on non-release PRs skip the job without entering the group.
     concurrency:
