@@ -18,6 +18,9 @@ outputs:
   body-file:
     description: Path to the rendered pull request body
     value: ${{ steps.render.outputs.body-file }}
+  ballot-file:
+    description: Path to the sorted SHAs whose ballot lines survived truncation
+    value: ${{ steps.render.outputs.ballot-file }}
 
 runs:
   using: composite
@@ -62,13 +65,44 @@ runs:
         } > "${body_file}.with-instructions"
         mv "${body_file}.with-instructions" "${body_file}"
 
-        # Truncate if it exceeds GitHub's PR body character limit
+        # Truncate at line boundaries if the body exceeds GitHub's PR body character limit, a cut entry has no checkbox and ships included
         max_length=65536
-        truncation_message=$'\n\n---\n\n> **Note:** Changelog was truncated because it exceeded GitHub'"'"'s 65,536 character limit.'
+        marker_template=$'\n\n---\n\n> **Note:** COUNT more entries exceed GitHub\'s 65,536 character body limit. They are not shown and ship included. To exclude one, commit its SHA to `.cliffignore` on main and re-run the Release workflow.'
         body=$(< "${body_file}")
 
         if [ "${#body}" -gt "${max_length}" ]; then
-          printf '%s%s' "${body:0:max_length - ${#truncation_message}}" "${truncation_message}" > "${body_file}"
+          # The dropped count never has more digits than the total count, so this budget always fits the final marker
+          total_entries=$(grep --count '^- \[' "${body_file}" || true)
+          bound_marker="${marker_template/COUNT/${total_entries}}"
+          budget=$(( max_length - ${#bound_marker} ))
+
+          kept_lines=0
+          kept_length=0
+          dropped_entries=0
+          cutting=0
+
+          while IFS= read -r line; do
+            if [ "${cutting}" -eq 0 ] && [ $(( kept_length + ${#line} + 1 )) -le "${budget}" ]; then
+              kept_length=$(( kept_length + ${#line} + 1 ))
+              kept_lines=$(( kept_lines + 1 ))
+            else
+              cutting=1
+
+              case "${line}" in
+                "- ["*) dropped_entries=$(( dropped_entries + 1 )) ;;
+              esac
+            fi
+          done < "${body_file}"
+
+          {
+            head --lines="${kept_lines}" "${body_file}"
+            printf '%s' "${marker_template/COUNT/${dropped_entries}}"
+          } > "${body_file}.truncated"
+          mv "${body_file}.truncated" "${body_file}"
         fi
 
+        # The entries that kept their ballot line, release runs carry over only these as unchecked
+        grep --perl-regexp --only-matching '^- \[[x ]\] .*/commit/\K[0-9a-f]{40}(?=\)\)$)' "${body_file}" | sort --unique > "${RUNNER_TEMP}/ballot-shas.txt" || true
+
         echo "body-file=${body_file}" >> "${GITHUB_OUTPUT}"
+        echo "ballot-file=${RUNNER_TEMP}/ballot-shas.txt" >> "${GITHUB_OUTPUT}"
