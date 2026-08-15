@@ -40,11 +40,11 @@ runs:
         grep --perl-regexp --only-matching '^- \[[xX ]\] .*/commit/\K[0-9a-f]{40}(?=\)\)\r?$)' "${RUNNER_TEMP}/body.md" | sort --unique > "${RUNNER_TEMP}/ballot.txt" || true
         grep --perl-regexp --only-matching '^- \[ \] .*/commit/\K[0-9a-f]{40}(?=\)\)\r?$)' "${RUNNER_TEMP}/body.md" | sort --unique > "${RUNNER_TEMP}/unchecked.txt" || true
 
-        # Exclusions that predate this release live on the base commit
-        git show "${base_sha}:.cliffignore" > "${RUNNER_TEMP}/baseline.txt" 2> /dev/null || true
+        # An exclusion with no ballot line (pre-existing, or truncated off the body) has no checkbox to toggle, it keeps the commit's own state
+        git show "${HEAD_SHA}:.cliffignore" > "${RUNNER_TEMP}/carried.txt" 2> /dev/null || true
 
-        # Keep pre-existing exclusions, replace the ballot's with the unchecked set
-        awk 'NR == FNR { ballot[$0] = 1; next } !($0 in ballot)' "${RUNNER_TEMP}/ballot.txt" "${RUNNER_TEMP}/baseline.txt" > "${RUNNER_TEMP}/kept.txt"
+        # Keep the ballot-less exclusions, replace the ballot's with the unchecked set
+        awk 'NR == FNR { ballot[$0] = 1; next } !($0 in ballot)' "${RUNNER_TEMP}/ballot.txt" "${RUNNER_TEMP}/carried.txt" > "${RUNNER_TEMP}/kept.txt"
         cat "${RUNNER_TEMP}/kept.txt" "${RUNNER_TEMP}/unchecked.txt" | sort --unique > "${RUNNER_TEMP}/computed.cliffignore"
 
         echo "selection-file=${RUNNER_TEMP}/computed.cliffignore" >> "${GITHUB_OUTPUT}"
