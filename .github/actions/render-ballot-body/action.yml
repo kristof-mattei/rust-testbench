@@ -52,10 +52,9 @@ runs:
         {
           cat <<'INSTRUCTIONS'
         > [!NOTE]
-        > This body is a ballot, entries start unchecked and only the checked entries ship in `CHANGELOG.md` and the release notes.
-        > Checking an entry adds it to both, a workflow rebuilds the release commit after every toggle.
+        > Check an entry to put it in `CHANGELOG.md` and the release notes. A workflow rebuilds the release commit after every toggle.
         > Unchecked commits still ship in the release and still count toward the version number.
-        > A toggle disarms auto-merge, re-arm it once the ballot is final.
+        > Toggling disarms auto-merge, re-arm it when you're done selecting.
 
         INSTRUCTIONS
           cat "${body_file}"
