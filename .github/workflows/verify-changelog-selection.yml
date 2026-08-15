@@ -2,7 +2,7 @@
 name: Verify changelog selection
 
 # Required status check closing two gaps between the ballot and the release commit:
-# - unchecking a ballot entry turns this red on the stale release commit, and it only goes green again once the apply workflow has rebuilt the branch
+# - toggling a ballot entry turns this red on the stale release commit, and it only goes green again once the apply workflow has rebuilt the branch
 # - "Update branch" (merge or rebase) advances the branch without re-cutting the ballot, so pulled-in commits that never got a checkbox turn this red until the Release workflow is re-run
 
 on:

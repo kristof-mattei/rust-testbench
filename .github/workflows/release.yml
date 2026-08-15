@@ -163,36 +163,30 @@ jobs:
           main_sha=$(git rev-parse HEAD)
           echo "main_sha=${main_sha}" >> "${GITHUB_OUTPUT}"
 
-          # The PR body is a ballot listing every commit, and git-cliff applies .cliffignore when building a context, so build it before the carried-over selection lands in the worktree
+          # The PR body is a ballot listing every commit, and git-cliff applies .cliffignore when building a context, so build it before the seeded selection lands in the worktree
           git-cliff --context --unreleased --tag "${release_version}" > ballot-context.json
 
-      - name: Pre-render the ballot
-        id: pre-render
-        uses: ./.github/actions/render-ballot-body
-        with:
-          context-file: ballot-context.json
-          # A placeholder with the real SHA's length, the release commit doesn't exist yet and the truncation cut must fall where the final render's does
-          compare-to: "0000000000000000000000000000000000000000"
-
-      - name: Carry over the selection and generate the changelog
+      - name: Seed the selection and generate the changelog
         shell: bash
         env:
           # git-cliff reads GITHUB_TOKEN from the environment
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: ${{ steps.release.outputs.branch }}
           RELEASE_VERSION: ${{ steps.release.outputs.release_version }}
-          BALLOT_FILE: ${{ steps.pre-render.outputs.ballot-file }}
         run: |
-          # Carry over the selection from an earlier run of this release
+          # An entry ships only when checked, so every unreleased commit starts excluded
+          jq --raw-output '.[0].commits[].id' ballot-context.json | sort --unique > "${RUNNER_TEMP}/unreleased.txt"
+
+          # Carry over the checked entries from an earlier run of this release, its CHANGELOG.md ships exactly those
+          : > "${RUNNER_TEMP}/checked.txt"
           if git ls-remote --exit-code --heads origin "${BRANCH}" > /dev/null; then
             git fetch origin "refs/heads/${BRANCH}"
-
-            if git show "FETCH_HEAD:.cliffignore" > "${RUNNER_TEMP}/carried.cliffignore" 2> /dev/null; then
-              # Carry only what this release can still render as unchecked, an entry whose ballot line was truncated away leaves the selection unverifiable
-              awk 'NR == FNR { entry[$0] = 1; next } $0 in entry' "${BALLOT_FILE}" "${RUNNER_TEMP}/carried.cliffignore" >> .cliffignore
-              sort --unique --output .cliffignore .cliffignore
-            fi
+            git show "FETCH_HEAD:CHANGELOG.md" 2> /dev/null \
+              | grep --perl-regexp --only-matching '/commit/\K[0-9a-f]{40}(?=\)\)$)' > "${RUNNER_TEMP}/checked.txt" || true
           fi
+
+          grep --fixed-strings --line-regexp --invert-match --file "${RUNNER_TEMP}/checked.txt" "${RUNNER_TEMP}/unreleased.txt" >> .cliffignore || true
+          sort --unique --output .cliffignore .cliffignore
 
           # git-cliff skips the commits listed in .cliffignore
           git-cliff --output CHANGELOG.md --tag "${RELEASE_VERSION}"

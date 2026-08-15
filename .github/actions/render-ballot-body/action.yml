@@ -18,9 +18,6 @@ outputs:
   body-file:
     description: Path to the rendered pull request body
     value: ${{ steps.render.outputs.body-file }}
-  ballot-file:
-    description: Path to the sorted SHAs whose ballot lines survived truncation
-    value: ${{ steps.render.outputs.ballot-file }}
 
 runs:
   using: composite
@@ -55,8 +52,8 @@ runs:
         {
           cat <<'INSTRUCTIONS'
         > [!NOTE]
-        > This body is a ballot, every checked entry ships in `CHANGELOG.md` and the release notes.
-        > Unchecking an entry removes it from both, a workflow rebuilds the release commit after every toggle.
+        > This body is a ballot, entries start unchecked and only the checked entries ship in `CHANGELOG.md` and the release notes.
+        > Checking an entry adds it to both, a workflow rebuilds the release commit after every toggle.
         > Unchecked commits still ship in the release and still count toward the version number.
         > A toggle disarms auto-merge, re-arm it once the ballot is final.
 
@@ -65,9 +62,9 @@ runs:
         } > "${body_file}.with-instructions"
         mv "${body_file}.with-instructions" "${body_file}"
 
-        # Truncate at line boundaries if the body exceeds GitHub's PR body character limit, a cut entry has no checkbox and ships included
+        # Truncate at line boundaries if the body exceeds GitHub's PR body character limit, a cut entry has no checkbox and stays excluded
         max_length=65536
-        marker_template=$'\n\n---\n\n> **Note:** COUNT more entries exceed GitHub\'s 65,536 character body limit. They are not shown and ship included. To exclude one, commit its SHA to `.cliffignore` on main and re-run the Release workflow.'
+        marker_template=$'\n\n---\n\n> **Note:** COUNT more entries exceed GitHub\'s 65,536 character body limit. They are not shown and stay excluded from the changelog.'
         body=$(< "${body_file}")
 
         if [ "${#body}" -gt "${max_length}" ]; then
@@ -101,8 +98,4 @@ runs:
           mv "${body_file}.truncated" "${body_file}"
         fi
 
-        # The entries that kept their ballot line, release runs carry over only these as unchecked
-        grep --perl-regexp --only-matching '^- \[[x ]\] .*/commit/\K[0-9a-f]{40}(?=\)\)$)' "${body_file}" | sort --unique > "${RUNNER_TEMP}/ballot-shas.txt" || true
-
         echo "body-file=${body_file}" >> "${GITHUB_OUTPUT}"
-        echo "ballot-file=${RUNNER_TEMP}/ballot-shas.txt" >> "${GITHUB_OUTPUT}"
