@@ -9,16 +9,11 @@ on:
       - main
 
 permissions:
-  attestations: read # to verify the deb attestations
   contents: write # to create tags
-  packages: read # to pull the debs from the registry
   pull-requests: write # to close stale release PRs
 
 env:
   CARGO_TERM_COLOR: always
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
-  REGISTRY: ghcr.io
 
 jobs:
   graduate:
@@ -116,21 +111,11 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ steps.release.outputs.tag }}
         run: |
-          is_draft=$(gh release view "${TAG}" --json isDraft --jq '.isDraft' 2>/dev/null) || is_draft=""
-
-          if [ -z "${is_draft}" ]; then
-            echo "exists=false" >> "${GITHUB_OUTPUT}"
-            echo "finalized=false" >> "${GITHUB_OUTPUT}"
-          elif [ "${is_draft}" == "true" ]; then
-            # a previous run created the draft but died before publishing;
-            # resume: re-attach assets and publish
-            echo "Draft release ${TAG} already exists, resuming"
-            echo "exists=true" >> "${GITHUB_OUTPUT}"
-            echo "finalized=false" >> "${GITHUB_OUTPUT}"
-          else
+          if gh release view "${TAG}" &>/dev/null; then
             echo "Release ${TAG} already exists, bailing"
             echo "exists=true" >> "${GITHUB_OUTPUT}"
-            echo "finalized=true" >> "${GITHUB_OUTPUT}"
+          else
+            echo "exists=false" >> "${GITHUB_OUTPUT}"
           fi
 
       - name: Install git-cliff to generate changelog
@@ -145,7 +130,7 @@ jobs:
         run: |
           git-cliff --output release-notes.md --current --github-token ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create draft GitHub release
+      - name: Create GitHub release
         if: steps.check_release.outputs.exists == 'false'
         shell: bash
         env:
@@ -165,160 +150,22 @@ jobs:
             mv release-notes-truncated.md release-notes.md
           fi
 
-          prerelease_args=()
+          release_args=()
           if [ "${PRERELEASE}" == "true" ]; then
-            prerelease_args+=(--prerelease)
+            # prereleases cannot be set as latest
+            release_args+=(--prerelease)
+          else
+            release_args+=(--latest)
           fi
 
-          # releases are immutable once published; assets have to be
-          # attached while it's still a draft
           gh release create "${TAG}" \
-            --draft \
             --notes-file release-notes.md \
             --title "${TAG}" \
             --verify-tag \
-            "${prerelease_args[@]}"
-
-      - name: Set up ORAS
-        if: |
-          steps.check_release.outputs.finalized == 'false' &&
-          steps.release.outputs.prerelease == 'false' &&
-          vars.HAS_DEB == 'true'
-        uses: oras-project/setup-oras@1d808f7d7f6995cc68b7bf507bfe5c5446e1dc9d # v2.0.1
-
-      - name: Find the Debian package of this release
-        id: deb_source
-        if: |
-          steps.check_release.outputs.finalized == 'false' &&
-          steps.release.outputs.prerelease == 'false' &&
-          vars.HAS_DEB == 'true'
-        shell: bash
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
-        run: |
-          repo="${{ github.repository }}"
-          repo_lower="${repo,,}"
-
-          # the release PR never builds a deb (CI skips release/*
-          # branches), so the deb being released is the one inherited
-          # from the base commit: the merge's first parent (we only
-          # allow merge commits). Its sha-<base>-* tag was created when
-          # that commit landed on main, before this release PR could
-          # merge (branch protection requires the branch to be up to
-          # date), so no waiting on the concurrent
-          # retag-containers-after-push run is needed
-          base_sha=$(git rev-parse "${MERGE_SHA}^")
-
-          # a few retries to absorb packages-API listing lag
-          for _ in $(seq 1 4); do
-            source_tag=$(gh api "/users/${{ github.repository_owner }}/packages/container/${repo_lower##*/}-deb/versions" \
-              --paginate \
-              --jq '.[] | .metadata.container.tags[]' | grep "^sha-${base_sha}-.*\$" | head --lines 1) || true
-
-            if [ -n "${source_tag}" ]; then
-              echo "source_tag=${source_tag}" >> "${GITHUB_OUTPUT}"
-              exit 0
-            fi
-
-            echo "No sha-${base_sha}-* tag yet, retrying in 15s"
-            sleep 15
-          done
-
-          # fail loudly, ship nothing; the release stays a draft and this
-          # workflow can be re-run once the deb shows up
-          echo "::error::No Debian package found for base commit ${base_sha}"
-          exit 1
-
-      - name: Pull the Debian packages
-        if: |
-          steps.check_release.outputs.finalized == 'false' &&
-          steps.release.outputs.prerelease == 'false' &&
-          vars.HAS_DEB == 'true'
-        shell: bash
-        run: |
-          oras login "${REGISTRY,,}" \
-            --username ${{ github.actor }} \
-            --password-stdin <<< "${{ secrets.GITHUB_TOKEN }}"
-
-          mkdir --parents /tmp/deb
-
-          oras pull "${REGISTRY,,}/${IMAGE_NAME,,}-deb:${{ steps.deb_source.outputs.source_tag }}" --output /tmp/deb
-
-      - name: Assert deb versions match the release
-        if: |
-          steps.check_release.outputs.finalized == 'false' &&
-          steps.release.outputs.prerelease == 'false' &&
-          vars.HAS_DEB == 'true'
-        shell: bash
-        env:
-          TAG: ${{ steps.release.outputs.tag }}
-        run: |
-          expected="${TAG#v}-1"
-
-          # one deb per architecture
-          for deb_file in /tmp/deb/*.deb; do
-            actual=$(dpkg-deb --field "${deb_file}" Version)
-
-            if [ "${actual}" != "${expected}" ]; then
-              # the version was predicted when the deb was built; branch
-              # protection makes it match on every normal path, so a
-              # mismatch means something exceptional happened (manual bump
-              # override, bypassed protection). Fail loudly, ship nothing.
-              echo "::error::Debian package version ${actual} of ${deb_file} does not match release version ${expected}"
-              exit 1
-            fi
-          done
-
-      - name: Verify build attestations
-        if: |
-          steps.check_release.outputs.finalized == 'false' &&
-          steps.release.outputs.prerelease == 'false' &&
-          vars.HAS_DEB == 'true'
-        shell: bash
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # gh attestation verify takes exactly one subject at a time
-          for deb_file in /tmp/deb/*.deb; do
-            gh attestation verify "${deb_file}" --repo ${{ github.repository }}
-          done
-
-      - name: Upload the debs to the draft release
-        if: |
-          steps.check_release.outputs.finalized == 'false' &&
-          steps.release.outputs.prerelease == 'false' &&
-          vars.HAS_DEB == 'true'
-        shell: bash
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG: ${{ steps.release.outputs.tag }}
-        run: |
-          # --clobber so a resumed run after a partial upload succeeds
-          gh release upload "${TAG}" /tmp/deb/*.deb --clobber
-
-      - name: Publish release
-        if: steps.check_release.outputs.finalized == 'false'
-        shell: bash
-        env:
-          # events created with GITHUB_TOKEN don't trigger workflows;
-          # publishing is what fires the release event for the retag
-          # workflows
-          GH_TOKEN: ${{ secrets.TOKEN_TO_TRIGGER_SUBSEQUENT_WORKFLOWS }}
-          TAG: ${{ steps.release.outputs.tag }}
-          PRERELEASE: ${{ steps.release.outputs.prerelease }}
-        run: |
-          latest_args=()
-          if [ "${PRERELEASE}" == "false" ]; then
-            # drafts and prereleases cannot be set as latest
-            latest_args+=(--latest)
-          fi
-
-          # this is the point of no return: assets are frozen from here on
-          gh release edit "${TAG}" --draft=false "${latest_args[@]}"
+            "${release_args[@]}"
 
       - name: Close stale release PRs
-        if: steps.check_release.outputs.finalized == 'false'
+        if: steps.check_release.outputs.exists == 'false'
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
