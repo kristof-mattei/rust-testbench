@@ -1,6 +1,7 @@
 adduser
 appgroup
 appuser
+artipacked
 bkeepers
 buildcache
 cinstrument
@@ -16,8 +17,6 @@ grcov
 hubot
 idents
 kristof
-libsystemd
-lintian
 lldb
 mattei
 mimalloc
@@ -26,7 +25,6 @@ multiplatform
 mypy
 nextest
 nvmrc
-oras
 pathbuf
 postprocessors
 prereleased
@@ -40,6 +38,7 @@ samply
 sccache
 shortlog
 skopeo
+skopeo's
 slurpfile
 startswith
 striptags
@@ -50,10 +49,12 @@ tera
 testbench
 topo
 trixie
-TRUNC
+trunc
 uninlined
+uninspectable
 unseparated
 usernamehw
 vadimcn
 worktree
-WSDD
+wsdd
+zizmor
