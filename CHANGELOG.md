@@ -1,4 +1,4 @@
-<!-- header goes here -->
+<!-- header goes here, ruleset probe -->
 ## [2.12.1](https://github.com/kristof-mattei/rust-testbench/compare/v2.12.0..v2.12.1) - 2026-07-29
 
 ### 🐛 Bug Fixes
