@@ -8,8 +8,6 @@ on:
   pull_request:
     branches:
       - main
-    paths-ignore:
-      - CHANGELOG.md
   schedule:
     - cron: "32 23 * * 5"
 
