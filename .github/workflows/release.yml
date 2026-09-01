@@ -198,7 +198,7 @@ jobs:
 
       - name: Create release commit
         id: commit
-        uses: ./.github/actions/create-release-commit
+        uses: $/.github/actions/create-release-commit
         with:
           branch: ${{ steps.release.outputs.branch }}
           base-sha: ${{ steps.release.outputs.main_sha }}
@@ -209,7 +209,7 @@ jobs:
 
       - name: Render the ballot
         id: ballot
-        uses: ./.github/actions/render-ballot-body
+        uses: $/.github/actions/render-ballot-body
         with:
           context-file: ballot-context.json
           compare-to: ${{ steps.commit.outputs.commit-sha }}

@@ -80,7 +80,7 @@ jobs:
 
       - name: Compute selection from the PR body
         id: ballot
-        uses: ./.github/actions/compute-changelog-selection
+        uses: $/.github/actions/compute-changelog-selection
         with:
           body: ${{ github.event.pull_request.body }}
 
