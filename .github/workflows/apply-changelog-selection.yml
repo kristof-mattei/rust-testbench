@@ -49,7 +49,7 @@ jobs:
 
       - name: Compute selection from the PR body
         id: ballot
-        uses: ./.github/actions/compute-changelog-selection
+        uses: $/.github/actions/compute-changelog-selection
         with:
           body: ${{ github.event.pull_request.body }}
 
@@ -109,7 +109,7 @@ jobs:
       - name: Rebuild release commit
         id: commit
         if: steps.selection.outputs.changed == 'true'
-        uses: ./.github/actions/create-release-commit
+        uses: $/.github/actions/create-release-commit
         with:
           branch: ${{ github.event.pull_request.head.ref }}
           base-sha: ${{ steps.ballot.outputs.base-sha }}
@@ -123,7 +123,7 @@ jobs:
       - name: Render the ballot
         id: ballot-body
         if: steps.selection.outputs.changed == 'true'
-        uses: ./.github/actions/render-ballot-body
+        uses: $/.github/actions/render-ballot-body
         with:
           context-file: ballot-context.json
           compare-to: ${{ steps.commit.outputs.commit-sha }}

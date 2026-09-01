@@ -73,7 +73,7 @@ jobs:
 
       - name: Compute selection from the final ballot
         id: ballot
-        uses: ./.github/actions/compute-changelog-selection
+        uses: $/.github/actions/compute-changelog-selection
         with:
           body: ${{ steps.final-ballot.outputs.body }}
           head: ${{ github.event.pull_request.merge_commit_sha }}
