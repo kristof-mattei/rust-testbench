@@ -20,10 +20,10 @@ jobs:
     permissions:
       contents: write # to rebuild the release commit via createCommitOnBranch
       pull-requests: write # to refresh the release PR body
-    # Shared with the Release workflow, both force-push release branches and rewrite release PR bodies.
+    # Shared with the Release workflow of the same pre-release type, both force-push release branches and rewrite release PR bodies.
     # Job-level, body edits on non-release PRs skip the job without entering the group.
     concurrency:
-      group: release-branch-writes
+      group: "release-${{ (contains(github.event.pull_request.head.ref, '-alpha.') && 'alpha') || (contains(github.event.pull_request.head.ref, '-beta.') && 'beta') || (contains(github.event.pull_request.head.ref, '-rc.') && 'rc') || 'none' }}"
       # Cancelling could kill a run mid-force-push. GitHub keeps only the newest queued run per group, so stacked toggles settle on the newest body.
       cancel-in-progress: false
     if: |
@@ -99,9 +99,8 @@ jobs:
           rm --force .cliffignore
           git-cliff --context --unreleased --tag "${TAG}" > ballot-context.json
 
-          if [ -s "${SELECTION_FILE}" ]; then
-            cp "${SELECTION_FILE}" .cliffignore
-          fi
+          # Copied even when empty, the release commit has to overwrite the .cliffignore inherited from main
+          cp "${SELECTION_FILE}" .cliffignore
 
           # git-cliff skips the commits listed in .cliffignore
           git-cliff --output CHANGELOG.md --tag "${TAG}"

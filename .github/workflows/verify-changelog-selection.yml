@@ -1,9 +1,10 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: Verify changelog selection
 
-# Required status check closing two gaps between the ballot and the release commit:
+# Required status check closing three gaps between the ballot and the release commit:
 # - toggling a ballot entry turns this red on the stale release commit, and it only goes green again once the apply workflow has rebuilt the branch
 # - "Update branch" (merge or rebase) advances the branch without re-cutting the ballot, so pulled-in commits that never got a checkbox turn this red until the Release workflow is re-run
+# - every entry starts unchecked, so an untouched ballot would ship a release without a changelog section
 
 on:
   pull_request:
@@ -77,6 +78,24 @@ jobs:
             echo "::error::Commits in the release range never appeared on the ballot: ${missing}. Re-run the Release workflow to rebuild the ballot against current main."
             exit 1
           fi
+
+      - name: Assert at least one ballot entry is checked
+        shell: bash
+        run: |
+          # A promotion release re-tags the previous content, its ballot is legitimately empty
+          if [ ! -s "${RUNNER_TEMP}/expected.txt" ]; then
+            echo "::notice::Nothing on the ballot, skipping the empty-changelog check"
+            exit 0
+          fi
+
+          checked=$(grep --perl-regexp --only-matching '/commit/\K[0-9a-f]{40}(?=\)\)$)' CHANGELOG.md | grep --fixed-strings --line-regexp --count --file "${RUNNER_TEMP}/expected.txt" || true)
+
+          if [ "${checked}" -lt 1 ]; then
+            echo "::error::No ballot entry is checked, this release would ship without a changelog section. Check at least one entry, the apply workflow rebuilds the release commit."
+            exit 1
+          fi
+
+          echo "::notice::${checked} changelog entries"
 
       - name: Compute selection from the PR body
         id: ballot

@@ -207,6 +207,10 @@ jobs:
         id: version
         run: |
           latest_tag=$(git describe --tags --abbrev=0 || true)
+
+          # A release branch carries the .cliffignore of its ballot, and git-cliff applies it to --bumped-version too. The version counts every commit, so compute it without the file.
+          rm --force .cliffignore
+
           bumped=$(git-cliff --bumped-version --unreleased --offline)
 
           # If git-cliff didn't bump (e.g. chore/ci only commits), force a patch increment
