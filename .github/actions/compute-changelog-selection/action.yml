@@ -29,22 +29,22 @@ runs:
         BODY: ${{ inputs.body }}
         HEAD_SHA: ${{ inputs.head }}
       run: |
-        # The release commit sits exactly one commit above main, and a PR merge commit's first parent is that same main commit
+        # The release commit and the merge commit of its PR both have the base main commit as their first parent
         base_sha=$(git rev-parse "${HEAD_SHA}~1")
         echo "base-sha=${base_sha}" >> "${GITHUB_OUTPUT}"
 
         printf '%s' "${BODY}" > "${RUNNER_TEMP}/body.md"
 
-        # Ballot lines end with the entry's own link, `- [x] ... ([`abc1234`](https://.../commit/<sha>))`
-        # Anchoring on that trailing link skips /commit/ URLs a commit subject may contain, a hand-edited [X] counts as checked
+        # A ballot line ends with the entry's commit link, `- [x] ... ([abc1234](https://.../commit/<sha>))`
+        # The SHA is taken from that trailing link, so a /commit/ URL inside a commit subject is ignored. A hand-edited [X] counts as checked.
         grep --perl-regexp --only-matching '^- \[[xX ]\] .*/commit/\K[0-9a-f]{40}(?=\)\)\r?$)' "${RUNNER_TEMP}/body.md" | sort --unique > "${RUNNER_TEMP}/ballot.txt" || true
         grep --perl-regexp --only-matching '^- \[ \] .*/commit/\K[0-9a-f]{40}(?=\)\)\r?$)' "${RUNNER_TEMP}/body.md" | sort --unique > "${RUNNER_TEMP}/unchecked.txt" || true
 
-        # An exclusion with no ballot line (pre-existing, or truncated off the body) has no checkbox to toggle, it keeps the commit's own state
+        # An exclusion without a ballot line, from an earlier release or cut off by the body limit, has no checkbox to toggle and stays as committed
         git show "${HEAD_SHA}:.cliffignore" > "${RUNNER_TEMP}/carried.txt" 2> /dev/null || true
 
-        # Keep the ballot-less exclusions, replace the ballot's with the unchecked set
-        awk 'NR == FNR { ballot[$0] = 1; next } !($0 in ballot)' "${RUNNER_TEMP}/ballot.txt" "${RUNNER_TEMP}/carried.txt" > "${RUNNER_TEMP}/kept.txt"
+        # Keep the exclusions without a ballot line and replace the rest with the unchecked set
+        grep --fixed-strings --line-regexp --invert-match --file "${RUNNER_TEMP}/ballot.txt" "${RUNNER_TEMP}/carried.txt" > "${RUNNER_TEMP}/kept.txt" || true
         cat "${RUNNER_TEMP}/kept.txt" "${RUNNER_TEMP}/unchecked.txt" | sort --unique > "${RUNNER_TEMP}/computed.cliffignore"
 
         echo "selection-file=${RUNNER_TEMP}/computed.cliffignore" >> "${GITHUB_OUTPUT}"

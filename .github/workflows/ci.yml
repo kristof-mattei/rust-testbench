@@ -208,7 +208,7 @@ jobs:
         run: |
           latest_tag=$(git describe --tags --abbrev=0 || true)
 
-          # A release branch carries the .cliffignore of its ballot, and git-cliff applies it to --bumped-version too. The version counts every commit, so compute it without the file.
+          # The release branch contains .cliffignore and git-cliff applies it to --bumped-version as well, which would leave the hidden commits out of the version.
           rm --force .cliffignore
 
           bumped=$(git-cliff --bumped-version --unreleased --offline)

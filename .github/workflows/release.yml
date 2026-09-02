@@ -13,13 +13,9 @@ on:
           - alpha
           - beta
           - rc
-      auto_merge:
-        description: "Enable auto-merge on the release PR"
-        type: boolean
-        default: false
 
 concurrency:
-  # Shared with the apply workflow for the same pre-release type, both force-push release branches and rewrite release PR bodies
+  # Same group as the apply workflow for this pre-release type, because both force-push the release branch and rewrite the PR body
   group: "release-${{ inputs.prerelease }}"
   cancel-in-progress: false # this job force-pushes branches and opens PRs, let it finish
 
@@ -36,7 +32,7 @@ jobs:
     permissions:
       actions: write # to dispatch this workflow again when main moved during the run
       contents: write # to create the release commit via createCommitOnBranch
-      pull-requests: write # to refresh the release PR body with the default token and close superseded release PRs
+      pull-requests: write # to refresh the release PR body and close superseded release PRs
     steps:
       - name: Only on main
         if: |
@@ -68,7 +64,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PRERELEASE: ${{ inputs.prerelease }}
         run: |
-          # git-cliff applies .cliffignore to --bumped-version and --context as well, and both must see every commit: hidden entries still count toward the version and still get a ballot line
+          # main contains the .cliffignore of the previous releases and git-cliff applies it to --bumped-version and --context as well, which would leave the hidden commits out of the version and off the ballot.
           rm --force .cliffignore
 
           latest_tag=$(git describe --tags --abbrev=0 || true)
@@ -172,7 +168,7 @@ jobs:
           main_sha=$(git rev-parse HEAD)
           echo "main_sha=${main_sha}" >> "${GITHUB_OUTPUT}"
 
-          # The PR body is a ballot listing every commit, and git-cliff applies .cliffignore when building a context, so build it before the seeded selection lands in the worktree
+          # The ballot lists every commit, so the context is built before .cliffignore is written below
           git-cliff --context --unreleased --tag "${release_version}" > ballot-context.json
 
       - name: List open release PRs of this pre-release type
@@ -182,7 +178,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PRERELEASE: ${{ inputs.prerelease }}
         run: |
-          # Other types are independent releases, they neither feed nor get superseded by this one.
+          # Other pre-release types are independent releases and stay open.
           # release/v1.2.3 -> none, release/v1.2.3-alpha.1 -> alpha
           gh pr list \
             --state open \
@@ -199,7 +195,7 @@ jobs:
 
           echo "file=${RUNNER_TEMP}/siblings.txt" >> "${GITHUB_OUTPUT}"
 
-      - name: Seed the selection and generate the changelog
+      - name: Write .cliffignore and generate the changelog
         shell: bash
         env:
           # git-cliff reads GITHUB_TOKEN from the environment
@@ -208,10 +204,10 @@ jobs:
           RELEASE_VERSION: ${{ steps.release.outputs.release_version }}
           SIBLINGS_FILE: ${{ steps.siblings.outputs.file }}
         run: |
-          # An entry ships only when checked, so every unreleased commit starts excluded
+          # Only a checked entry appears in the changelog, so every unreleased commit starts excluded
           jq --raw-output '.[0].commits[].id' ballot-context.json | sort --unique > "${RUNNER_TEMP}/unreleased.txt"
 
-          # Carry over the checked entries from an earlier run of this release and from the same-type release PRs this run supersedes, their CHANGELOG.md ships exactly those
+          # Checked entries carry over from an earlier run of this release and from the release PRs this run supersedes. Their CHANGELOG.md lists only the checked entries.
           : > "${RUNNER_TEMP}/checked.txt"
 
           {
@@ -226,13 +222,12 @@ jobs:
               | grep --perl-regexp --only-matching '/commit/\K[0-9a-f]{40}(?=\)\)$)' >> "${RUNNER_TEMP}/checked.txt" || true
           done
 
-          # The exclusions accumulate across releases, so start from the copy main carries
+          # Exclusions accumulate across releases, so the copy on main is the starting point
           git show HEAD:.cliffignore > .cliffignore 2> /dev/null || : > .cliffignore
 
           grep --fixed-strings --line-regexp --invert-match --file "${RUNNER_TEMP}/checked.txt" "${RUNNER_TEMP}/unreleased.txt" >> .cliffignore || true
           sort --unique --output .cliffignore .cliffignore
 
-          # git-cliff skips the commits listed in .cliffignore
           git-cliff --output CHANGELOG.md --tag "${RELEASE_VERSION}"
 
       - name: Create release commit
@@ -243,7 +238,7 @@ jobs:
           base-sha: ${{ steps.release.outputs.main_sha }}
           headline: ${{ steps.release.outputs.commit_message }}
           files: CHANGELOG.md .cliffignore
-          # GITHUB_TOKEN attributes the API commit to github-actions[bot]. The branch itself is pushed with the checkout PAT so workflows trigger.
+          # GITHUB_TOKEN attributes the commit to github-actions[bot]
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Render the ballot
@@ -257,7 +252,6 @@ jobs:
       - name: Open or update pull request
         shell: bash
         env:
-          AUTO_MERGE: ${{ inputs.auto_merge }}
           BODY_FILE: ${{ steps.ballot.outputs.body-file }}
           BRANCH: ${{ steps.release.outputs.branch }}
           DEFAULT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -268,20 +262,17 @@ jobs:
           existing_pr=$(gh pr list --head "${BRANCH}" --state open --json number --jq '.[0].number // empty')
 
           if [ -n "$existing_pr" ]; then
-            # Refresh the body with the default token: its edits don't fire pull_request events, so this can't trigger the apply workflow. REST PATCH instead of gh pr edit, which needs read:org (cli/cli#13575).
+            # An edit made with GITHUB_TOKEN does not fire pull_request events, so this update does not trigger the apply workflow.
+            # gh pr edit needs read:org even for --body (cli/cli#13575), so the body is set with a REST PATCH.
             GH_TOKEN="${DEFAULT_TOKEN}" gh api --method PATCH --silent "repos/${GITHUB_REPOSITORY}/pulls/${existing_pr}" \
               --field "body=@${BODY_FILE}"
           else
-            # Opened with the PAT, the default token's pull_request events don't run the required checks
+            # Opening the PR with GITHUB_TOKEN would not start the required check workflows, so the PAT is used here
             gh pr create \
               --base main \
               --head "${BRANCH}" \
               --title "chore(release): Release ${RELEASE_VERSION}" \
               --body-file "${BODY_FILE}"
-          fi
-
-          if [ "${AUTO_MERGE}" = "true" ]; then
-            gh pr merge "${BRANCH}" --auto --merge
           fi
 
       - name: Close superseded release PRs
@@ -291,8 +282,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SIBLINGS_FILE: ${{ steps.siblings.outputs.file }}
         run: |
-          # Commits landing after a release PR was opened can move the version, and with it the release branch name.
-          # The PR for the previous version then has nothing left to release, its checked entries were carried over above.
+          # A commit landing after a release PR was opened can bump the version, which renames the release branch and leaves the old PR open.
+          # The checked entries of the old PR were carried over above.
           new_pr=$(gh pr list --head "${BRANCH}" --state open --json number --jq '.[0].number')
 
           while read -r pr_number head_ref; do
@@ -305,28 +296,25 @@ jobs:
             gh pr close "${pr_number}" --delete-branch --comment "Superseded by #${new_pr}."
           done < "${SIBLINGS_FILE}"
 
-      - name: Re-run when main moved during this run
+      - name: Dispatch again if main moved
         shell: bash
         env:
-          AUTO_MERGE: ${{ inputs.auto_merge }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MAIN_SHA: ${{ steps.release.outputs.main_sha }}
           PRERELEASE: ${{ inputs.prerelease }}
         run: |
-          # A push landing between the checkout and the PR going up is invisible to
-          # "Rebuild release after push", which only dispatches for PRs that already exist.
+          # A push landing between the checkout and the PR creation had no open release PR for "Rebuild release after push" to dispatch for.
           current_main=$(git ls-remote origin refs/heads/main | cut --fields 1)
 
           if [ "${current_main}" = "${MAIN_SHA}" ]; then
             exit 0
           fi
 
-          echo "::notice::main moved from ${MAIN_SHA} to ${current_main} during this run, dispatching again"
+          echo "::notice::main moved from ${MAIN_SHA} to ${current_main}, dispatching again"
 
           gh workflow run release.yml \
             --ref main \
-            --raw-field prerelease="${PRERELEASE}" \
-            --raw-field auto_merge="${AUTO_MERGE}"
+            --raw-field prerelease="${PRERELEASE}"
 
       - name: Clean up stranded branches
         if: ${{ (failure() || cancelled()) && steps.release.outputs.branch != '' }}

@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-action.json
 name: Render ballot body
-description: Render a git-cliff context as the release PR body, every changelog entry a checkbox
+description: Render a git-cliff context as the release PR body with a checkbox per changelog entry
 
 inputs:
   context-file:
@@ -10,7 +10,7 @@ inputs:
     description: Commit the changelog's compare link points at
     required: true
   excluded-file:
-    description: File of commit SHAs to render unchecked, empty or missing means everything stays checked
+    description: File of commit SHAs to render unchecked. When empty or missing, every entry stays checked.
     required: false
     default: ""
 
@@ -32,10 +32,10 @@ runs:
       run: |
         body_file="${RUNNER_TEMP}/ballot-body.md"
 
-        # Point the compare link at the release-branch head SHA, because the release tag doesn't exist until after the PR is merged
+        # The release tag does not exist until the PR is merged, so the compare link points at the release commit instead
         jq --arg sha "${COMPARE_TO}" '.[0].extra = {compare_to: $sha}' "${CONTEXT_FILE}" > "${RUNNER_TEMP}/diff-context.json"
 
-        # --from-context renders the context as-is, so the ballot lists every commit even though CHANGELOG.md has the excluded ones removed
+        # The context was built without .cliffignore, so the ballot lists every commit, including the ones CHANGELOG.md excludes
         git-cliff --from-context "${RUNNER_TEMP}/diff-context.json" --output "${body_file}"
 
         # Render every entry as a checkbox, excluded entries as unchecked
@@ -44,7 +44,7 @@ runs:
         if [ -n "${EXCLUDED_FILE}" ] && [ -s "${EXCLUDED_FILE}" ]; then
           while IFS= read -r sha; do
             [ -n "${sha}" ] || continue
-            # Anchoring on the entry's trailing link skips /commit/ URLs a commit subject may contain
+            # Match on the trailing commit link so that a /commit/ URL inside the subject does not match
             sed --in-place "\|/commit/${sha}))\$|s/^- \[x\]/- [ ]/" "${body_file}"
           done < "${EXCLUDED_FILE}"
         fi
@@ -52,22 +52,22 @@ runs:
         {
           cat <<'INSTRUCTIONS'
         > [!NOTE]
-        > Check an entry to put it in `CHANGELOG.md` and the release notes. A workflow rebuilds the release commit after every toggle.
-        > Unchecked commits still ship in the release and still count toward the version number.
-        > Toggling disarms auto-merge, re-arm it when you're done selecting.
+        > A checked entry appears in `CHANGELOG.md` and in the release notes. The release commit is rebuilt after every change to the ballot.
+        > An unchecked commit is still part of the release and counts toward the version.
+        > Merge the PR once the selection is final. The Verify changelog selection check stays red until the rebuild has caught up with the ballot.
 
         INSTRUCTIONS
           cat "${body_file}"
         } > "${body_file}.with-instructions"
         mv "${body_file}.with-instructions" "${body_file}"
 
-        # Truncate at line boundaries if the body exceeds GitHub's PR body character limit, a cut entry has no checkbox and stays excluded
+        # The body is cut at a line boundary when it exceeds GitHub's PR body limit. A cut entry has no checkbox and stays excluded.
         max_length=65536
-        marker_template=$'\n\n---\n\n> **Note:** COUNT more entries exceed GitHub\'s 65,536 character body limit. They are not shown and stay excluded from the changelog.'
+        marker_template=$'\n\n---\n\n> **Note:** COUNT more entries did not fit within GitHub\'s 65,536 character body limit. They are not shown and stay excluded from the changelog.'
         body=$(< "${body_file}")
 
         if [ "${#body}" -gt "${max_length}" ]; then
-          # The dropped count never has more digits than the total count, so this budget always fits the final marker
+          # The dropped count has at most as many digits as the total count, so a budget computed with the total fits the final marker
           total_entries=$(grep --count '^- \[' "${body_file}" || true)
           bound_marker="${marker_template/COUNT/${total_entries}}"
           budget=$(( max_length - ${#bound_marker} ))

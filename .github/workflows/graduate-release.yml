@@ -62,7 +62,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          # The live body instead of the event payload, a toggle racing the merge is visible here but may be missing from the event snapshot
+          # A toggle made just before the merge may be missing from the event payload, so the body is fetched live
           delimiter=$(openssl rand -hex 16)
 
           {
@@ -78,7 +78,7 @@ jobs:
           body: ${{ steps.final-ballot.outputs.body }}
           head: ${{ github.event.pull_request.merge_commit_sha }}
 
-      - name: Assert the merged selection matches the final ballot
+      - name: Compare the merged .cliffignore with the final ballot
         shell: bash
         env:
           MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
@@ -87,8 +87,8 @@ jobs:
           git show "${MERGE_SHA}:.cliffignore" > "${RUNNER_TEMP}/merged.cliffignore" 2> /dev/null || true
 
           if ! cmp --silent "${SELECTION_FILE}" "${RUNNER_TEMP}/merged.cliffignore"; then
-            # The merged commit is immutable, so honoring the late toggle means the next release
-            echo "::error::The final ballot does not match the merged .cliffignore, a checkbox toggle raced the merge. Restore the toggled entries to the merged state and re-run this workflow, or ship the correction in the next release."
+            # The merged commit cannot change, so a toggle made after the last rebuild is either reverted in the body or applied in the next release
+            echo "::error::The final ballot does not match the merged .cliffignore. Revert the late toggles in the PR body and re-run this workflow, or apply them in the next release."
             exit 1
           fi
 

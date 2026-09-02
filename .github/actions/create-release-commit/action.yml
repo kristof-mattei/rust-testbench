@@ -13,14 +13,14 @@ inputs:
     description: Commit message headline
     required: true
   files:
-    description: Whitespace-separated paths to commit, missing files are skipped
+    description: Whitespace-separated paths to commit. Missing paths are skipped.
     required: true
   staging-suffix:
     description: Suffix for the temporary staging branch
     required: false
     default: -staging
   token:
-    description: Token for the createCommitOnBranch API call
+    description: Token for the createCommitOnBranch API call. The branch itself is pushed with the checkout credential.
     required: true
 
 outputs:
@@ -53,7 +53,7 @@ runs:
         read -r -a files <<< "${FILES}"
 
         for file in "${files[@]}"; do
-          # An empty file is still committed, it has to overwrite a stale copy inherited from the base
+          # An empty file is committed too, because it has to overwrite the copy inherited from the base
           if [ -f "${file}" ]; then
             base64 --wrap=0 "${file}" > "${RUNNER_TEMP}/contents.base64"
 
