@@ -132,7 +132,6 @@ commit_parsers = [
 # Exclude commits that are not matched by any commit parser.
 filter_commits = false
 exclude_paths = [
-    ".github/**",
     ".vscode/**",
     ".devcontainer/**",
     "cspell.json",
