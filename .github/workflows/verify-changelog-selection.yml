@@ -1,11 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: Verify changelog selection
 
-# Required status check closing three gaps between the ballot and the release commit:
-# - toggling a ballot entry turns this red on the stale release commit, and it only goes green again once the apply workflow has rebuilt the branch
-# - "Update branch" (merge or rebase) advances the branch without re-cutting the ballot, so pulled-in commits that never got a checkbox turn this red until the Release workflow is re-run
-# - every entry starts unchecked, so an untouched ballot would ship a release without a changelog section
-
 on:
   pull_request:
     types:
@@ -27,7 +22,7 @@ jobs:
   verify:
     name: Verify changelog selection
     runs-on: ubuntu-26.04
-    # Skipped on non-release PRs, a skipped job still satisfies the required check
+    # The check is required on every PR, and a skipped job satisfies it on the PRs without a ballot
     if: startsWith(github.event.pull_request.head.ref, 'release/v')
     steps:
       - name: Checkout
@@ -38,21 +33,21 @@ jobs:
           persist-credentials: false
           show-progress: false
 
-      - name: Assert the release commit sits directly on a main commit
+      - name: Check the release commit is built on main
         shell: bash
         run: |
-          # The Release workflow builds single-parent commits, only "Update branch" puts a merge commit here
-          if git rev-parse --verify --quiet HEAD^2 > /dev/null; then
-            echo "::error::The release branch head is a merge commit. Don't use Update branch, re-run the Release workflow, it rebuilds the ballot against current main."
+          # Release builds the release commit directly on a main commit. After "Update branch" the first parent is the old release commit, and a rebuild on top of it keeps it there.
+          if ! git merge-base --is-ancestor HEAD~1 origin/main; then
+            echo "::error::The release commit is not built on main. Re-run the Release workflow instead of using Update branch."
             exit 1
           fi
 
-      - name: Install git-cliff to rebuild the ballot context
+      - name: Install git-cliff
         uses: taiki-e/install-action@e67fa11c4b9316fa714ddf0abed07a0c3143b95b # v2.87.4
         with:
           tool: git-cliff
 
-      - name: Assert every commit in range appears on the ballot
+      - name: Check every commit in range is on the ballot
         shell: bash
         env:
           BRANCH: ${{ github.event.pull_request.head.ref }}
@@ -60,13 +55,13 @@ jobs:
           # release/v0.4.8 -> v0.4.8
           tag="${BRANCH#release/}"
 
-          # The context must list every commit, so build it without a .cliffignore in the worktree. Later steps read .cliffignore from git, not the worktree.
+          # git-cliff applies .cliffignore to --context as well, which would leave the hidden commits off the ballot. Later steps read the file from git.
           rm --force .cliffignore
           git-cliff --context --unreleased --offline --tag "${tag}" > "${RUNNER_TEMP}/ballot-context.json"
 
           jq --raw-output '.[0].commits[].id' "${RUNNER_TEMP}/ballot-context.json" | sort --unique > "${RUNNER_TEMP}/expected.txt"
 
-          # A commit is accounted for when the release commit ships it in CHANGELOG.md or excludes it via .cliffignore
+          # A commit is on the ballot when the release commit lists it in CHANGELOG.md or excludes it in .cliffignore
           {
             grep --perl-regexp --only-matching '/commit/\K[0-9a-f]{40}(?=\)\)$)' CHANGELOG.md || true
             git show "HEAD:.cliffignore" 2> /dev/null || true
@@ -75,23 +70,23 @@ jobs:
           missing=$(grep --fixed-strings --line-regexp --invert-match --file "${RUNNER_TEMP}/accounted.txt" "${RUNNER_TEMP}/expected.txt" | tr '\n' ' ' || true)
 
           if [ -n "${missing}" ]; then
-            echo "::error::Commits in the release range never appeared on the ballot: ${missing}. Re-run the Release workflow to rebuild the ballot against current main."
+            echo "::error::Commits missing from the ballot: ${missing}. Re-run the Release workflow."
             exit 1
           fi
 
-      - name: Assert at least one ballot entry is checked
+      - name: Check the changelog section is not empty
         shell: bash
         run: |
-          # A promotion release re-tags the previous content, its ballot is legitimately empty
+          # A promotion release re-tags the previous content and has an empty ballot
           if [ ! -s "${RUNNER_TEMP}/expected.txt" ]; then
-            echo "::notice::Nothing on the ballot, skipping the empty-changelog check"
+            echo "::notice::The ballot is empty, nothing to check"
             exit 0
           fi
 
           checked=$(grep --perl-regexp --only-matching '/commit/\K[0-9a-f]{40}(?=\)\)$)' CHANGELOG.md | grep --fixed-strings --line-regexp --count --file "${RUNNER_TEMP}/expected.txt" || true)
 
           if [ "${checked}" -lt 1 ]; then
-            echo "::error::No ballot entry is checked, this release would ship without a changelog section. Check at least one entry, the apply workflow rebuilds the release commit."
+            echo "::error::No ballot entry is checked, so the release would have an empty changelog section. Check at least one entry."
             exit 1
           fi
 
@@ -111,6 +106,6 @@ jobs:
           git show "HEAD:.cliffignore" > "${RUNNER_TEMP}/committed.cliffignore" 2> /dev/null || true
 
           if ! cmp --silent "${SELECTION_FILE}" "${RUNNER_TEMP}/committed.cliffignore"; then
-            echo "::error::The ballot selection hasn't been applied to the release commit yet. The apply workflow rebuilds it, this check re-runs automatically."
+            echo "::error::The release commit does not match the ballot yet. The apply workflow rebuilds it and this check runs again."
             exit 1
           fi

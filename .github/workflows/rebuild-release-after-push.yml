@@ -8,14 +8,14 @@ on:
 
 concurrency:
   group: "${{ github.workflow }}"
-  cancel-in-progress: false # every push must dispatch, a cancelled run leaves the release PR stale
+  cancel-in-progress: true # the newer run dispatches for every open release PR against the newer main
 
 permissions:
   contents: read
 
 jobs:
   rebuild:
-    name: Re-run Release for open release PRs
+    name: Dispatch Release
     runs-on: ubuntu-26.04
     permissions:
       actions: write # to dispatch the Release workflow
@@ -28,38 +28,32 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEAD_SHA: ${{ github.sha }}
         run: |
-          # Merging a release PR is handled by Graduate Release, which tags and closes the other release PRs.
-          # Dispatching Release here would race it and rebuild PRs it is about to close.
+          # When the push merged a release PR, Graduate Release is closing the other release PRs, and a dispatch now would rebuild them.
           merged_release_prs=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${HEAD_SHA}/pulls" \
             --jq '[.[] | select(.merged_at != null and (.head.ref | startswith("release/v")))] | length')
 
           if [ "${merged_release_prs}" -ne 0 ]; then
-            echo "::notice::This push merged a release PR, nothing to rebuild"
+            echo "::notice::Release PR merged, nothing to rebuild"
             exit 0
           fi
 
-          # One dispatch per pre-release type, Release's concurrency group is keyed on it.
+          # Release's concurrency group is keyed on the pre-release type, so a second dispatch of the same type would just queue.
           # release/v1.2.3 -> none, release/v1.2.3-alpha.1 -> alpha
           gh pr list \
             --state open \
             --limit 100 \
-            --json headRefName,autoMergeRequest \
+            --json headRefName \
           | jq --raw-output --arg re '-(?<type>alpha|beta|rc)\.[0-9]+$' '
               [ .[]
                 | select(.headRefName | startswith("release/v"))
-                | {
-                    prerelease: (.headRefName | if test($re) then capture($re).type else "none" end),
-                    auto_merge: (.autoMergeRequest != null)
-                  }
+                | (.headRefName | if test($re) then capture($re).type else "none" end)
               ]
-              | group_by(.prerelease)[]
-              | "\(.[0].prerelease) \(any(.auto_merge))"
+              | unique[]
             ' \
-          | while read -r prerelease auto_merge; do
-            echo "::notice::Dispatching Release with prerelease=${prerelease} auto_merge=${auto_merge}"
+          | while read -r prerelease; do
+            echo "::notice::Dispatching Release with prerelease=${prerelease}"
 
             gh workflow run release.yml \
               --ref main \
-              --raw-field prerelease="${prerelease}" \
-              --raw-field auto_merge="${auto_merge}"
+              --raw-field prerelease="${prerelease}"
           done

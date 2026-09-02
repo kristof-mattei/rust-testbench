@@ -16,12 +16,10 @@ grcov
 hubot
 idents
 kristof
-lldb
 mattei
 mimalloc
 monomorphization
 multiplatform
-mypy
 nextest
 pathbuf
 postprocessors
