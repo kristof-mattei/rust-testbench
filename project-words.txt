@@ -16,11 +16,13 @@ grcov
 hubot
 idents
 kristof
+lintian
 mattei
 mimalloc
 monomorphization
 multiplatform
 nextest
+oras
 pathbuf
 postprocessors
 prereleased

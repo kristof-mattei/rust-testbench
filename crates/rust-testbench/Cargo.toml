@@ -24,11 +24,12 @@ pretty_assertions = "=1.4.1"
 
 [package.metadata.deb]
 maintainer = "Kristof Mattei <864376+kristof-mattei@users.noreply.github.com>"
-section = "net"
+section = "misc"
 priority = "optional"
 license-file = ["../../LICENSE", "0"]
 extended-description = """\
-EXTENDED DESCRIPTION."""
+Starting point for Rust services. Ships the binary, a systemd unit and an \
+environment file in /etc/default."""
 assets = [
     { source = "target/release/rust-testbench", dest = "usr/bin/", mode = "755" },
     { source = "../../README.md", dest = "usr/share/doc/rust-testbench/README.md", mode = "644" },
@@ -36,11 +37,10 @@ assets = [
 ]
 conf-files = ["/etc/default/rust-testbench"]
 maintainer-scripts = "packaging/"
+# placeholder for local builds, CI stamps the release version
 changelog = "packaging/changelog"
 
-# enable installing systemd-units
-# table is empty because then cargo-deb only matches on services
-# matching the package's name, so rust-testbench-discovery.* is not deployed
+# an empty table enables the systemd-units feature with its defaults
 [package.metadata.deb.systemd-units]
 
 [lints]

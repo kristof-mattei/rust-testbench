@@ -1,1 +1,5 @@
-# default
+# Defaults for rust-testbench, read by rust-testbench.service as an environment file.
+# This is not a shell script: quoting and expansion follow systemd.exec(5) EnvironmentFile semantics.
+
+# Additional command line parameters for rust-testbench.service.
+#RUST_TESTBENCH_PARAMS=
