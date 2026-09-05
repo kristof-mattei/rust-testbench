@@ -504,9 +504,18 @@ jobs:
       - calculate-version
       - prepare-variables
       - docker-build
+      - deb-build
       - rust-build
+    # a PR publishes both artifacts or neither: after a partial publish, a bypassed merge would promote a container and a deb from different commits
     # Check if the event is not triggered by a fork
     if: |
+      !cancelled() &&
+      needs.docker-build.result == 'success' &&
+      needs.rust-build.result == 'success' &&
+      (
+        needs.deb-build.result == 'success' ||
+        needs.deb-build.result == 'skipped'
+      ) &&
       github.event.pull_request.head.repo.full_name == github.repository &&
       github.event_name == 'pull_request'
     steps:
@@ -853,13 +862,20 @@ jobs:
     permissions:
       packages: write # push the PR's debs to ghcr.io
     needs:
-      - repo-has-deb
       - prepare-variables
       - deb-build
+      - docker-build
       - rust-build
+    # both artifacts or neither, see docker-publish
     # Check if the event is not triggered by a fork
     if: |
-      fromJSON(needs.repo-has-deb.outputs.has_deb) == true &&
+      !cancelled() &&
+      needs.deb-build.result == 'success' &&
+      needs.rust-build.result == 'success' &&
+      (
+        needs.docker-build.result == 'success' ||
+        needs.docker-build.result == 'skipped'
+      ) &&
       github.event.pull_request.head.repo.full_name == github.repository &&
       github.event_name == 'pull_request'
     steps:
