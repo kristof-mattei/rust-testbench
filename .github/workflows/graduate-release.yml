@@ -211,7 +211,7 @@ jobs:
         env:
           BASE_SHA: ${{ needs.graduate.outputs.base_sha }}
         run: |
-          # The release PR never builds debs (CI skips release/ branches), so the debs being released are the ones of the base commit, the merge's first parent.
+          # release PRs build no debs (CI skips release/ branches), so the release ships the base commit's debs, the merge's first parent
           # the base commit's sha-<base>-* tag existed before the release PR could merge (the base check in CI), so a miss is final
           for suffix in actual retag; do
             old_tag="sha-${BASE_SHA}-${suffix}"
