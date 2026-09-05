@@ -1,19 +1,92 @@
 <!-- header goes here -->
+## [3.1.0](https://github.com/kristof-mattei/rust-testbench/compare/v3.0.0..v3.1.0) - 2026-09-05
+
+### 🚀 Features
+
+- Build, attest and publish Debian packages by [@kristof-mattei](https://github.com/kristof-mattei) ([`740fb6a`](https://github.com/kristof-mattei/rust-testbench/commit/740fb6aafc0e9e54113d2d981778d1b0dc0606ab))
 ## [3.0.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.12.1..v3.0.0) - 2026-09-02
 
 ### 🚀 Features
 
 - Feat by [@kristof-mattei](https://github.com/kristof-mattei) ([`2522ada`](https://github.com/kristof-mattei/rust-testbench/commit/2522ada7a15981bbd0f6d8a5973457b74e8fff8c))
 - Feat 2 by [@kristof-mattei](https://github.com/kristof-mattei) ([`c00385e`](https://github.com/kristof-mattei/rust-testbench/commit/c00385ec71180c732635690bb63b7029045fdf3b))
+
+### 🐛 Bug Fixes
+
+- *(ci)* Address actionlint by [@kristof-mattei](https://github.com/kristof-mattei) ([`3d8e464`](https://github.com/kristof-mattei/rust-testbench/commit/3d8e4648ec20159a31b930c0a6a6f39fa5b0eb6e))
+- *(ci)* Poll for the release source tag instead of racing the push retag by [@kristof-mattei](https://github.com/kristof-mattei) ([`c0be1d5`](https://github.com/kristof-mattei/rust-testbench/commit/c0be1d5486cbb92bf8772e4aff991b4da9861f99))
+- *(ci)* Skip Docker Hub tags that already exist with the expected digest by [@kristof-mattei](https://github.com/kristof-mattei) ([`784a607`](https://github.com/kristof-mattei/rust-testbench/commit/784a607d54f6872e85ed0fc069377ae347530858))
+- *(ci)* Give untagged container versions a grace period before cleanup by [@kristof-mattei](https://github.com/kristof-mattei) ([`9ee8d74`](https://github.com/kristof-mattei/rust-testbench/commit/9ee8d74bd0d58c14a23d09343a26efe31527a8b7))
+- *(ci)* Retry the PR number lookup when retagging the build cache by [@kristof-mattei](https://github.com/kristof-mattei) ([`0d2e88a`](https://github.com/kristof-mattei/rust-testbench/commit/0d2e88a8e91d40e49896be88e8f9d9ecc25ee6ed))
+- *(ci)* Grant issues read so test result comments work in private repos by [@kristof-mattei](https://github.com/kristof-mattei) ([`d005c4c`](https://github.com/kristof-mattei/rust-testbench/commit/d005c4c7eba096267cbbb1130e652ff6b71797f3))
+- *(ci)* Missing permissions by [@kristof-mattei](https://github.com/kristof-mattei) ([`639068a`](https://github.com/kristof-mattei/rust-testbench/commit/639068a4be1c20ccfbd1ecfec719c7b70b1a25ab))
+- *(ci)* Retry transient `gh api` failures in container cleanup by [@kristof-mattei](https://github.com/kristof-mattei) ([`7fbd45f`](https://github.com/kristof-mattei/rust-testbench/commit/7fbd45f01ce847d0fcba1ed4ccecef9288360a57))
+- *(ci)* Authenticate container cleanup against ghcr.io and stop treating failed manifest inspection as an image without children by [@kristof-mattei](https://github.com/kristof-mattei) ([`8eb8a22`](https://github.com/kristof-mattei/rust-testbench/commit/8eb8a22d60d0804195ed56b5380f19a3d27c6478))
+- *(ci)* Scope write permissions to the jobs that use them and stop interpolating refs into `run` blocks by [@kristof-mattei](https://github.com/kristof-mattei) ([`6b2b147`](https://github.com/kristof-mattei/rust-testbench/commit/6b2b14758fa385e339e26cc4cfdab1699eb026eb))
+- *(ci)* Strip only the leading `v` from the release tag by [@kristof-mattei](https://github.com/kristof-mattei) ([`44ca0e0`](https://github.com/kristof-mattei/rust-testbench/commit/44ca0e0aa4ca7638f1ffbe6b4ad5694f273b9a05))
+- *(ci)* Stop persisting checkout credentials where no step talks to a remote by [@kristof-mattei](https://github.com/kristof-mattei) ([`866f6db`](https://github.com/kristof-mattei/rust-testbench/commit/866f6db6b3ebd095584c22467814a35795c355ff))
+- *(ci)* Stop passing every repo secret to `rust.yml` by [@kristof-mattei](https://github.com/kristof-mattei) ([`241883e`](https://github.com/kristof-mattei/rust-testbench/commit/241883ee6b62a354fd9e6b64a9f9a2611fdad277))
+- *(ci)* Pass `matrix.platform` through the environment by [@kristof-mattei](https://github.com/kristof-mattei) ([`2ef98aa`](https://github.com/kristof-mattei/rust-testbench/commit/2ef98aaa389b5f7032853e89c88734ffc0cca4e7))
+- *(ci)* Pass template expansions into `run` blocks through the environment by [@kristof-mattei](https://github.com/kristof-mattei) ([`43d08d5`](https://github.com/kristof-mattei/rust-testbench/commit/43d08d57d34bbddcfd45228902554688565f1c74))
+- *(ci)* Strip only the leading `v` from the calculated version by [@kristof-mattei](https://github.com/kristof-mattei) ([`20872a0`](https://github.com/kristof-mattei/rust-testbench/commit/20872a0f475c4a6fb8e4125973f8f008e9511172))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(ci)* Build optional --prerelease flag as an array by [@kristof-mattei](https://github.com/kristof-mattei) ([`156f3c2`](https://github.com/kristof-mattei/rust-testbench/commit/156f3c29153ce723c0ed4e40600e3f8d88d144ae))
+- *(ci)* Create release commits with the api so they're signed by [@kristof-mattei](https://github.com/kristof-mattei) ([`0cacc4c`](https://github.com/kristof-mattei/rust-testbench/commit/0cacc4cfff7e3e44eaaa27a9fcdf0d7006720c8b))
+- *(ci)* Let release runs finish and clean up stranded branches by [@kristof-mattei](https://github.com/kristof-mattei) ([`09c302f`](https://github.com/kristof-mattei/rust-testbench/commit/09c302fef81815f523c7a8fa2b849b02222d3bdc))
+- *(ci)* Only mark stable releases as latest by [@kristof-mattei](https://github.com/kristof-mattei) ([`b1eb3f3`](https://github.com/kristof-mattei/rust-testbench/commit/b1eb3f3c3d70e354616b27ace44dfa64fba854f7))
+- *(ci)* Pass the github token to git-cliff via the environment by [@kristof-mattei](https://github.com/kristof-mattei) ([`73fe1c0`](https://github.com/kristof-mattei/rust-testbench/commit/73fe1c0d32e7de5d97b90a7ee7433ef7edb75959))
+- *(ci)* Only mark stable releases as latest by [@kristof-mattei](https://github.com/kristof-mattei) ([`357e974`](https://github.com/kristof-mattei/rust-testbench/commit/357e974a1e321345048fc53d805da083c191149e))
+- *(ci)* Update the release PR body via the rest api by [@kristof-mattei](https://github.com/kristof-mattei) ([`0358506`](https://github.com/kristof-mattei/rust-testbench/commit/035850687f39ce852128a059f83f596cba9fab40))
+- *(ci)* Upload images sequentially by [@kristof-mattei](https://github.com/kristof-mattei) ([`128f6d4`](https://github.com/kristof-mattei/rust-testbench/commit/128f6d4a0436cec8aeba4754262307ff0274b9df))
+- *(ci)* Ignore all untracked files via git by [@kristof-mattei](https://github.com/kristof-mattei) ([`5957a74`](https://github.com/kristof-mattei/rust-testbench/commit/5957a7462d32571f4a58d53588086dccc1d410df))
+- *(ci)* Tighten permissions by [@kristof-mattei](https://github.com/kristof-mattei) ([`df43ce0`](https://github.com/kristof-mattei/rust-testbench/commit/df43ce0e669655ee4e11a512a5918eb10f557813))
+- *(ci)* Actionlint by [@kristof-mattei](https://github.com/kristof-mattei) ([`729f415`](https://github.com/kristof-mattei/rust-testbench/commit/729f41554cab0e3b67a2ffc53f46f3bf8b55ec22))
+- *(ci)* We don't have python actions by [@kristof-mattei](https://github.com/kristof-mattei) ([`91ee78b`](https://github.com/kristof-mattei/rust-testbench/commit/91ee78b23869880c9bacb6cecff58559cbb31afd))
+- *(ci)* Use git-cliff for conventional-commit validation, dropping cocogitto by [@kristof-mattei](https://github.com/kristof-mattei) ([`bfa5602`](https://github.com/kristof-mattei/rust-testbench/commit/bfa5602da15f82b6cb96ce09a92ee69c3e3b973d))
+- *(ci)* Ballot stuff by [@kristof-mattei](https://github.com/kristof-mattei) ([`74c829d`](https://github.com/kristof-mattei/rust-testbench/commit/74c829db90842511c9ead4b5f3e7421eebcf7bc7))
+- *(ci)* Ubuntu 26.04 by [@kristof-mattei](https://github.com/kristof-mattei) ([`fc77935`](https://github.com/kristof-mattei/rust-testbench/commit/fc779355c9e1b5e1bd9c6db1fed1785efdd44d6f))
+- *(ci)* Limit linting to commits in this PR by [@kristof-mattei](https://github.com/kristof-mattei) ([`8127689`](https://github.com/kristof-mattei/rust-testbench/commit/8127689917ff740aa31b0869a623cb0caf3892b0))
+- *(ci)* Create fake version-bump patch to build locally by [@kristof-mattei](https://github.com/kristof-mattei) ([`acebe1b`](https://github.com/kristof-mattei/rust-testbench/commit/acebe1b114af910b7d02ff73045345456c46c17c))
+- *(ci)* Pin ubuntu runner image by [@kristof-mattei](https://github.com/kristof-mattei) ([`9eb5dc0`](https://github.com/kristof-mattei/rust-testbench/commit/9eb5dc0f429dd33e486282c4d640f2d690053962))
+- *(ci)* Deployed crates link to deployed version by [@kristof-mattei](https://github.com/kristof-mattei) ([`ae46c65`](https://github.com/kristof-mattei/rust-testbench/commit/ae46c657952d31fcb445012cf3fd2dbaa5cf3137))
+- *(ci)* Change extension by [@kristof-mattei](https://github.com/kristof-mattei) ([`caef7ed`](https://github.com/kristof-mattei/rust-testbench/commit/caef7edbe2e0c93acb8901da1824164d3a7bd686))
+- *(ci)* Ubuntu 26.04 by [@kristof-mattei](https://github.com/kristof-mattei) ([`3e94142`](https://github.com/kristof-mattei/rust-testbench/commit/3e941422caf1fc96fb7927e33f655f9ca57c6170))
+- *(ci)* Rewrite by [@kristof-mattei](https://github.com/kristof-mattei) ([`47b466d`](https://github.com/kristof-mattei/rust-testbench/commit/47b466df8c29ef7e0d9a05687cf1ea3df1d6d392))
+- *(ci)* Add a zizmor workflow and require it on PRs by [@kristof-mattei](https://github.com/kristof-mattei) ([`4a8efba`](https://github.com/kristof-mattei/rust-testbench/commit/4a8efbada863a16937ba2470fec25bad309049da))
+- *(ci)* Zizmor pedantic by [@kristof-mattei](https://github.com/kristof-mattei) ([`9c24bf6`](https://github.com/kristof-mattei/rust-testbench/commit/9c24bf6d8ec472e1796cc076412ca84e724ad5f4))
+- *(ci)* Variable rename for correctness by [@kristof-mattei](https://github.com/kristof-mattei) ([`977f466`](https://github.com/kristof-mattei/rust-testbench/commit/977f46626a8c80585c74d9030a2dc55bb32d8e59))
+- *(ci)* Enforce spellcheck by [@kristof-mattei](https://github.com/kristof-mattei) ([`e2d8f88`](https://github.com/kristof-mattei/rust-testbench/commit/e2d8f8887c4453056511c3e395626e112e3fa203))
+- *(ci)* Codeql concurrency by [@kristof-mattei](https://github.com/kristof-mattei) ([`8aefc58`](https://github.com/kristof-mattei/rust-testbench/commit/8aefc58251a58004ff9bfaf9a9bcda1f4978ef62))
+- *(ci)* Skip result uploads on fork PRs by [@kristof-mattei](https://github.com/kristof-mattei) ([`50d29e2`](https://github.com/kristof-mattei/rust-testbench/commit/50d29e2b1bf4d7bac2dd86da4a85414f9b69596a))
+- *(ci)* Fork writing to cache-to prevention by [@kristof-mattei](https://github.com/kristof-mattei) ([`4f859d2`](https://github.com/kristof-mattei/rust-testbench/commit/4f859d2d20f025e760067a190310e4d688c5cf85))
+- *(ci)* Remove non-existent file by [@kristof-mattei](https://github.com/kristof-mattei) ([`f68ab8e`](https://github.com/kristof-mattei/rust-testbench/commit/f68ab8e285ef955ec70c085fe9f8aa66c8f912e9))
+- *(ci)* Fix permissions by [@kristof-mattei](https://github.com/kristof-mattei) ([`950ce38`](https://github.com/kristof-mattei/rust-testbench/commit/950ce3863c99614fcd2fbf3d2eaf3a4374306e98))
+- *(ci)* Skip CodeQL on pull requests that only change `CHANGELOG.md` by [@kristof-mattei](https://github.com/kristof-mattei) ([`bc4c9dd`](https://github.com/kristof-mattei/rust-testbench/commit/bc4c9dd1c366d5539ee5a125d9dcd16eb64ecce9))
+- *(ci)* Run CodeQL on `CHANGELOG.md`-only pull requests again by [@kristof-mattei](https://github.com/kristof-mattei) ([`e2f39cf`](https://github.com/kristof-mattei/rust-testbench/commit/e2f39cfbb0b378e664a42bf458b501cae6bb262e))
+- *(ci)* Reference the Rust reusable workflow with the `$/` self-repository syntax by [@kristof-mattei](https://github.com/kristof-mattei) ([`5fa3b88`](https://github.com/kristof-mattei/rust-testbench/commit/5fa3b884b6c55e6dbb7553dfe5594daae1035b55))
+- *(lint)* Enforce strict conventional commit subjects by [@kristof-mattei](https://github.com/kristof-mattei) ([`7181ba2`](https://github.com/kristof-mattei/rust-testbench/commit/7181ba2ac14778b62bd992b09023f4e0d73d9b1f))
+- *(release)* Truncate bodies by characters instead of bytes by [@kristof-mattei](https://github.com/kristof-mattei) ([`f46b4c4`](https://github.com/kristof-mattei/rust-testbench/commit/f46b4c47f38fcab04c749b7219f25302c895259b))
+- *(release)* Ballot entries start unchecked, checking opts into the changelog by [@kristof-mattei](https://github.com/kristof-mattei) ([`c8882bd`](https://github.com/kristof-mattei/rust-testbench/commit/c8882bd861c9fe2a968ef392a506f95c05dc9174))
+- Compute version bump offline with git-cliff by [@kristof-mattei](https://github.com/kristof-mattei) ([`5fd481c`](https://github.com/kristof-mattei/rust-testbench/commit/5fd481c61d030d20bdcaa26f2cdd1aaf8db607f2))
+- Gate release PRs on the base commit's container being retagged onto main by [@kristof-mattei](https://github.com/kristof-mattei) ([`60e92af`](https://github.com/kristof-mattei/rust-testbench/commit/60e92af9995c0b8dbe70a996c8e7d72574e07ade))
+- Set `GH_REPO` and retry transient errors in the release base container gate by [@kristof-mattei](https://github.com/kristof-mattei) ([`ddd7912`](https://github.com/kristof-mattei/rust-testbench/commit/ddd7912c6629eef022288a16b6a10d563f9b7a39))
 ## [2.12.1](https://github.com/kristof-mattei/rust-testbench/compare/v2.12.0..v2.12.1) - 2026-07-29
 
 ### 🐛 Bug Fixes
 
+- *(ci)* Disable asking for funds when installing pnpm by [@kristof-mattei](https://github.com/kristof-mattei) ([`b661b33`](https://github.com/kristof-mattei/rust-testbench/commit/b661b336aeed70395e1a0a25484b48d88f6d3cb4))
+- *(ci)* Merge the PR based on the branch name, not the url by [@kristof-mattei](https://github.com/kristof-mattei) ([`b0af60a`](https://github.com/kristof-mattei/rust-testbench/commit/b0af60a01b2f10665e3d2ffaf658fc5e9f4c1cff))
 - Prettier config typescript version by [@kristof-mattei](https://github.com/kristof-mattei) ([`9a04bc8`](https://github.com/kristof-mattei/rust-testbench/commit/9a04bc814c428efb9b1af82b6395e8a08fb69caa))
 - For markdown, decrease tabwidth by [@kristof-mattei](https://github.com/kristof-mattei) ([`775286c`](https://github.com/kristof-mattei/rust-testbench/commit/775286c57e10452aa3580f168399f48f50066e40))
 
 ### ⚙️ Miscellaneous Tasks
 
+- *(ci)* Long-form options by [@kristof-mattei](https://github.com/kristof-mattei) ([`8cc89ce`](https://github.com/kristof-mattei/rust-testbench/commit/8cc89ce310fd951216ebb9bf5dad46a9eb5b4cab))
+- *(ci)* Create release commits with the api so they're signed by [@kristof-mattei](https://github.com/kristof-mattei) ([`d3c09ec`](https://github.com/kristof-mattei/rust-testbench/commit/d3c09ecddf8e095802dff0d84020907c0775e50e))
+- *(ci)* Create release commits with the api so they're signed by [@kristof-mattei](https://github.com/kristof-mattei) ([`16831c5`](https://github.com/kristof-mattei/rust-testbench/commit/16831c54e795ae50c9d07b68470921a4c59ec598))
+- *(ci)* Create release commits with the api so they're signed by [@kristof-mattei](https://github.com/kristof-mattei) ([`7375eba`](https://github.com/kristof-mattei/rust-testbench/commit/7375ebab50dc6f52895bc783abf7b95c26bee9b5))
 - Cspell by [@kristof-mattei](https://github.com/kristof-mattei) ([`9f5797a`](https://github.com/kristof-mattei/rust-testbench/commit/9f5797a16adf5f2880b5bbdea2827ad7cf465688))
 - Remove copilot instructions as copilot is now behind a paywall by [@kristof-mattei](https://github.com/kristof-mattei) ([`8a34ae2`](https://github.com/kristof-mattei/rust-testbench/commit/8a34ae290dfdb5ddf5d2b73eeca90a14146f3e9b))
 ## [2.12.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.11.0..v2.12.0) - 2026-07-13
@@ -30,6 +103,13 @@
 
 ### 🐛 Bug Fixes
 
+- *(ci)* Parallel upload by [@kristof-mattei](https://github.com/kristof-mattei) ([`c690c06`](https://github.com/kristof-mattei/rust-testbench/commit/c690c0622b43647b20f2f31e5a2b8fcab6418b3c))
+- *(ci)* Disable caching ./target by [@kristof-mattei](https://github.com/kristof-mattei) ([`b9452ad`](https://github.com/kristof-mattei/rust-testbench/commit/b9452adde2041cfb056b250b9dc1fe33ff81347b))
+- *(ci)* `warm-up-cache` does not need mold by [@kristof-mattei](https://github.com/kristof-mattei) ([`b1f29a5`](https://github.com/kristof-mattei/rust-testbench/commit/b1f29a5cf0d51fb9b9d5c86f3a437548832b04e9))
+- *(ci)* Don't cache cargo registry by [@kristof-mattei](https://github.com/kristof-mattei) ([`4122327`](https://github.com/kristof-mattei/rust-testbench/commit/41223274ed701eafd121660d73c9d77bb073167d))
+- *(ci)* Disable registry caching in crate release by [@kristof-mattei](https://github.com/kristof-mattei) ([`227ac02`](https://github.com/kristof-mattei/rust-testbench/commit/227ac0201fe4cf8ad8a6f8d5df08c1c369b11df5))
+- *(ci)* Add missing read permissions by [@kristof-mattei](https://github.com/kristof-mattei) ([`0272238`](https://github.com/kristof-mattei/rust-testbench/commit/027223880c30bf615630839cf7913ba63549b4fd))
+- *(ci)* Retry installing spellcheck, it's sometimes flaky, also disable compile when the HTTP request fails by [@kristof-mattei](https://github.com/kristof-mattei) ([`1dd49a7`](https://github.com/kristof-mattei/rust-testbench/commit/1dd49a7b7cda4f75ec810e29fdea0c7e7357abd5))
 - *(deps)* Update rust crate mimalloc to 0.1.52 by [@renovate[bot]](https://github.com/renovate[bot]) ([`1890f97`](https://github.com/kristof-mattei/rust-testbench/commit/1890f97240cf108d41c370179666282ebe343759))
 - *(deps)* Pin dependencies by [@renovate[bot]](https://github.com/renovate[bot]) ([`6e3faf5`](https://github.com/kristof-mattei/rust-testbench/commit/6e3faf5afa52deaeb3d8539dc6e2f79268559d11))
 - `cargo-fmt` does not need cache, and shouldn't try to restore it, worse, it could save a broken cache should `warm-up-cache` fail by [@kristof-mattei](https://github.com/kristof-mattei) ([`f30035a`](https://github.com/kristof-mattei/rust-testbench/commit/f30035a937be4e0f0ff705beb239c300b7d7c3a4))
@@ -76,6 +156,8 @@
 
 ### ⚙️ Miscellaneous Tasks
 
+- *(ci)* Restore ability to do prerelease versions by [@kristof-mattei](https://github.com/kristof-mattei) ([`7c5b0ea`](https://github.com/kristof-mattei/rust-testbench/commit/7c5b0ea895c5e92aa3c69fec62e3a7156f2ca183))
+- *(ci)* Allow re-release pre-release without having to add features by [@kristof-mattei](https://github.com/kristof-mattei) ([`657a7db`](https://github.com/kristof-mattei/rust-testbench/commit/657a7db145169f1dd3cd17b587324fae32ec4d04))
 - Re-enable pre-release by [@kristof-mattei](https://github.com/kristof-mattei) ([`432f82c`](https://github.com/kristof-mattei/rust-testbench/commit/432f82cc08489305fed990b6c208a5f344715aa9))
 - Disable bundle analysis by [@kristof-mattei](https://github.com/kristof-mattei) ([`3400f26`](https://github.com/kristof-mattei/rust-testbench/commit/3400f262aee7895df6c5133692b8a9500d94eef8))
 ## [2.8.1](https://github.com/kristof-mattei/rust-testbench/compare/v2.8.0..v2.8.1) - 2026-04-05
@@ -86,6 +168,11 @@
 
 ### ⚙️ Miscellaneous Tasks
 
+- *(ci)* Upload edge to docker.io by [@kristof-mattei](https://github.com/kristof-mattei) ([`f235bac`](https://github.com/kristof-mattei/rust-testbench/commit/f235bac7e7bf720a4c42711f12fa57cb361c6adf))
+- *(ci)* Reattest every stage by [@kristof-mattei](https://github.com/kristof-mattei) ([`19c7f04`](https://github.com/kristof-mattei/rust-testbench/commit/19c7f048fad6474f798c9d810dbe1d2278731d6d))
+- *(ci)* Use skopeo wherever possible by [@kristof-mattei](https://github.com/kristof-mattei) ([`50a6786`](https://github.com/kristof-mattei/rust-testbench/commit/50a678665fd200021293e938c0b493891077a5ef))
+- *(ci)* Scout for visualizing cves etc by [@kristof-mattei](https://github.com/kristof-mattei) ([`2fe6e06`](https://github.com/kristof-mattei/rust-testbench/commit/2fe6e06ada42423eeacec95be6a29ccbd3806068))
+- *(ci)* Username is not secret by [@kristof-mattei](https://github.com/kristof-mattei) ([`7d168f4`](https://github.com/kristof-mattei/rust-testbench/commit/7d168f446d7bbdabaf2bd58c2818af2a65b07c41))
 - *(release)* Release v2.8.1 by [@github-actions[bot]](https://github.com/github-actions[bot]) ([`5e18021`](https://github.com/kristof-mattei/rust-testbench/commit/5e18021f4cee4139287e28cb9a8f97d8b41c74be))
 - Fix fmt by [@kristof-mattei](https://github.com/kristof-mattei) ([`1c63af5`](https://github.com/kristof-mattei/rust-testbench/commit/1c63af585079ee98e0b241fc6683c31982159106))
 ## [2.8.0](https://github.com/kristof-mattei/rust-testbench/compare/v2.7.1..v2.8.0) - 2026-04-05
@@ -111,6 +198,7 @@
 
 ### ⚙️ Miscellaneous Tasks
 
+- *(ci)* When configured, images pushed to docker are also attested by [@kristof-mattei](https://github.com/kristof-mattei) ([`86e48b0`](https://github.com/kristof-mattei/rust-testbench/commit/86e48b0650979de5e300b706e244f6f4f4eb140f))
 - *(release)* Release v2.8.0 by [@github-actions[bot]](https://github.com/github-actions[bot]) ([`590e66d`](https://github.com/kristof-mattei/rust-testbench/commit/590e66d0e30a16ef771bcf244ea335fce6285a6a))
 - Render username link by [@kristof-mattei](https://github.com/kristof-mattei) ([`19debe7`](https://github.com/kristof-mattei/rust-testbench/commit/19debe713ec00dc8f6534a65bab8f1f9ef5dccec))
 - Sort tags by creation time by [@kristof-mattei](https://github.com/kristof-mattei) ([`39ce04b`](https://github.com/kristof-mattei/rust-testbench/commit/39ce04bd2b02ef17d869c2828bf3e641854a25b1))
@@ -230,6 +318,8 @@
 
 ### ⚙️ Miscellaneous Tasks
 
+- *(ci)* Allow empty by [@kristof-mattei](https://github.com/kristof-mattei) ([`e6ce7fb`](https://github.com/kristof-mattei/rust-testbench/commit/e6ce7fbb2a3ceb423c1c822dca92049f70f43ea2))
+- *(ci)* Comment cleanup by [@kristof-mattei](https://github.com/kristof-mattei) ([`4fa99d9`](https://github.com/kristof-mattei/rust-testbench/commit/4fa99d9cace57656b0c725fa995cbf85cedd07b4))
 - *(release)* Release v2.3.0 by [@github-actions[bot]](https://github.com/github-actions[bot]) ([`dc76b68`](https://github.com/kristof-mattei/rust-testbench/commit/dc76b68e8727a69620a99bb707cafaeca07d78c1))
 - Clean up ignore by [@kristof-mattei](https://github.com/kristof-mattei) ([`404a01e`](https://github.com/kristof-mattei/rust-testbench/commit/404a01e12c18e72240ce1f85a49ee6aa8fc9e403))
 - Rust 1.94.0 Docker by [@kristof-mattei](https://github.com/kristof-mattei) ([`9427eb1`](https://github.com/kristof-mattei/rust-testbench/commit/9427eb18b46bf01da1357e3d83312f0846aa42ae))
@@ -252,6 +342,8 @@
 
 ### 🐛 Bug Fixes
 
+- *(ci)* For the changelog, emit the version that we built by [@kristof-mattei](https://github.com/kristof-mattei) ([`0a76fe5`](https://github.com/kristof-mattei/rust-testbench/commit/0a76fe56479edefa3a358cf677a6dd3a7973229f))
+- *(ci)* For the changelog, emit the version that we built II by [@kristof-mattei](https://github.com/kristof-mattei) ([`efb34a5`](https://github.com/kristof-mattei/rust-testbench/commit/efb34a512df7d79d707f879bf6a9f57a9e9709da))
 - Ensure pre-release and release tags on containers are emitted with the 'v' prefix by [@kristof-mattei](https://github.com/kristof-mattei) ([`6edac00`](https://github.com/kristof-mattei/rust-testbench/commit/6edac007d710b502d0db3c6e95a644eaf6a2044a))
 - Skip spellcheck on release/ branches by [@kristof-mattei](https://github.com/kristof-mattei) ([`736f013`](https://github.com/kristof-mattei/rust-testbench/commit/736f01396b30052e9f01927fd93f321f49ffeb8a))
 - Bump by [@kristof-mattei](https://github.com/kristof-mattei) ([`7afa9d5`](https://github.com/kristof-mattei/rust-testbench/commit/7afa9d53df91c5fb366f72c91b2ea0167ac66325))
@@ -387,6 +479,7 @@
 
 ### 🚀 Features
 
+- *(ci)* Multi level by [@kristof-mattei](https://github.com/kristof-mattei) ([`eb36e7a`](https://github.com/kristof-mattei/rust-testbench/commit/eb36e7acf6ab747376cddd1d67e917262d6627dd))
 - Multiplatform with caching by [@kristof-mattei](https://github.com/kristof-mattei) ([`6c5188b`](https://github.com/kristof-mattei/rust-testbench/commit/6c5188b32d43e0f8ae0bd1d9082871b23e244116))
 - Enable codeql by [@kristof-mattei](https://github.com/kristof-mattei) ([`9d22fa5`](https://github.com/kristof-mattei/rust-testbench/commit/9d22fa5261061d03a3c63a9fa5f5599e374b36ed))
 - Update publish defaults by [@kristof-mattei](https://github.com/kristof-mattei) ([`406e06c`](https://github.com/kristof-mattei/rust-testbench/commit/406e06cae013094a6e2995e2c49158b1677b814e))
@@ -415,6 +508,9 @@
 
 ### 🐛 Bug Fixes
 
+- *(ci)* Only pre-build cargo-edit when we actually build a container by [@kristof-mattei](https://github.com/kristof-mattei) ([`9bfd2a5`](https://github.com/kristof-mattei/rust-testbench/commit/9bfd2a517d7b9a9081211c94e124de3ddcf19fc3))
+- *(ci)* Surpress "warning: be sure to add `/output/bin` to your PATH to be able to run the installed binaries" by [@kristof-mattei](https://github.com/kristof-mattei) ([`77f6810`](https://github.com/kristof-mattei/rust-testbench/commit/77f681080fb7d2b399ba3944c63db8d1bbfaa169))
+- *(ci)* Use --list-different to actually list the files different by [@kristof-mattei](https://github.com/kristof-mattei) ([`37e5d53`](https://github.com/kristof-mattei/rust-testbench/commit/37e5d53fe82cf449cc43fed4a8ff33bd1e7635b4))
 - *(deps)* Update rust crate openssl to 0.10.73 by [@renovate[bot]](https://github.com/renovate[bot]) ([`818d5d7`](https://github.com/kristof-mattei/rust-testbench/commit/818d5d763e04fc8e3f0638a9264e9c8f1aecc4cb))
 - *(deps)* Update rust crate color-eyre to 0.6.5 by [@renovate[bot]](https://github.com/renovate[bot]) ([`6cbb98d`](https://github.com/kristof-mattei/rust-testbench/commit/6cbb98dc877f5d2785ceb938f3fca30172c21bbe))
 - Switch to prettier's mjs setup, widen limit for non-json files by [@kristof-mattei](https://github.com/kristof-mattei) ([`15954b2`](https://github.com/kristof-mattei/rust-testbench/commit/15954b23a004049eb88cbce34cc69bd231dce81e))
@@ -533,6 +629,17 @@
 
 ### ⚙️ Miscellaneous Tasks
 
+- *(ci)* Add step that builds cargo-edit and cargo-get before the docker build. Docker build will then pick up cached version by [@kristof-mattei](https://github.com/kristof-mattei) ([`a0c20d6`](https://github.com/kristof-mattei/rust-testbench/commit/a0c20d6543ef13d301721a66f75250cfeacc491a))
+- *(ci)* Add comment ensuring the non-standard action gets updated by [@kristof-mattei](https://github.com/kristof-mattei) ([`af60f14`](https://github.com/kristof-mattei/rust-testbench/commit/af60f143907c0fc3a3e1ddcc37ccc02784e0394e))
+- *(ci)* Split builds again for speed by [@kristof-mattei](https://github.com/kristof-mattei) ([`a33e1ab`](https://github.com/kristof-mattei/rust-testbench/commit/a33e1ab61073a555dd707ca7cfc0d1efa275ef6f))
+- *(ci)* Reduce platforms for qemu by [@kristof-mattei](https://github.com/kristof-mattei) ([`e67fe57`](https://github.com/kristof-mattei/rust-testbench/commit/e67fe57673bcdb67648141144b6fb077d3df3e0e))
+- *(ci)* Use github-scripts@v8 by [@kristof-mattei](https://github.com/kristof-mattei) ([`7495be9`](https://github.com/kristof-mattei/rust-testbench/commit/7495be94fc8a75dfcfef52a5deb5dd76f096825a))
+- *(ci)* Add machete by [@kristof-mattei](https://github.com/kristof-mattei) ([`08bd0ef`](https://github.com/kristof-mattei/rust-testbench/commit/08bd0efd204b4b7ba7994ce4f9bfb985e0692cc0))
+- *(ci)* Enforce machete by [@kristof-mattei](https://github.com/kristof-mattei) ([`38c2d3b`](https://github.com/kristof-mattei/rust-testbench/commit/38c2d3b8949c898688c4edeca898da735d6f90cd))
+- *(ci)* Rename format to machete by [@kristof-mattei](https://github.com/kristof-mattei) ([`d8e6d9f`](https://github.com/kristof-mattei/rust-testbench/commit/d8e6d9f0ef133cee5f38e5c6641e79a26d99cfaf))
+- *(ci)* Enforce nightly fmt by [@kristof-mattei](https://github.com/kristof-mattei) ([`3ec2ad1`](https://github.com/kristof-mattei/rust-testbench/commit/3ec2ad14ee4b4dd97b161ce62d37871f42f78dd7))
+- *(ci)* Kill enforcement of nightly fmt by [@kristof-mattei](https://github.com/kristof-mattei) ([`ba7dfda`](https://github.com/kristof-mattei/rust-testbench/commit/ba7dfdaedabe7840657c288075ee4796fd31faf4))
+- *(ci)* Make coverage optional by [@kristof-mattei](https://github.com/kristof-mattei) ([`3400180`](https://github.com/kristof-mattei/rust-testbench/commit/34001803940dedc56564b839d4abf55ab6d94299))
 - *(fmt)* Fmt by [@kristof-mattei](https://github.com/kristof-mattei) ([`f7b0a11`](https://github.com/kristof-mattei/rust-testbench/commit/f7b0a1189c2e2b834199e2fc876b95aa63c8a246))
 - *(release)* Release v1.5.0 ([`5504d10`](https://github.com/kristof-mattei/rust-testbench/commit/5504d10df91b765fac320a1ae903bc761017728c))
 - *(release)* Release 0.0.1 ([`a075d2d`](https://github.com/kristof-mattei/rust-testbench/commit/a075d2d69cd0202de3d42c8a888ca14b49e0051f))
@@ -838,8 +945,16 @@
 - *(version)* V1.2.0 by [@invalid-email-address](https://github.com/invalid-email-address) ([`1dbbec6`](https://github.com/kristof-mattei/rust-testbench/commit/1dbbec608864c5cb559a90d8904996011daef52c))
 - *(version)* V1.3.0 by [@invalid-email-address](https://github.com/invalid-email-address) ([`bee1b83`](https://github.com/kristof-mattei/rust-testbench/commit/bee1b83e6cfe1afd6286073fc1bb38787c0ba48e))
 - *(version)* V1.3.1 by [@invalid-email-address](https://github.com/invalid-email-address) ([`096c422`](https://github.com/kristof-mattei/rust-testbench/commit/096c4229799cecace867a1de699a7f65eefe59bb))
+- Copy tags with docker tags again by [@kristof-mattei](https://github.com/kristof-mattei) ([`8ffcf1e`](https://github.com/kristof-mattei/rust-testbench/commit/8ffcf1ed1de7a080abcea97328b049bf909a1dba))
+- Spelling correction by [@kristof-mattei](https://github.com/kristof-mattei) ([`78e52a8`](https://github.com/kristof-mattei/rust-testbench/commit/78e52a882d3cc7e22e17e4457e870f9b3b7534d2))
+- Removed unneeded print by [@kristof-mattei](https://github.com/kristof-mattei) ([`045ea6c`](https://github.com/kristof-mattei/rust-testbench/commit/045ea6c8ecceed3918dd2c5307cbae9e56ff1864))
+- Added comment for future me <insert 88mph joke> by [@kristof-mattei](https://github.com/kristof-mattei) ([`1c4c032`](https://github.com/kristof-mattei/rust-testbench/commit/1c4c0321a161d6719796b0724a13eb754b2125c8))
 - Renamed files by [@kristof-mattei](https://github.com/kristof-mattei) ([`e34981a`](https://github.com/kristof-mattei/rust-testbench/commit/e34981a3a8506a261ad818f45ea726e3d2e20e7c))
+- Debugging changelog printing issues by [@kristof-mattei](https://github.com/kristof-mattei) ([`cf9a3de`](https://github.com/kristof-mattei/rust-testbench/commit/cf9a3de23bf33ea746cd56d0c50b15b3825aca52))
 - Fix linebreaks by [@kristof-mattei](https://github.com/kristof-mattei) ([`25900e3`](https://github.com/kristof-mattei/rust-testbench/commit/25900e3490df1800b89ed40ad727f64a74ef8252))
+- Forgot dependency by [@kristof-mattei](https://github.com/kristof-mattei) ([`24064f8`](https://github.com/kristof-mattei/rust-testbench/commit/24064f83d4cb48e7b908485d1a1c0104e6b07bc4))
+- Fix space by [@kristof-mattei](https://github.com/kristof-mattei) ([`023334b`](https://github.com/kristof-mattei/rust-testbench/commit/023334b405aabed437cbb00a6f9152f259f30830))
+- Added final step by [@kristof-mattei](https://github.com/kristof-mattei) ([`ea08b74`](https://github.com/kristof-mattei/rust-testbench/commit/ea08b74d52466ba5ae07af106737e036b27ce0b1))
 - Update README.md by [@kristof-mattei](https://github.com/kristof-mattei) ([`f043d40`](https://github.com/kristof-mattei/rust-testbench/commit/f043d40421a8e5836e2b18711e751965e67103ae))
 - Updated name everywhere by [@kristof-mattei](https://github.com/kristof-mattei) ([`e0da1df`](https://github.com/kristof-mattei/rust-testbench/commit/e0da1dfbaab56c5bfe15145abab04ddfbd05539c))
 - Bumped rust numbers everywhere by [@kristof-mattei](https://github.com/kristof-mattei) ([`a0577b5`](https://github.com/kristof-mattei/rust-testbench/commit/a0577b5c76c2c590f7ec371dab5669b648b31bf9))
@@ -847,31 +962,71 @@
 - Consolidated npm usage by [@kristof-mattei](https://github.com/kristof-mattei) ([`146c18f`](https://github.com/kristof-mattei/rust-testbench/commit/146c18fa3ddc6c63cd2fa1e32a9cfefaf346ffa2))
 - Cleanup un-used script by [@kristof-mattei](https://github.com/kristof-mattei) ([`e8ab324`](https://github.com/kristof-mattei/rust-testbench/commit/e8ab3245bc3ac74a7bd96844047c68ee789f18b4))
 - Foundation for correct version numbers by [@kristof-mattei](https://github.com/kristof-mattei) ([`82fe6c5`](https://github.com/kristof-mattei/rust-testbench/commit/82fe6c562db8fcc81eed9ff614346e1dcb6ca8e3))
+- Set version number of Rust binary at build time by [@kristof-mattei](https://github.com/kristof-mattei) ([`5746431`](https://github.com/kristof-mattei/rust-testbench/commit/57464314eadd600e6ceb395041d8ba6f33c3afb5))
+- Reduce unneeded builds by [@kristof-mattei](https://github.com/kristof-mattei) ([`ed49297`](https://github.com/kristof-mattei/rust-testbench/commit/ed49297faf6c0300cbfe42ae5b4b5d7fcfbbf091))
+- Add dry-run to make sure we don't publish preemptively by [@kristof-mattei](https://github.com/kristof-mattei) ([`5285cee`](https://github.com/kristof-mattei/rust-testbench/commit/5285cee32977ef1ada378dc306c20b9c5f08ccb5))
+- Ensure checkout so that we have a package-lock by [@kristof-mattei](https://github.com/kristof-mattei) ([`4eeb52e`](https://github.com/kristof-mattei/rust-testbench/commit/4eeb52e02e4eb3c18f39edadbdafe4ed3b47b2fb))
+- Remove spurious ) by [@kristof-mattei](https://github.com/kristof-mattei) ([`5a81c7e`](https://github.com/kristof-mattei/rust-testbench/commit/5a81c7e34b0dbe620524c8399eb6a4f56083084c))
+- I used the wrong script by [@kristof-mattei](https://github.com/kristof-mattei) ([`7dcc44d`](https://github.com/kristof-mattei/rust-testbench/commit/7dcc44d2c43e506d4b436c1fdf43bd9cabf3da33))
+- Flip aroud switches until we find the right combination by [@kristof-mattei](https://github.com/kristof-mattei) ([`1c225f6`](https://github.com/kristof-mattei/rust-testbench/commit/1c225f6c17d71594ab8fbb751d5de52df0d821d1))
+- Hack the semantic-release by [@kristof-mattei](https://github.com/kristof-mattei) ([`65bd2eb`](https://github.com/kristof-mattei/rust-testbench/commit/65bd2ebb3aeea525700fab234db4499581e11fa8))
+- Semantic-release doesn't like refs/pulls/12/merge, surrounding with quotes to test by [@kristof-mattei](https://github.com/kristof-mattei) ([`c3acbf5`](https://github.com/kristof-mattei/rust-testbench/commit/c3acbf55e23ecd55e4d280efdfc3bb1d7ccfa834))
+- Just trying to get  this to work by [@kristof-mattei](https://github.com/kristof-mattei) ([`b5478dd`](https://github.com/kristof-mattei/rust-testbench/commit/b5478dd32304377204c6d7b8960ac877f5af19f4))
+- Can't go without --no-ci by [@kristof-mattei](https://github.com/kristof-mattei) ([`29fbe92`](https://github.com/kristof-mattei/rust-testbench/commit/29fbe92afa714985de7f0c6fc8c779a8caaeca04))
+- Try get last tag by [@kristof-mattei](https://github.com/kristof-mattei) ([`a37253e`](https://github.com/kristof-mattei/rust-testbench/commit/a37253eb904612f60e0a6e4ea2a891cf7a76e051))
+- Removed duplicate version id by [@kristof-mattei](https://github.com/kristof-mattei) ([`97ee09a`](https://github.com/kristof-mattei/rust-testbench/commit/97ee09a29da6ccedb4591b9cd91d1520506cad58))
+- Better way to check out the head? by [@kristof-mattei](https://github.com/kristof-mattei) ([`04c1587`](https://github.com/kristof-mattei/rust-testbench/commit/04c1587aea423444d50b9b63ebd78a74b5ec895c))
+- Work around semantic-release restrictions by [@kristof-mattei](https://github.com/kristof-mattei) ([`63a6315`](https://github.com/kristof-mattei/rust-testbench/commit/63a63159018ab9b7806dd669768fcfdc06f6c6b1))
+- Hack around semantic-release some more by [@kristof-mattei](https://github.com/kristof-mattei) ([`3bd1a9c`](https://github.com/kristof-mattei/rust-testbench/commit/3bd1a9c0f70f33abdc0f51b68ddb6b02cfa298af))
+- Wrong script name by [@kristof-mattei](https://github.com/kristof-mattei) ([`517cb82`](https://github.com/kristof-mattei/rust-testbench/commit/517cb822538623679fcd57d5aaba79317038ee97))
+- Skip tag, we don't want to give this one rights to push by [@kristof-mattei](https://github.com/kristof-mattei) ([`278546c`](https://github.com/kristof-mattei/rust-testbench/commit/278546c990fc0937d60403b661ac555cee8a966d))
+- Give more permissions for dry-run by [@kristof-mattei](https://github.com/kristof-mattei) ([`1d5cbf0`](https://github.com/kristof-mattei/rust-testbench/commit/1d5cbf0ba44ead2afaa0e94bf967155758e8577d))
+- Testing new flow by [@kristof-mattei](https://github.com/kristof-mattei) ([`8d9c25a`](https://github.com/kristof-mattei/rust-testbench/commit/8d9c25a2ff7b97357fd5f385eaf5cf801995d2f4))
 - Fix publish script by [@kristof-mattei](https://github.com/kristof-mattei) ([`68bb738`](https://github.com/kristof-mattei/rust-testbench/commit/68bb738d6d2f86e71f91588e1c5fe2f4ccc45a62))
 - Check for changes by [@kristof-mattei](https://github.com/kristof-mattei) ([`39f071c`](https://github.com/kristof-mattei/rust-testbench/commit/39f071cd709181ee79f9e42869332af34a142da1))
 - Restructure, remove unneeded submodule pull by [@kristof-mattei](https://github.com/kristof-mattei) ([`cfebd29`](https://github.com/kristof-mattei/rust-testbench/commit/cfebd2921b7e87dec2003216c88e2e0efb58dcd7))
+- Fix condition by [@kristof-mattei](https://github.com/kristof-mattei) ([`02df130`](https://github.com/kristof-mattei/rust-testbench/commit/02df1304baa8a2b096b8e0f29b93eaf6faa552e6))
 - Split steps by [@kristof-mattei](https://github.com/kristof-mattei) ([`95bf3b6`](https://github.com/kristof-mattei/rust-testbench/commit/95bf3b6a5c85f11cfb08c9594369d58bd7a9188c))
 - Reduced complexity of filter by [@kristof-mattei](https://github.com/kristof-mattei) ([`20f398c`](https://github.com/kristof-mattei/rust-testbench/commit/20f398c8adbd47f93754d42298ca2a59c808bf6b))
 - Beautified titles by [@kristof-mattei](https://github.com/kristof-mattei) ([`00b5d37`](https://github.com/kristof-mattei/rust-testbench/commit/00b5d37f9dde952c90c8684fe7d2dec900d1e341))
+- Updated task name by [@kristof-mattei](https://github.com/kristof-mattei) ([`10882f2`](https://github.com/kristof-mattei/rust-testbench/commit/10882f2f181ae6d5e441dc8327c37ac729671261))
+- Prevent clippy from running twice by [@kristof-mattei](https://github.com/kristof-mattei) ([`5db45b9`](https://github.com/kristof-mattei/rust-testbench/commit/5db45b9964d66de7d9d5377748158bdd624b5bbf))
+- Aligned commandline parameters by [@kristof-mattei](https://github.com/kristof-mattei) ([`fd9d518`](https://github.com/kristof-mattei/rust-testbench/commit/fd9d51865bd14d729d49d15a6de25fb53a42c869))
+- Expanded clippy warnings by [@kristof-mattei](https://github.com/kristof-mattei) ([`01272f6`](https://github.com/kristof-mattei/rust-testbench/commit/01272f622b1a588f3fb064c82203222da3f29252))
 - Also run pedantic and cargo test on push by [@kristof-mattei](https://github.com/kristof-mattei) ([`23ba6db`](https://github.com/kristof-mattei/rust-testbench/commit/23ba6db09d220e17608aa43ab4ffe903507f2ada))
 - Also run test-and-report on main to update 'main' coverage by [@kristof-mattei](https://github.com/kristof-mattei) ([`07cab02`](https://github.com/kristof-mattei/rust-testbench/commit/07cab02c61478f168aa0fc7984a2dc5e79265ef1))
+- Also run clippy when merged to main to track progress by [@kristof-mattei](https://github.com/kristof-mattei) ([`bccc597`](https://github.com/kristof-mattei/rust-testbench/commit/bccc59739a8d274a06f093a2b625b09195d03ce0))
 - Create LICENSE by [@kristof-mattei](https://github.com/kristof-mattei) ([`9662fd0`](https://github.com/kristof-mattei/rust-testbench/commit/9662fd0bc59b52956cd6b30e26e6c5d4854ead9a))
+- Respect cargo.lock when doing cargo install by [@kristof-mattei](https://github.com/kristof-mattei) ([`20b7f38`](https://github.com/kristof-mattei/rust-testbench/commit/20b7f38541eb2641b99ede169a18b4323deae8b2))
 - Fixed the name by [@kristof-mattei](https://github.com/kristof-mattei) ([`7166635`](https://github.com/kristof-mattei/rust-testbench/commit/716663523d3c1e3d10b86a6b477298fa70196312))
 - Remove outdated comment by [@kristof-mattei](https://github.com/kristof-mattei) ([`88369f7`](https://github.com/kristof-mattei/rust-testbench/commit/88369f7ade36328e1b5156841a8127358c4a69a3))
 - Switch to cog by [@kristof-mattei](https://github.com/kristof-mattei) ([`d9dc537`](https://github.com/kristof-mattei/rust-testbench/commit/d9dc537936181daea34d14a6958064ff9c507eea))
 - Switch to cog wip by [@kristof-mattei](https://github.com/kristof-mattei) ([`70bc0fe`](https://github.com/kristof-mattei/rust-testbench/commit/70bc0fee3bec0b60d2eabd27999c80b43018bd92))
+- Use registry cache by [@kristof-mattei](https://github.com/kristof-mattei) ([`6e66668`](https://github.com/kristof-mattei/rust-testbench/commit/6e66668788e41a33e2efa36edf74297e83e58a13))
 - Typo, docker -> Docker by [@kristof-mattei](https://github.com/kristof-mattei) ([`8571cd7`](https://github.com/kristof-mattei/rust-testbench/commit/8571cd7fd8d6153eb75bef254aaa2e7ae8a1dc0f))
+- Use built-in rustup by [@kristof-mattei](https://github.com/kristof-mattei) ([`e3a791a`](https://github.com/kristof-mattei/rust-testbench/commit/e3a791a527a9f0e5b8a7696dd310d08f394ca4ce))
+- Set the checkout name by [@kristof-mattei](https://github.com/kristof-mattei) ([`a8a45b4`](https://github.com/kristof-mattei/rust-testbench/commit/a8a45b4f6ff2ef4783a60d0ddf99a519069e9f0a))
+- Fixed rustup update warning about rustfmt and cargo-fmt by [@kristof-mattei](https://github.com/kristof-mattei) ([`bb187f3`](https://github.com/kristof-mattei/rust-testbench/commit/bb187f384fb1042f363b9d756afc7aa64f5c852b))
+- No need to run clippy on push to main by [@kristof-mattei](https://github.com/kristof-mattei) ([`44890f7`](https://github.com/kristof-mattei/rust-testbench/commit/44890f764e814f9d99b92f43fd720cb2ab3998f3))
+- Updated generated cache name by [@kristof-mattei](https://github.com/kristof-mattei) ([`4aa7084`](https://github.com/kristof-mattei/rust-testbench/commit/4aa7084bddacb70518081f6a5872d4896f3bfd81))
 - Removed todo that's not gonna happen by [@kristof-mattei](https://github.com/kristof-mattei) ([`5205794`](https://github.com/kristof-mattei/rust-testbench/commit/5205794394c05e1f65333e4936def18162a8db0d))
+- Set nice name by [@kristof-mattei](https://github.com/kristof-mattei) ([`22f0bca`](https://github.com/kristof-mattei/rust-testbench/commit/22f0bcaf26b62359c2afd18cfad6fb280baf3d85))
 - Removed unneeded comments by [@kristof-mattei](https://github.com/kristof-mattei) ([`dca69dc`](https://github.com/kristof-mattei/rust-testbench/commit/dca69dc3ea2cbacb0a490e011c8c5a385ebf7c51))
+- Exclude rustfmt and cargo-fmt from the cache as rustup doesn't like that by [@kristof-mattei](https://github.com/kristof-mattei) ([`d95f77f`](https://github.com/kristof-mattei/rust-testbench/commit/d95f77ffd16ffa56db736e564928aa4726a7c224))
+- Exclude rustfmt and cargo-fmt from the cache as rustup doesn't like that by [@kristof-mattei](https://github.com/kristof-mattei) ([`2c04592`](https://github.com/kristof-mattei/rust-testbench/commit/2c04592da28a24dc92b3f1025345654ed51d84cb))
 - Run prettier by [@kristof-mattei](https://github.com/kristof-mattei) ([`46ff0fb`](https://github.com/kristof-mattei/rust-testbench/commit/46ff0fb4c6b3f3509f42798b1b9adbd59617f0b4))
+- Don't consider it 'all-done' when anything is cancelled by [@kristof-mattei](https://github.com/kristof-mattei) ([`4fdc19d`](https://github.com/kristof-mattei/rust-testbench/commit/4fdc19df0990801ebaf40f25fa955eb22f3f1946))
 - Also rebuild on cargo.lock changes by [@kristof-mattei](https://github.com/kristof-mattei) ([`b196ad4`](https://github.com/kristof-mattei/rust-testbench/commit/b196ad45b3b648f7588091e083df970f896b8185))
 - Updated npm packages by [@kristof-mattei](https://github.com/kristof-mattei) ([`79e5129`](https://github.com/kristof-mattei/rust-testbench/commit/79e5129e640c62201cc72d4807e3ff44a8ad2033))
 - Also bump rust-toolchain to rust 1.58.1 by [@kristof-mattei](https://github.com/kristof-mattei) ([`1f91934`](https://github.com/kristof-mattei/rust-testbench/commit/1f919341edc6d1538f96ae02ec832424ea0a9395))
 - Cleaned up rustfmt, added 2 settings by [@kristof-mattei](https://github.com/kristof-mattei) ([`b484519`](https://github.com/kristof-mattei/rust-testbench/commit/b484519b041b4336e93bbc556d202f70f68bf73e))
+- Set test comment mode by [@kristof-mattei](https://github.com/kristof-mattei) ([`137affd`](https://github.com/kristof-mattei/rust-testbench/commit/137affd7ddec571febf32f235fa26ac8702da2eb))
 - Formatting! by [@kristof-mattei](https://github.com/kristof-mattei) ([`f2ab063`](https://github.com/kristof-mattei/rust-testbench/commit/f2ab06359a1a980404bf2aebd013e43aef804662))
 - Don't create new comment, recycle! by [@kristof-mattei](https://github.com/kristof-mattei) ([`c3a7cb4`](https://github.com/kristof-mattei/rust-testbench/commit/c3a7cb4dd9fa46c893969e84e42c5b673e7adb8b))
 - Fixed title by [@kristof-mattei](https://github.com/kristof-mattei) ([`14bdc49`](https://github.com/kristof-mattei/rust-testbench/commit/14bdc49a2c8135972be93fef36a425bd9b094c80))
+- Correctly report test failure by [@kristof-mattei](https://github.com/kristof-mattei) ([`6250142`](https://github.com/kristof-mattei/rust-testbench/commit/6250142008a5f74fad09c6088fa64ec87d5c49a5))
 - Also update cargo & toolchain by [@kristof-mattei](https://github.com/kristof-mattei) ([`291be2a`](https://github.com/kristof-mattei/rust-testbench/commit/291be2aa3dd1d15c726686b0dd71ff2e35bff341))
+- Fail done properly by [@kristof-mattei](https://github.com/kristof-mattei) ([`9a420bf`](https://github.com/kristof-mattei/rust-testbench/commit/9a420bf23ae315b64a7a0d20734de30db6ac01df))
 - Spacing and remove verbose by [@kristof-mattei](https://github.com/kristof-mattei) ([`abceeeb`](https://github.com/kristof-mattei/rust-testbench/commit/abceeeb0e023cd1629df3540fe5f9d310b8dbd36))
 - Consolidated extensions by [@kristof-mattei](https://github.com/kristof-mattei) ([`7ebc90c`](https://github.com/kristof-mattei/rust-testbench/commit/7ebc90c506e2570c0ec92145c4b4a6d23270c2cf))
 - Add title (name) to step by [@kristof-mattei](https://github.com/kristof-mattei) ([`8f4396d`](https://github.com/kristof-mattei/rust-testbench/commit/8f4396d247c865897e0088c6af23a54a0affef7c))
