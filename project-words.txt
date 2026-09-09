@@ -35,7 +35,6 @@ rhysd
 rustflags
 samply
 sccache
-shortlog
 skopeo
 skopeo's
 slurpfile
@@ -54,6 +53,4 @@ uninspectable
 unseparated
 usernamehw
 vadimcn
-worktree
-wsdd
 zizmor
