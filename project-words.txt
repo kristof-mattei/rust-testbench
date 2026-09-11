@@ -25,6 +25,7 @@ multiplatform
 nextest
 oras
 pathbuf
+pkgs
 postprocessors
 prereleased
 profraw
@@ -47,6 +48,7 @@ telem
 tera
 testbench
 topo
+tostring
 trixie
 trunc
 uninlined
