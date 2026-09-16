@@ -1,4 +1,5 @@
 <!-- header goes here -->
+## [3.1.1](https://github.com/kristof-mattei/rust-testbench/compare/v3.1.0..v3.1.1) - 2026-09-16
 ## [3.1.0](https://github.com/kristof-mattei/rust-testbench/compare/v3.0.0..v3.1.0) - 2026-09-05
 
 ### 🚀 Features
