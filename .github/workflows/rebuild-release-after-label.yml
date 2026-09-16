@@ -12,7 +12,7 @@ permissions:
 
 concurrency:
   group: "${{ github.workflow }}"
-  cancel-in-progress: true # the newer run dispatches for every open release PR against the same labels
+  cancel-in-progress: true # the newer run dispatches against the same labels
 
 jobs:
   rebuild:
@@ -55,7 +55,7 @@ jobs:
             fi
           done
 
-      - name: Dispatch Release for every open release PR
+      - name: Dispatch Release
         uses: $/.github/actions/dispatch-release-rebuilds
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

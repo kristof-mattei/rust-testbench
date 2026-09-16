@@ -74,7 +74,7 @@ jobs:
           EXPECTED: ${{ steps.selection.outputs.expected }}
           MATCHES: ${{ steps.selection.outputs.matches }}
         run: |
-          # A promotion release re-tags the previous content and has no entries
+          # A release of skipped commits only, such as dependency updates, has no entries
           if [ "${ENTRIES}" -eq 0 ]; then
             echo "::notice::No entries in range, nothing to check"
             exit 0
