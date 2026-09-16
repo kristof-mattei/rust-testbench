@@ -130,7 +130,13 @@ jobs:
           # The version above counted every entry, the label only decides which ones the changelog lists
           jq --raw-output '.[0].commits[].id' release-context.json | sort --unique > "${RUNNER_TEMP}/entries.txt"
 
-          gh pr list --state merged --base main --label "changelog: show" --limit 1000 --json mergeCommit --jq '.[].mergeCommit.oid' | sort --unique > "${RUNNER_TEMP}/shown.txt"
+          # The entries of a labeled PR are the commits its merge brought in
+          gh pr list --state merged --base main --label "changelog: show" --limit 1000 --json mergeCommit --jq '.[].mergeCommit.oid' \
+          | while read -r merge_sha; do
+            # A PR merged after the checkout is not in this build
+            git merge-base --is-ancestor "${merge_sha}" HEAD 2>/dev/null || continue
+            git rev-list --no-merges "${merge_sha}^1..${merge_sha}"
+          done | sort --unique > "${RUNNER_TEMP}/shown.txt"
 
           grep --fixed-strings --line-regexp --invert-match --file "${RUNNER_TEMP}/shown.txt" "${RUNNER_TEMP}/entries.txt" > "${RUNNER_TEMP}/hidden.txt" || true
 
@@ -162,6 +168,7 @@ jobs:
           compare-to: ${{ steps.release.outputs.branch }}
           shown-file: ${{ steps.changelog.outputs.shown-file }}
           merged-since: ${{ steps.release.outputs.merged_since }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Open or update pull request
         shell: bash
@@ -181,11 +188,11 @@ jobs:
             GH_TOKEN="${DEFAULT_TOKEN}" gh api --method PATCH --silent "repos/${GITHUB_REPOSITORY}/pulls/${existing_pr}" \
               --field "body=@${BODY_FILE}"
 
+            # Undo the draft set by rebuild-release-after-label.yml. A draft cannot carry auto-merge, so this comes before the disable below.
+            gh pr ready "${existing_pr}"
+
             # GitHub does not disable auto-merge on a push by a collaborator
             GH_TOKEN="${DEFAULT_TOKEN}" gh pr merge "${existing_pr}" --disable-auto
-
-            # Undo the draft set by rebuild-release-after-label.yml
-            gh pr ready "${existing_pr}"
           else
             # Opening the PR with GITHUB_TOKEN would not start the required check workflows, so the PAT is used here
             gh pr create \

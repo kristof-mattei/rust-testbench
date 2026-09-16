@@ -33,7 +33,13 @@ runs:
       run: |
         git-cliff --context --unreleased --offline --tag "${TAG}" | jq --raw-output '.[0].commits[].id' | sort --unique > "${RUNNER_TEMP}/entries.txt"
 
-        gh pr list --state merged --base main --label "changelog: show" --limit 1000 --json mergeCommit --jq '.[].mergeCommit.oid' | sort --unique > "${RUNNER_TEMP}/shown.txt"
+        # The entries of a labeled PR are the commits its merge brought in
+        gh pr list --state merged --base main --label "changelog: show" --limit 1000 --json mergeCommit --jq '.[].mergeCommit.oid' \
+        | while read -r merge_sha; do
+          # A PR merged after the checkout is not in this build
+          git merge-base --is-ancestor "${merge_sha}" HEAD 2>/dev/null || continue
+          git rev-list --no-merges "${merge_sha}^1..${merge_sha}"
+        done | sort --unique > "${RUNNER_TEMP}/shown.txt"
 
         grep --fixed-strings --line-regexp --file "${RUNNER_TEMP}/shown.txt" "${RUNNER_TEMP}/entries.txt" > "${RUNNER_TEMP}/expected.txt" || true
 
