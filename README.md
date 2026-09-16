@@ -13,7 +13,7 @@ It supports:
   - Stored next to the container image as `ghcr.io/${OWNER}/${REPO}-deb`, re-tagged along with the images and attested at every step
 - Crate publishing
 - Release publishing
-  - Changelog curation through checkboxes in the release PR
+  - Changelog curation through a `changelog: show` label on merged PRs
   - Crate publishing to crates.io
   - Container re-tagging to `:latest`
   - Debian packages attached to the GitHub release
