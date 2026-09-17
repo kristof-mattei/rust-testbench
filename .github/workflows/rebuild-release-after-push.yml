@@ -8,7 +8,7 @@ on:
 
 concurrency:
   group: "${{ github.workflow }}"
-  cancel-in-progress: true # the newer run dispatches for every open release PR against the newer main
+  cancel-in-progress: true # the newer run dispatches against the newer main
 
 permissions:
   contents: read
@@ -21,8 +21,7 @@ jobs:
       actions: write # to dispatch the Release workflow
       pull-requests: read # to list open release PRs and the PR merged by this push
     steps:
-      - name: Check whether the push merged a release PR
-        id: push
+      - name: Dispatch Release when a release PR is open
         shell: bash
         env:
           GH_REPO: ${{ github.repository }} # no checkout, so gh cannot infer the repository from a git remote
@@ -35,13 +34,17 @@ jobs:
 
           if [ "${merged_release_prs}" -ne 0 ]; then
             echo "::notice::Release PR merged, nothing to rebuild"
-            echo "rebuild=false" >> "${GITHUB_OUTPUT}"
-          else
-            echo "rebuild=true" >> "${GITHUB_OUTPUT}"
+            exit 0
           fi
 
-      - name: Dispatch Release
-        if: steps.push.outputs.rebuild == 'true'
-        uses: $/.github/actions/dispatch-release-rebuilds
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          open_release_prs=$(gh pr list --state open --limit 100 --json headRefName \
+            --jq '[.[] | select(.headRefName | startswith("release/v"))] | length')
+
+          if [ "${open_release_prs}" -eq 0 ]; then
+            echo "::notice::No open release PR, nothing to rebuild"
+            exit 0
+          fi
+
+          echo "::notice::Dispatching Release"
+
+          gh workflow run release.yml --ref main
