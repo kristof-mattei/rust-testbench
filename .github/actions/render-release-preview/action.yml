@@ -16,6 +16,9 @@ inputs:
     description: UTC timestamp of the previous release, empty when there is none
     required: false
     default: ""
+  token:
+    description: Token to list the merged pull requests with, needs pull-requests:read in a private repository
+    required: true
 
 outputs:
   body-file:
@@ -33,11 +36,26 @@ runs:
         COMPARE_TO: ${{ inputs.compare-to }}
         SHOWN_FILE: ${{ inputs.shown-file }}
         MERGED_SINCE: ${{ inputs.merged-since }}
+        GH_TOKEN: ${{ inputs.token }}
       run: |
         body_file="${RUNNER_TEMP}/preview-body.md"
 
+        query="is:pr is:merged base:main"
+        if [ -n "${MERGED_SINCE}" ]; then
+          query="${query} merged:>=${MERGED_SINCE}"
+        fi
+
+        # git-cliff finds no PR for the commits a merge brought in, so the map fills pr_number from the merge
+        gh pr list --state merged --search "${query}" --limit 1000 --json number,mergeCommit --jq '.[] | "\(.mergeCommit.oid) \(.number)"' \
+        | while read -r merge_sha number; do
+          # A PR merged after the checkout is not in this build
+          git merge-base --is-ancestor "${merge_sha}" HEAD 2>/dev/null || continue
+          git rev-list --no-merges "${merge_sha}^1..${merge_sha}" | sed "s/$/ ${number}/"
+        done \
+        | jq --raw-input --slurp 'split("\n") | map(select(length > 0) | split(" ") | {key: .[0], value: (.[1] | tonumber)}) | from_entries' > "${RUNNER_TEMP}/commit-prs.json"
+
         # The release tag does not exist until the PR is merged, so the compare link points at the release branch instead
-        jq --arg sha "${COMPARE_TO}" '.[0].extra = {compare_to: $sha}' "${CONTEXT_FILE}" > "${RUNNER_TEMP}/context.json"
+        jq --slurpfile prs "${RUNNER_TEMP}/commit-prs.json" --arg sha "${COMPARE_TO}" '.[0].extra = {compare_to: $sha} | .[0].commits |= map(.remote.pr_number = $prs[0][.id])' "${CONTEXT_FILE}" > "${RUNNER_TEMP}/context.json"
 
         jq --raw-input --slurp 'split("\n") | map(select(length > 0))' "${SHOWN_FILE}" > "${RUNNER_TEMP}/shown.json"
 
@@ -53,11 +71,6 @@ runs:
 
         # The hidden entries get their own heading below
         sed --in-place '0,/^## /{/^## /d}' "${RUNNER_TEMP}/hidden.md"
-
-        query="is:pr is:merged base:main"
-        if [ -n "${MERGED_SINCE}" ]; then
-          query="${query} merged:>=${MERGED_SINCE}"
-        fi
 
         pulls_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/pulls"
         unlabeled_url="${pulls_url}?q=$(jq --null-input --raw-output --arg q "${query} -label:\"changelog: show\"" '$q | @uri')"
