@@ -122,6 +122,24 @@ jobs:
 
           parent2=$(git rev-parse "HEAD^2" --quiet 2>/dev/null) || true
 
+          find_pr_number() {
+            local number
+            local stack_number
+
+            number=$(gh api "/repos/${GITHUB_REPOSITORY}/commits/${parent2}/pulls" --jq '.[0].number') || return 1
+
+            if [ -n "${number}" ]; then
+              stack_number=$(gh api "/repos/${GITHUB_REPOSITORY}/pulls/${number}" --jq '.stack.number // empty') || return 1
+
+              # a stack merge lands several PRs, only the one whose head is HEAD^2 built the merged tree
+              if [ -n "${stack_number}" ]; then
+                number=$(gh api "/repos/${GITHUB_REPOSITORY}/stacks/${stack_number}" --jq ".pull_requests[] | select(.head.sha == \"${parent2}\") | .number") || return 1
+              fi
+            fi
+
+            echo "${number}"
+          }
+
           pr_number=""
 
           if [ -n "${parent2}" ]; then
@@ -134,7 +152,7 @@ jobs:
 
               echo "Looking up the PR for ${parent2} (attempt ${attempt} of 5)"
 
-              if pr_number=$(gh api "/repos/${GITHUB_REPOSITORY}/commits/${parent2}/pulls" --jq '.[0].number'); then
+              if pr_number=$(find_pr_number); then
                 pr_found=true
                 break
               fi
