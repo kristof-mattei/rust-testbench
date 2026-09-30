@@ -1,0 +1,25 @@
+name: Stack probe
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions: {}
+
+jobs:
+  probe:
+    name: Stack probe (default types)
+    runs-on: ubuntu-slim
+    steps:
+      - name: Dump
+        shell: bash
+        env:
+          ACTION: ${{ github.event.action }}
+          BASE_REF: ${{ github.base_ref }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          SHA: ${{ github.sha }}
+          STACK: ${{ toJSON(github.event.pull_request.stack) }}
+        run: |
+          echo "PROBE action=${ACTION} base_ref=${BASE_REF} base_sha=${BASE_SHA} sha=${SHA}"
+          echo "PROBE stack=$(jq --compact-output . <<< "${STACK}")"
