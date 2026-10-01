@@ -162,7 +162,7 @@ jobs:
         uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
         id: filter
         with:
-          # empty, so the diff runs over git against `base`, the API lists a stacked PR's changes against the PR below it
+          # the API lists a stacked PR's changes against the PR below it, so the diff runs over git against `base`
           token: ""
           base: ${{ env.PR_BASE_SHA }}
           filters: .github/file-filters.yml
