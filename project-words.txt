@@ -29,9 +29,11 @@ pkgs
 postprocessors
 profraw
 pyflakes
+qlty
 rawfile
 retag
 retagging
+retags
 rhysd
 rustflags
 samply
@@ -41,6 +43,7 @@ skopeo's
 slurpfile
 startswith
 striptags
+supertrait
 taiki
 targetplatformdash
 telem
